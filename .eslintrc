@@ -7,13 +7,6 @@
     "jest": true,
     "node": true
   },
-  "globals": {
-    "__PUBLIC_URL__": false,
-    "__OVIDE_VERSION__": false,
-    "__SOURCE_REPOSITORY__": false,
-    "FONIO_CONFIG": false,
-    "db": false
-  },
   "plugins": [
     "mocha",
     "react"
