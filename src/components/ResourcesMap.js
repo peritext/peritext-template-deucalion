@@ -48,6 +48,7 @@ const buildMap = (
     showUncited,
     showAllResources,
     resourceTypes = [ 'bib' ],
+    minimumCooccurrenceNumber = 3
   }
 ) => {
 
@@ -92,7 +93,7 @@ const buildMap = (
         if ( intersects.length ) {
           const ids = [ node1, node2 ].map( ( n ) => n.resource.id ).sort();
           const edgePoint = edgesMap[ids[0]] || {};
-          edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + 1 : 1;
+          edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + intersects.length : intersects.length;
           edgesMap[ids[0]] = edgePoint;
         }
       } );
@@ -108,7 +109,8 @@ const buildMap = (
             weight: edgesMap[edge1][edge2]
         } ) )
     ];
-  }, [] );
+  }, [] )
+  .filter( ( e ) => e.weight >= minimumCooccurrenceNumber );
 
   return { nodes, edges };
 };
@@ -197,7 +199,7 @@ export default class ResourcesMap extends Component {
         focusZoom: 1,
         focusAnimationDuration: 0.75,
         nodeHighlightBehavior: false,
-        panAndZoom: false,
+        panAndZoom: true,
         staticGraph: false,
         link: {
             highlightColor: 'lightblue'

@@ -70,7 +70,8 @@ const getResourceTitle = resource => {
 const buildMap = (production, edition, {
   showUncited,
   showAllResources,
-  resourceTypes = ['bib']
+  resourceTypes = ['bib'],
+  minimumCooccurrenceNumber = 3
 }) => {
   let resourcesIds;
 
@@ -106,7 +107,7 @@ const buildMap = (production, edition, {
       if (intersects.length) {
         const ids = [node1, node2].map(n => n.resource.id).sort();
         const edgePoint = edgesMap[ids[0]] || {};
-        edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + 1 : 1;
+        edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + intersects.length : intersects.length;
         edgesMap[ids[0]] = edgePoint;
       }
     });
@@ -117,7 +118,7 @@ const buildMap = (production, edition, {
       target: edge2,
       weight: edgesMap[edge1][edge2]
     }))];
-  }, []);
+  }, []).filter(e => e.weight >= minimumCooccurrenceNumber);
   return {
     nodes,
     edges
@@ -196,7 +197,7 @@ class ResourcesMap extends _react.Component {
         focusZoom: 1,
         focusAnimationDuration: 0.75,
         nodeHighlightBehavior: false,
-        panAndZoom: false,
+        panAndZoom: true,
         staticGraph: false,
         link: {
           highlightColor: 'lightblue'
