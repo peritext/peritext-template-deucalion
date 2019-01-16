@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
-import { StructuredCOinS } from 'peritext-utils';
+import { StructuredCOinS, abbrevString } from 'peritext-utils';
 
 import RelatedContexts from './RelatedContexts';
 import NotesContainer from './NotesContainer';
@@ -129,7 +129,7 @@ class Section extends Component {
       },
       props: {
         production,
-        edition,
+        edition = {},
         previousSection,
         nextSection,
         activeViewClass,
@@ -146,6 +146,19 @@ class Section extends Component {
     if ( activeViewClass !== 'sections' ) {
       return null;
     }
+
+    const {
+      data : editionData = {}
+    } = edition;
+
+    const {
+      publicationTitle = ''
+    } = editionData;
+
+    const displayedTitle = publicationTitle.length ?
+      publicationTitle
+      :
+      production.metadata.title;
 
     const section = production.sections[activeViewParams.sectionId];
     if ( !section ) {
@@ -204,19 +217,19 @@ class Section extends Component {
               <InternalLink
                 to={ { routeClass: 'sections', viewId: previousSection.viewId, routeParams: { sectionId: previousSection.routeParams.sectionId } } }
               >
-                  ← {production.sections[previousSection.routeParams.sectionId].metadata.title }
+                  ← {abbrevString(production.sections[previousSection.routeParams.sectionId].metadata.title, 40) }
               </InternalLink>
             </li>
                 }
             <li>
-              <i>{production.metadata.title} - {section.metadata.title}</i>
+              <i>{abbrevString(publicationTitle, 30)} - {abbrevString(section.metadata.title, 40)}</i>
             </li>
             {nextSection &&
             <li className={ 'next' }>
               <InternalLink
                 to={ { routeClass: 'sections', viewId: nextSection.viewId, routeParams: { sectionId: nextSection.routeParams.sectionId } } }
               >
-                {production.sections[nextSection.routeParams.sectionId].metadata.title } →
+                {abbrevString(production.sections[nextSection.routeParams.sectionId].metadata.title, 40) } →
               </InternalLink>
             </li>
                 }
