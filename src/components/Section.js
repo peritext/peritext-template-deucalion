@@ -148,7 +148,7 @@ class Section extends Component {
     }
 
     const {
-      data : editionData = {}
+      data: editionData = {}
     } = edition;
 
     const {
@@ -217,19 +217,19 @@ class Section extends Component {
               <InternalLink
                 to={ { routeClass: 'sections', viewId: previousSection.viewId, routeParams: { sectionId: previousSection.routeParams.sectionId } } }
               >
-                  ← {abbrevString(production.sections[previousSection.routeParams.sectionId].metadata.title, 40) }
+                  ← {abbrevString( production.sections[previousSection.routeParams.sectionId].metadata.title, 40 ) }
               </InternalLink>
             </li>
                 }
             <li>
-              <i>{abbrevString(publicationTitle, 30)} - {abbrevString(section.metadata.title, 40)}</i>
+              <i>{abbrevString( displayedTitle, 30 )} - {abbrevString( section.metadata.title, 40 )}</i>
             </li>
             {nextSection &&
             <li className={ 'next' }>
               <InternalLink
                 to={ { routeClass: 'sections', viewId: nextSection.viewId, routeParams: { sectionId: nextSection.routeParams.sectionId } } }
               >
-                {abbrevString(production.sections[nextSection.routeParams.sectionId].metadata.title, 40) } →
+                {abbrevString( production.sections[nextSection.routeParams.sectionId].metadata.title, 40 ) } →
               </InternalLink>
             </li>
                 }

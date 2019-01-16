@@ -125,12 +125,16 @@ button{
   padding: 0;
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  /*align-items: center;*/
   justify-content: stretch;
 }
 .deucalion-layout .nav-header .title,
 .deucalion-layout .nav-content-container{
   margin-left: calc(var(--content-margin-width) - var(--gutter-medium) * 2);  
+}
+.deucalion-layout .nav-header .title{
+  margin-right: calc(var(--content-margin-width) - var(--gutter-medium) * 2);  
+
 }
 .deucalion-layout .nav-header .title .location-title{
   flex: 1;
@@ -272,6 +276,13 @@ button{
   }
   .deucalion-layout .nav:hover{
     opacity: 1;
+  }
+  .deucalion-layout .nav-header{
+    max-height: unset;
+  }
+  .deucalion-layout .nav-header .title{
+    height: unset;
+    margin:0;
   }
   .deucalion-layout .nav-header .nav-toggle {
     display: none;
