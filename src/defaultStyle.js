@@ -1068,6 +1068,11 @@ h1{
 .events-player .main-column .big-list-item-actions{
   padding-left: var(--gutter-medium);
 }
+.event-details > span,
+.location-details > span
+{
+  margin-right: var(--gutter-medium);
+}
 /**
  * PLACES VIEWS COMPONENT STYLING
  */
@@ -1082,7 +1087,7 @@ h1{
   display: flex;
   flex-flow: row nowrap;
   justify-content: stretch;
-  align-items: flex-start;
+  align-items: center;
 }
 .location-details em{
   flex: 1;
