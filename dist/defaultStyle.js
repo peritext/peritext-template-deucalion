@@ -1087,7 +1087,7 @@ h1{
   display: flex;
   flex-flow: row nowrap;
   justify-content: stretch;
-  align-items: flex-start;
+  align-items: center;
 }
 .location-details em{
   flex: 1;

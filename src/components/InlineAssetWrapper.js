@@ -56,7 +56,9 @@ const InlineAssetWrapper = ( {
         ref={ bindRef }
         onClick={ handleMainClick }
       >
+        {resource.metadata.type !== 'glossary' &&
         <StructuredCOinS resource={ resource } />
+        }
         <Component
           contextualization={ contextualization }
           contextualizer={ contextualizer }

@@ -11,6 +11,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _peritextUtils = require("peritext-utils");
 
+var _utils = require("../utils");
+
 var _RelatedContexts = _interopRequireDefault(require("./RelatedContexts"));
 
 var _NotesContainer = _interopRequireDefault(require("./NotesContainer"));
@@ -162,6 +164,7 @@ class Section extends _react.Component {
       const contents = section.contents;
       const sectionAuthors = section.metadata.authors;
       const notesPosition = options.notesPosition;
+      const sectionAsCSLRecord = (0, _utils.convertSectionToCslRecord)(section, production, edition);
       return _react.default.createElement("section", {
         className: `main-contents-container section-player has-notes-position-${notesPosition}`
       }, _react.default.createElement(_SectionHead.default, {
@@ -170,7 +173,7 @@ class Section extends _react.Component {
         edition: edition,
         withHelmet: true
       }), _react.default.createElement(_peritextUtils.StructuredCOinS, {
-        resource: section
+        cslRecord: sectionAsCSLRecord
       }), _react.default.createElement("div", {
         className: 'main-column'
       }, _react.default.createElement("h1", {

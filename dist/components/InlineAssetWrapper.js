@@ -67,7 +67,7 @@ const InlineAssetWrapper = ({
       id: assetId,
       ref: bindRef,
       onClick: handleMainClick
-    }, _react.default.createElement(_peritextUtils.StructuredCOinS, {
+    }, resource.metadata.type !== 'glossary' && _react.default.createElement(_peritextUtils.StructuredCOinS, {
       resource: resource
     }), _react.default.createElement(Component, {
       contextualization: contextualization,

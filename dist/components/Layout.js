@@ -19,6 +19,8 @@ var _peritextUtils = require("peritext-utils");
 
 var _ProductionHead = _interopRequireDefault(require("./ProductionHead"));
 
+var _utils = require("../utils");
+
 var _Nav = _interopRequireDefault(require("./Nav"));
 
 var _defaultStyle = _interopRequireDefault(require("../defaultStyle"));
@@ -336,6 +338,7 @@ class Layout extends _react.Component {
       const citationStyle = edition.data.citationStyle.data;
       const citationLocale = edition.data.citationLocale.data;
       const globalTitle = edition.data.publicationTitle && edition.data.publicationTitle.length ? edition.data.publicationTitle : production.metadata.title;
+      const editionAsCSLRecord = (0, _utils.convertEditionToCslRecord)(production, edition);
 
       const bindGlobalScrollbarRef = scrollbar => {
         this.globalScrollbar = scrollbar;
@@ -362,7 +365,9 @@ class Layout extends _react.Component {
         autoHide: true,
         onUpdate: onScrollUpdate,
         universal: true
-      }, children)), _react.default.createElement(_Nav.default, {
+      }, _react.default.createElement(_peritextUtils.StructuredCOinS, {
+        cslRecord: editionAsCSLRecord
+      }), children)), _react.default.createElement(_Nav.default, {
         indexOpen: indexOpen,
         toggleIndex: toggleIndex,
         locationTitle: locationTitle,
