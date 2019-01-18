@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { easeCubic } from 'd3-ease';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ReferencesManager } from 'react-citeproc';
-import { resourceToCslJSON } from 'peritext-utils';
+import { resourceToCslJSON, StructuredCOinS } from 'peritext-utils';
 
 import ProductionHead from './ProductionHead';
 
+import { convertEditionToCslRecord } from '../utils';
 import Nav from './Nav';
 import templateStyle from '../defaultStyle';
 
@@ -372,6 +373,7 @@ class Layout extends Component {
     const citationLocale = edition.data.citationLocale.data;
     const globalTitle = edition.data.publicationTitle && edition.data.publicationTitle.length ? edition.data.publicationTitle : production.metadata.title;
 
+    const editionAsCSLRecord = convertEditionToCslRecord( production, edition );
     const bindGlobalScrollbarRef = ( scrollbar ) => {
       this.globalScrollbar = scrollbar;
     };
@@ -404,6 +406,7 @@ class Layout extends Component {
                 onUpdate={ onScrollUpdate }
                 universal
               >
+                <StructuredCOinS cslRecord={ editionAsCSLRecord } />
                 {children}
               </Scrollbars>
             </section>

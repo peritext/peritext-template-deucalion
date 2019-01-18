@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StructuredCOinS, abbrevString } from 'peritext-utils';
 
+import { convertSectionToCslRecord } from '../utils';
+
 import RelatedContexts from './RelatedContexts';
 import NotesContainer from './NotesContainer';
 import Renderer from './Renderer';
@@ -152,7 +154,7 @@ class Section extends Component {
     } = edition;
 
     const {
-      publicationTitle = ''
+      publicationTitle = '',
     } = editionData;
 
     const displayedTitle = publicationTitle.length ?
@@ -169,6 +171,8 @@ class Section extends Component {
     const sectionAuthors = section.metadata.authors;
     const notesPosition = options.notesPosition;
 
+    const sectionAsCSLRecord = convertSectionToCslRecord( section, production, edition );
+
     return (
       <section className={ `main-contents-container section-player has-notes-position-${notesPosition}` }>
         {
@@ -179,7 +183,7 @@ class Section extends Component {
             withHelmet
           />
         }
-        <StructuredCOinS resource={ section } />
+        <StructuredCOinS cslRecord={ sectionAsCSLRecord } />
         <div className={ 'main-column' }>
           <h1 className={ 'view-title section-title' }>
             {section.metadata.title || ( translate( 'untitled section' ) || 'Section sans titre' )}
