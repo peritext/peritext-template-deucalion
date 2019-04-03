@@ -37,7 +37,7 @@ const Nav = ( {
               onClick={ toggleIndex }
               className={ 'location-title' }
             >
-              {abbrevString( locationTitle )}
+              {abbrevString( locationTitle, 60 )}
             </em>
           }
         </h1>
