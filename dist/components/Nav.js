@@ -47,7 +47,7 @@ const Nav = ({
   }, (0, _peritextUtils.abbrevString)(title))) : title, " ", locationTitle && _react.default.createElement("em", {
     onClick: toggleIndex,
     className: 'location-title'
-  }, (0, _peritextUtils.abbrevString)(locationTitle)))), _react.default.createElement("div", {
+  }, (0, _peritextUtils.abbrevString)(locationTitle, 60)))), _react.default.createElement("div", {
     className: 'nav-content-container'
   }, _react.default.createElement("ul", null, realSummary.map((item, index) => {
     return _react.default.createElement("li", {

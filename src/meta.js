@@ -10,6 +10,10 @@ module.exports = {
       type: 'string',
       enum: [ 'sections', 'edition' ],
       default: 'edition'
+    },
+    allowAnnotation: {
+      type: 'boolean',
+      default: false
     }
   },
   defaultBibType: 'misc',
