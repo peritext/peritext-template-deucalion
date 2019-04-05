@@ -532,7 +532,9 @@ class Wrapper extends _react.Component {
       routerSummary = [routerSummary[0], ...routerSummary];
     }
 
-    return _react.default.createElement(Router, null, _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Switch, null, routerSummary.map((element, index) => {
+    return _react.default.createElement(Router, {
+      basename: window.__urlBaseName
+    }, _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Switch, null, routerSummary.map((element, index) => {
       const url = routeItemToUrl(element, index);
       const summaryIndex = this.getSummaryIndex({
         routeClass: element.routeClass,
