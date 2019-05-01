@@ -87,7 +87,7 @@ class Section extends _react.Component {
         const {
           scrollHeight
         } = this.context;
-        let elements = document.querySelector('.main-contents-container .rendered-content');
+        let elements = document.querySelector('.main-contents-wrapper .rendered-content');
         elements = elements && elements.childNodes;
         const shadows = [];
 
@@ -220,7 +220,7 @@ class Section extends _react.Component {
       }, sectionAuthors && sectionAuthors.length > 0 && sectionAuthors.map((author, index) => _react.default.createElement("span", {
         key: index
       }, author.given, " ", author.family)).reduce((prev, curr) => [prev, ', ', curr])), _react.default.createElement("div", {
-        className: 'main-contents-container'
+        className: 'main-contents-wrapper'
       }, _react.default.createElement(_Renderer.default, {
         raw: contents
       }))), Object.keys(section.notes).length > 0 ? _react.default.createElement(_NotesContainer.default, {

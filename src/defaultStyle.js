@@ -569,8 +569,9 @@ h1{
 .block-contextualization-container .figure-title{
   margin: 0;
 }
-.block-contextualization-container .figure-title .mention-context-pointer{
-  /*font-size: 1.2rem;*/
+.block-contextualization-container .figure-title .mention-context-pointer,
+  .block-contextualization-container .figure-title button.mention-context-pointer{
+  font-size: 1rem;
   font-family:'Source serif pro', serif;
   padding: 0;
   text-align: left;
@@ -847,7 +848,7 @@ h1{
   position: absolute;
   left: 0;
   background: rgba(0,0,0,0.1);
-  width: 110%;
+  width: 100%;
   pointer-events: none;
 }
 .__react_component_tooltip{
@@ -1144,6 +1145,11 @@ h1{
   opacity: .6;
   font-size: .8em;
 }
+.resource-identity-card .description{
+  font-size: .7rem;
+  font-style: italic;
+  padding-right: 1rem;
+}
 .resource-identity-card .type::before{
   content: "◉";
   font-style: normal;
@@ -1209,11 +1215,19 @@ h1{
 .context-mention .header,
 .context-mention .footer{
   font-size: .5em;
+  position: relative;
+  left: 1rem;
+}
+.context-mention .header{
+  top: 1rem;
+}
+.context-mention .footer{
+  bottom: 1rem;
 }
 .context-mention .excerpt{
   padding: var(--gutter-medium);
-  margin-top: calc(.5 * var(--gutter-medium));
-  margin-bottom: calc(.5 * var(--gutter-medium));
+  // margin-top: calc(.5 * var(--gutter-medium));
+  // margin-bottom: calc(.5 * var(--gutter-medium));
   border-left: 1px solid var(--color-text);
 }
 

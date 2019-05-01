@@ -83,7 +83,7 @@ class Section extends Component {
     }
     setTimeout( () => {
       const { scrollHeight } = this.context;
-      let elements = document.querySelector( '.main-contents-container .rendered-content' );
+      let elements = document.querySelector( '.main-contents-wrapper .rendered-content' );
       elements = elements && elements.childNodes;
       const shadows = [];
       if ( elements ) {
@@ -225,7 +225,7 @@ class Section extends Component {
                 }
           </h2>
             }
-          <div className={ 'main-contents-container' }>
+          <div className={ 'main-contents-wrapper' }>
             <Renderer raw={ contents } />
           </div>
 
