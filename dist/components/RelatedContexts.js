@@ -33,7 +33,8 @@ const RelatedContexts = ({
 }) => {
   const contextualization = production.contextualizations[assetId];
   const resourceId = inputResourceId || contextualization.resourceId;
-  const related = Object.keys(production.contextualizations).filter(contextualizationId => {
+  const usedContextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
+  const related = Object.keys(usedContextualizations).filter(contextualizationId => {
     return assetId ? contextualizationId !== assetId && production.contextualizations[contextualizationId].resourceId === resourceId : production.contextualizations[contextualizationId].resourceId === resourceId;
   }).map(contextualizationId => _objectSpread({}, production.contextualizations[contextualizationId], (0, _peritextUtils.buildContextContent)(production, contextualizationId)));
   const resource = production.resources[resourceId];

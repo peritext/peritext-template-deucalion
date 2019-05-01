@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { buildContextContent, resourceToCslJSON } from 'peritext-utils';
+import { buildContextContent, resourceToCslJSON, getContextualizationsFromEdition } from 'peritext-utils';
 
 import ContextMention from './ContextMention';
 import Link from './LinkProvider';
@@ -18,7 +18,8 @@ const RelatedContexts = ( {
   const contextualization = production.contextualizations[assetId];
 
   const resourceId = inputResourceId || contextualization.resourceId;
-  const related = Object.keys( production.contextualizations )
+  const usedContextualizations = getContextualizationsFromEdition( production, edition );
+  const related = Object.keys( usedContextualizations )
     .filter( ( contextualizationId ) => {
       return assetId ?
         contextualizationId !== assetId &&
