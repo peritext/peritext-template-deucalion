@@ -206,7 +206,13 @@ class Section extends _react.Component {
             sectionId: previousSection.routeParams.sectionId
           }
         }
-      }, "\u2190 ", (0, _peritextUtils.abbrevString)(production.sections[previousSection.routeParams.sectionId].metadata.title, 40))), _react.default.createElement("li", null, _react.default.createElement("i", null, (0, _peritextUtils.abbrevString)(displayedTitle, 30), " - ", (0, _peritextUtils.abbrevString)(section.metadata.title, 40))), nextSection && _react.default.createElement("li", {
+      }, _react.default.createElement("span", {
+        className: 'navigation-item'
+      }, _react.default.createElement("span", {
+        className: 'navigation-item-arrow'
+      }, "\u2190"), _react.default.createElement("span", {
+        className: 'navigation-item-text'
+      }, (0, _peritextUtils.abbrevString)(production.sections[previousSection.routeParams.sectionId].metadata.title, 40))))), _react.default.createElement("li", null, _react.default.createElement("i", null, (0, _peritextUtils.abbrevString)(displayedTitle, 30), " - ", (0, _peritextUtils.abbrevString)(section.metadata.title, 40))), nextSection && _react.default.createElement("li", {
         className: 'next'
       }, _react.default.createElement(_LinkProvider.default, {
         to: {
@@ -216,7 +222,13 @@ class Section extends _react.Component {
             sectionId: nextSection.routeParams.sectionId
           }
         }
-      }, (0, _peritextUtils.abbrevString)(production.sections[nextSection.routeParams.sectionId].metadata.title, 40), " \u2192")))), _react.default.createElement(_Aside.default, {
+      }, _react.default.createElement("span", {
+        className: 'navigation-item'
+      }, _react.default.createElement("span", {
+        className: 'navigation-item-text'
+      }, (0, _peritextUtils.abbrevString)(production.sections[nextSection.routeParams.sectionId].metadata.title, 40)), _react.default.createElement("span", {
+        className: 'navigation-item-arrow'
+      }, "\u2192")))))), _react.default.createElement(_Aside.default, {
         isActive: openedContextualizationId !== undefined,
         title: openedContextualizationId && translate('More informations'),
         onClose: closeAsideContextualization

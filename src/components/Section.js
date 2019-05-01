@@ -221,7 +221,13 @@ class Section extends Component {
               <InternalLink
                 to={ { routeClass: 'sections', viewId: previousSection.viewId, routeParams: { sectionId: previousSection.routeParams.sectionId } } }
               >
-                  ← {abbrevString( production.sections[previousSection.routeParams.sectionId].metadata.title, 40 ) }
+                <span className={ 'navigation-item' }>
+                  <span className={ 'navigation-item-arrow' }>←</span>
+                  <span className={ 'navigation-item-text' }>
+                    {abbrevString( production.sections[previousSection.routeParams.sectionId].metadata.title, 40 ) }
+                  </span>
+                </span>
+
               </InternalLink>
             </li>
                 }
@@ -233,7 +239,11 @@ class Section extends Component {
               <InternalLink
                 to={ { routeClass: 'sections', viewId: nextSection.viewId, routeParams: { sectionId: nextSection.routeParams.sectionId } } }
               >
-                {abbrevString( production.sections[nextSection.routeParams.sectionId].metadata.title, 40 ) } →
+                <span className={ 'navigation-item' }>
+                  <span className={ 'navigation-item-text' }>{abbrevString( production.sections[nextSection.routeParams.sectionId].metadata.title, 40 ) }</span>
+                  <span className={ 'navigation-item-arrow' }>→</span>
+                </span>
+
               </InternalLink>
             </li>
                 }

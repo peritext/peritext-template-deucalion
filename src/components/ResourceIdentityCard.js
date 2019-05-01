@@ -37,6 +37,7 @@ const ResourceIdentityCard = ( {
 } ) => {
   const assetTitle = makeAssetTitle( resource, production, edition, rawCitations );
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
+  const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
   return (
     <div className={ 'resource-identity-card' }>
 
@@ -56,12 +57,12 @@ const ResourceIdentityCard = ( {
       </div>
       <div className={ 'additional-info' }>
         <div className={ 'type' }>
-          {translate( resource.metadata.type )}
+          {translate( resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type )}
         </div>
         {
-        resource.metadata.description && resource.metadata.description.trim().length &&
+        description && description.trim().length &&
         <div className={ 'description' }>
-          <MarkdownPlayer src={ resource.metadata.description } />
+          <MarkdownPlayer src={ description } />
         </div>
       }
         {

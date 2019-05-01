@@ -53,6 +53,7 @@ const ResourceIdentityCard = ({
 }) => {
   const assetTitle = makeAssetTitle(resource, production, edition, rawCitations);
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
+  const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
   return _react.default.createElement("div", {
     className: 'resource-identity-card'
   }, _react.default.createElement("div", {
@@ -68,10 +69,10 @@ const ResourceIdentityCard = ({
     className: 'additional-info'
   }, _react.default.createElement("div", {
     className: 'type'
-  }, translate(resource.metadata.type)), resource.metadata.description && resource.metadata.description.trim().length && _react.default.createElement("div", {
+  }, translate(resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type)), description && description.trim().length && _react.default.createElement("div", {
     className: 'description'
   }, _react.default.createElement(_MarkdownPlayer.default, {
-    src: resource.metadata.description
+    src: description
   })), resource.metadata.source && resource.metadata.source.trim().length && _react.default.createElement("div", {
     className: 'source'
   }, _react.default.createElement("span", null, translate('source')), ": ", _react.default.createElement("span", null, resource.metadata.source))));
