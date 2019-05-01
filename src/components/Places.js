@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import groupBy from 'lodash/groupBy';
 
-import GMap from 'google-map-react';
+import Map from 'pigeon-maps';
+import Overlay from 'pigeon-overlay';
 
 import {
   extent,
@@ -22,7 +23,6 @@ const MAX_LATITUDE = 90;
 const MAX_LONGITUDE = 180;
 
 const LocalizationMarker = ( {
-  location,
   items = [],
   onClick,
   nbMentions,
@@ -92,7 +92,6 @@ const LocalizationMarker = ( {
 export default class Places extends Component {
 
   static contextTypes = {
-    googleApiKey: PropTypes.func,
     asideVisible: PropTypes.bool,
     toggleAsideVisible: PropTypes.func,
     translate: PropTypes.func,
@@ -130,7 +129,6 @@ export default class Places extends Component {
         openPlaceId
       },
       context: {
-        googleApiKey = window.googleApiKey,
         translate,
       },
       toggleOpenedPlace,
@@ -162,56 +160,38 @@ export default class Places extends Component {
     const markerScale = scaleLinear().domain( mentionsExtent ).range( [ 1, 5 ] );
     const zoom = area > 0 ? zoomScale( area ) : 6;
 
-    const handleApiLoaded = ( map, maps ) => {
-      // use map and maps objects
-      let tileProvider;
-      switch ( mapStyle ) {
-        case 'nolabel':
-          tileProvider = ( { x, y }, z ) => `https://tiles.wmflabs.org/osm-no-labels/${z}/${x}/${y}.png`;
-          break;
-        case 'shading':
-          tileProvider = ( { x, y }, z ) => `http://c.tiles.wmflabs.org/hillshading/${z}/${x}/${y}.png`;
-          break;
-        case 'watercolor':
-          tileProvider = ( { x, y }, z ) => `http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.png`;
-          break;
-        case 'toner':
-          tileProvider = ( { x, y }, z ) => `http://a.tile.stamen.com/toner/${z}/${x}/${y}.png`;
-          break;
-        case 'openstreetmap':
-        default:
-          tileProvider = ( { x, y }, z ) => ` https://a.tile.openstreetmap.org/${z}/${x}/${y}.png `;
-          break;
+    let tileProvider;
+    switch ( mapStyle ) {
+      case 'nolabel':
+        tileProvider = ( x, y, z ) => `https://tiles.wmflabs.org/osm-no-labels/${z}/${x}/${y}.png`;
+        break;
+      case 'shading':
+        tileProvider = ( x, y, z ) => `http://c.tiles.wmflabs.org/hillshading/${z}/${x}/${y}.png`;
+        break;
+      case 'watercolor':
+        tileProvider = ( x, y, z ) => `http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.png`;
+        break;
+      case 'toner':
+        tileProvider = ( x, y, z ) => `http://a.tile.stamen.com/toner/${z}/${x}/${y}.png`;
+        break;
+      case 'openstreetmap':
+      default:
+        tileProvider = ( x, y, z ) => ` https://a.tile.openstreetmap.org/${z}/${x}/${y}.png `;
+        break;
 
-      }
-      const layerID = 'my_custom_layer';
-
-      // Create a new ImageMapType layer.
-      const layer = new maps.ImageMapType( {
-        name: layerID,
-        getTileUrl: tileProvider,
-        tileSize: new maps.Size( 256, 256 ),
-        minZoom: 1,
-        maxZoom: 20
-      } );
-      map.mapTypes.set( layerID, layer );
-      map.setMapTypeId( layerID );
-    };
+    }
 
     const openedPlace = openPlaceId &&
             places.find( ( p ) => p.id === openPlaceId );
-
     return (
       <div>
         <h1>{title}</h1>
         {
           <div className={ 'places-container' }>
-            <GMap
-              bootstrapURLKeys={ { key: [ googleApiKey ] } }
-              defaultCenter={ { lat: latMean, lng: lngMean } }
+            <Map
+              center={ [ latMean, lngMean ] }
               defaultZoom={ zoom }
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={ ( { map, maps } ) => handleApiLoaded( map, maps ) }
+              provider={ tileProvider }
             >
               {
               places.map( ( place ) => {
@@ -219,20 +199,23 @@ export default class Places extends Component {
                   openPlace( place.id );
                 };
                 return (
-                  <LocalizationMarker
+                  <Overlay
                     key={ place.id }
-                    onClick={ onClick }
-                    lat={ place.location.latitude }
-                    lng={ place.location.longitude }
-                    nbMentions={ place.nbMentions }
-                    markerScale={ markerScale }
-                    items={ place.items }
-                    location={ place.location }
-                  />
+                    anchor={ [ place.location.latitude, place.location.longitude ] }
+                  >
+                    <LocalizationMarker
+
+                      onClick={ onClick }
+                      nbMentions={ place.nbMentions }
+                      markerScale={ markerScale }
+                      items={ place.items }
+                      location={ place.location }
+                    />
+                  </Overlay>
                 );
               } )
             }
-            </GMap>
+            </Map>
           </div>
       }
         <Aside

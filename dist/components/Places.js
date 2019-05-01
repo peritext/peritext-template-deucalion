@@ -11,7 +11,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _groupBy = _interopRequireDefault(require("lodash/groupBy"));
 
-var _googleMapReact = _interopRequireDefault(require("google-map-react"));
+var _pigeonMaps = _interopRequireDefault(require("pigeon-maps"));
+
+var _pigeonOverlay = _interopRequireDefault(require("pigeon-overlay"));
 
 var _d3Array = require("d3-array");
 
@@ -37,7 +39,6 @@ const MAX_LATITUDE = 90; // const MIN_LONGITUDE =  -180;
 const MAX_LONGITUDE = 180;
 
 const LocalizationMarker = ({
-  location,
   items = [],
   onClick,
   nbMentions,
@@ -115,7 +116,6 @@ class Places extends _react.Component {
           openPlaceId
         },
         context: {
-          googleApiKey = window.googleApiKey,
           translate
         },
         toggleOpenedPlace,
@@ -147,99 +147,58 @@ class Places extends _react.Component {
       const zoomScale = (0, _d3Scale.scaleLinear)().domain([0, MAX_LATITUDE * 2 * (MAX_LONGITUDE * 2)]).range([1, 12]);
       const markerScale = (0, _d3Scale.scaleLinear)().domain(mentionsExtent).range([1, 5]);
       const zoom = area > 0 ? zoomScale(area) : 6;
+      let tileProvider;
 
-      const handleApiLoaded = (map, maps) => {
-        // use map and maps objects
-        let tileProvider;
+      switch (mapStyle) {
+        case 'nolabel':
+          tileProvider = (x, y, z) => `https://tiles.wmflabs.org/osm-no-labels/${z}/${x}/${y}.png`;
 
-        switch (mapStyle) {
-          case 'nolabel':
-            tileProvider = ({
-              x,
-              y
-            }, z) => `https://tiles.wmflabs.org/osm-no-labels/${z}/${x}/${y}.png`;
+          break;
 
-            break;
+        case 'shading':
+          tileProvider = (x, y, z) => `http://c.tiles.wmflabs.org/hillshading/${z}/${x}/${y}.png`;
 
-          case 'shading':
-            tileProvider = ({
-              x,
-              y
-            }, z) => `http://c.tiles.wmflabs.org/hillshading/${z}/${x}/${y}.png`;
+          break;
 
-            break;
+        case 'watercolor':
+          tileProvider = (x, y, z) => `http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.png`;
 
-          case 'watercolor':
-            tileProvider = ({
-              x,
-              y
-            }, z) => `http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.png`;
+          break;
 
-            break;
+        case 'toner':
+          tileProvider = (x, y, z) => `http://a.tile.stamen.com/toner/${z}/${x}/${y}.png`;
 
-          case 'toner':
-            tileProvider = ({
-              x,
-              y
-            }, z) => `http://a.tile.stamen.com/toner/${z}/${x}/${y}.png`;
+          break;
 
-            break;
+        case 'openstreetmap':
+        default:
+          tileProvider = (x, y, z) => ` https://a.tile.openstreetmap.org/${z}/${x}/${y}.png `;
 
-          case 'openstreetmap':
-          default:
-            tileProvider = ({
-              x,
-              y
-            }, z) => ` https://a.tile.openstreetmap.org/${z}/${x}/${y}.png `;
-
-            break;
-        }
-
-        const layerID = 'my_custom_layer'; // Create a new ImageMapType layer.
-
-        const layer = new maps.ImageMapType({
-          name: layerID,
-          getTileUrl: tileProvider,
-          tileSize: new maps.Size(256, 256),
-          minZoom: 1,
-          maxZoom: 20
-        });
-        map.mapTypes.set(layerID, layer);
-        map.setMapTypeId(layerID);
-      };
+          break;
+      }
 
       const openedPlace = openPlaceId && places.find(p => p.id === openPlaceId);
       return _react.default.createElement("div", null, _react.default.createElement("h1", null, title), _react.default.createElement("div", {
         className: 'places-container'
-      }, _react.default.createElement(_googleMapReact.default, {
-        bootstrapURLKeys: {
-          key: [googleApiKey]
-        },
-        defaultCenter: {
-          lat: latMean,
-          lng: lngMean
-        },
+      }, _react.default.createElement(_pigeonMaps.default, {
+        center: [latMean, lngMean],
         defaultZoom: zoom,
-        yesIWantToUseGoogleMapApiInternals: true,
-        onGoogleApiLoaded: ({
-          map,
-          maps
-        }) => handleApiLoaded(map, maps)
+        provider: tileProvider
       }, places.map(place => {
         const onClick = () => {
           openPlace(place.id);
         };
 
-        return _react.default.createElement(LocalizationMarker, {
+        return _react.default.createElement(_pigeonOverlay.default, {
           key: place.id,
+          anchor: [place.location.latitude, place.location.longitude]
+        }, _react.default.createElement(LocalizationMarker, {
           onClick: onClick,
-          lat: place.location.latitude,
-          lng: place.location.longitude,
           nbMentions: place.nbMentions,
           markerScale: markerScale,
           items: place.items,
           location: place.location
-        });
+        }));
       }))), _react.default.createElement(_Aside.default, {
         isActive: openPlaceId !== undefined,
         title: translate('Mentions about this place'),
@@ -268,7 +227,6 @@ class Places extends _react.Component {
 exports.default = Places;
 
 _defineProperty(Places, "contextTypes", {
-  googleApiKey: _propTypes.default.func,
   asideVisible: _propTypes.default.bool,
   toggleAsideVisible: _propTypes.default.func,
   translate: _propTypes.default.func
