@@ -60,3 +60,6 @@ typings/
 
 # next.js build output
 .next
+
+# for now hiding the production content used for the storybook (legal/moral reasons - please use your own content by exporting an ovide production to json)
+stories/assets/production.json
