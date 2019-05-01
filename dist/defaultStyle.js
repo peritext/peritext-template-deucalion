@@ -199,6 +199,10 @@ button{
   left: 0;
 }
 
+.deucalion-layout .railway{
+  display: none;
+}
+
 /**
  * Main contents mobile layout
  */
@@ -249,6 +253,10 @@ button{
   .deucalion-layout.has-aside-visible .aside{
     left: var(--tablet-main-width);
     width: calc(100% - var(--tablet-main-width));
+  }
+
+  .deucalion-layout .railway{
+    display: block;
   }
   /**
    * Main contents tablet layout
@@ -828,6 +836,35 @@ h1{
 .aside .aside-toggle{
   color: var(--color-link-default);
   background: transparent;
+}
+
+/**
+ * RAILWAY COMPONENTS STYLING
+ */
+.deucalion-layout .railway{
+  position: fixed;
+  right: 2rem;
+  top: 2rem;
+  width: 1rem;
+  height: calc(100% - 2rem);
+}
+.deucalion-layout .railway .elevator{
+  position: absolute;
+  left: 0;
+  background: rgba(0,0,0,0.1);
+  width: 110%;
+  pointer-events: none;
+}
+.__react_component_tooltip{
+  font-size: .5em;
+}
+.deucalion-layout .railway .shadow{
+  position: absolute;
+  left: 0;
+  border: 1px solid lightgrey;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 /**
  * LANDING VIEW COMPONENTS STYLING

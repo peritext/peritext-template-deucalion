@@ -11,6 +11,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _peritextUtils = require("peritext-utils");
 
+var _reactTooltip = _interopRequireDefault(require("react-tooltip"));
+
 var _utils = require("../utils");
 
 var _RelatedContexts = _interopRequireDefault(require("./RelatedContexts"));
@@ -24,6 +26,8 @@ var _SectionHead = _interopRequireDefault(require("./SectionHead"));
 var _LinkProvider = _interopRequireDefault(require("./LinkProvider"));
 
 var _Aside = _interopRequireDefault(require("./Aside"));
+
+var _Railway = _interopRequireDefault(require("./Railway"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -79,6 +83,33 @@ class Section extends _react.Component {
         this.context.scrollToTop(0, false, false);
       }
 
+      setTimeout(() => {
+        const {
+          scrollHeight
+        } = this.context;
+        let elements = document.querySelector('.main-contents-container .rendered-content');
+        elements = elements && elements.childNodes;
+        const shadows = [];
+
+        if (elements) {
+          elements.forEach(element => {
+            const {
+              height
+            } = element.getBoundingClientRect();
+            shadows.push({
+              y: element.offsetTop / scrollHeight,
+              h: height / scrollHeight,
+              html: element.innerHTML,
+              element
+            });
+          });
+          this.setState({
+            shadows
+          });
+
+          _reactTooltip.default.rebuild();
+        }
+      });
       this.setState({
         gui: {
           openedContextualizationId: undefined
@@ -126,7 +157,8 @@ class Section extends _react.Component {
         state: {
           gui: {
             openedContextualizationId
-          }
+          },
+          shadows
         },
         props: {
           production,
@@ -139,7 +171,10 @@ class Section extends _react.Component {
         },
         context: {
           // dimensions,
-          translate = {}
+          translate = {},
+          scrollRatio,
+          scrollTopRatio,
+          scrollToElement
         },
         onNotePointerClick
       } = this;
@@ -184,9 +219,11 @@ class Section extends _react.Component {
         className: 'authors'
       }, sectionAuthors && sectionAuthors.length > 0 && sectionAuthors.map((author, index) => _react.default.createElement("span", {
         key: index
-      }, author.given, " ", author.family)).reduce((prev, curr) => [prev, ', ', curr])), _react.default.createElement(_Renderer.default, {
+      }, author.given, " ", author.family)).reduce((prev, curr) => [prev, ', ', curr])), _react.default.createElement("div", {
+        className: 'main-contents-container'
+      }, _react.default.createElement(_Renderer.default, {
         raw: contents
-      })), Object.keys(section.notes).length > 0 ? _react.default.createElement(_NotesContainer.default, {
+      }))), Object.keys(section.notes).length > 0 ? _react.default.createElement(_NotesContainer.default, {
         pointers: this.noteContentPointers,
         notes: section.notes,
         notesOrder: section.notesOrder,
@@ -228,16 +265,21 @@ class Section extends _react.Component {
         className: 'navigation-item-text'
       }, (0, _peritextUtils.abbrevString)(production.sections[nextSection.routeParams.sectionId].metadata.title, 40)), _react.default.createElement("span", {
         className: 'navigation-item-arrow'
-      }, "\u2192")))))), _react.default.createElement(_Aside.default, {
+      }, "\u2192")))))), openedContextualizationId ? _react.default.createElement(_Aside.default, {
         isActive: openedContextualizationId !== undefined,
         title: openedContextualizationId && translate('More informations'),
         onClose: closeAsideContextualization
-      }, openedContextualizationId && _react.default.createElement(_RelatedContexts.default, {
+      }, _react.default.createElement(_RelatedContexts.default, {
         production: production,
         edition: edition,
         assetId: openedContextualizationId,
         onDismiss: closeAsideContextualization
-      })));
+      })) : _react.default.createElement(_Railway.default, {
+        scrollRatio: scrollRatio,
+        scrollTopRatio: scrollTopRatio,
+        scrollToElement: scrollToElement,
+        shadows: shadows
+      }));
     });
 
     this.state = {
@@ -263,7 +305,10 @@ Section.childContextTypes = {
 Section.contextTypes = {
   dimensions: _propTypes.default.object,
   production: _propTypes.default.object,
+  scrollTopRatio: _propTypes.default.number,
   scrollTopAbs: _propTypes.default.number,
+  scrollRatio: _propTypes.default.number,
+  scrollHeight: _propTypes.default.number,
   scrollToTop: _propTypes.default.func,
   scrollToElementId: _propTypes.default.func,
   contextualizers: _propTypes.default.object,

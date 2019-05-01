@@ -56,7 +56,8 @@ class NotesContainer extends _react.Component {
       // we store the elements to position in the right order
       const components = this.props.notesOrder.map(noteId => {
         const note = this.props.notes[noteId];
-        const component = this.context.usedDocument.getElementById(`note-content-pointer-${note.id}`); // const position = component.getBoundingClientRect();
+        const usedDocument = this.context.usedDocument || document;
+        const component = usedDocument.getElementById(`note-content-pointer-${note.id}`); // const position = component.getBoundingClientRect();
 
         const position = getOffset(component);
         return {

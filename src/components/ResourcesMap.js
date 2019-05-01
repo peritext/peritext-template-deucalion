@@ -217,21 +217,22 @@ export default class ResourcesMap extends Component {
       <div>
         <h1>{title}</h1>
         {
-          Graph && nodes.length &&
-          <div className={ 'graph-container' }>
-            <Graph
-              id={ 'graph' } // id is mandatory, if no id is defined rd3g will throw an error
-              data={ {
+          Graph && nodes.length ?
+            <div className={ 'graph-container' }>
+              <Graph
+                id={ 'graph' } // id is mandatory, if no id is defined rd3g will throw an error
+                data={ {
                 nodes,
                 links: edges,
                 focusedNodeId: openResourceId
               } }
-              config={ graphConfig }
-              onClickNode={ onClickNode }
-              width={ width }
-              height={ height }
-            />
-          </div>
+                config={ graphConfig }
+                onClickNode={ onClickNode }
+                width={ width }
+                height={ height }
+              />
+            </div>
+          : null
         }
         <Aside
           isActive={ openResourceId !== undefined }

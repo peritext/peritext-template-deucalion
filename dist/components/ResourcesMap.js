@@ -211,7 +211,7 @@ class ResourcesMap extends _react.Component {
         openResource(nodeId);
       };
 
-      return _react.default.createElement("div", null, _react.default.createElement("h1", null, title), Graph && nodes.length && _react.default.createElement("div", {
+      return _react.default.createElement("div", null, _react.default.createElement("h1", null, title), Graph && nodes.length ? _react.default.createElement("div", {
         className: 'graph-container'
       }, _react.default.createElement(Graph, {
         id: 'graph' // id is mandatory, if no id is defined rd3g will throw an error
@@ -225,7 +225,7 @@ class ResourcesMap extends _react.Component {
         onClickNode: onClickNode,
         width: width,
         height: height
-      })), _react.default.createElement(_Aside.default, {
+      })) : null, _react.default.createElement(_Aside.default, {
         isActive: openResourceId !== undefined,
         title: translate('Mentions of this item'),
         onClose: toggleOpenedResource

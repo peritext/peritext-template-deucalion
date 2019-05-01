@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { StructuredCOinS, abbrevString } from 'peritext-utils';
+import Tooltip from 'react-tooltip';
 
 import { convertSectionToCslRecord } from '../utils';
 
@@ -11,6 +12,7 @@ import Renderer from './Renderer';
 import SectionHead from './SectionHead';
 import InternalLink from './LinkProvider';
 import Aside from './Aside';
+import Railway from './Railway';
 
 class Section extends Component {
 
@@ -79,6 +81,25 @@ class Section extends Component {
     else {
       this.context.scrollToTop( 0, false, false );
     }
+    setTimeout( () => {
+      const { scrollHeight } = this.context;
+      let elements = document.querySelector( '.main-contents-container .rendered-content' );
+      elements = elements && elements.childNodes;
+      const shadows = [];
+      if ( elements ) {
+          elements.forEach( ( element ) => {
+              const { height } = element.getBoundingClientRect();
+              shadows.push( {
+                  y: element.offsetTop / scrollHeight,
+                  h: height / scrollHeight,
+                  html: element.innerHTML,
+                  element
+              } );
+          } );
+          this.setState( { shadows } );
+          Tooltip.rebuild();
+      }
+      } );
     this.setState( {
       gui: {
         openedContextualizationId: undefined
@@ -128,6 +149,7 @@ class Section extends Component {
         gui: {
           openedContextualizationId,
         },
+        shadows,
       },
       props: {
         production,
@@ -141,6 +163,9 @@ class Section extends Component {
       context: {
         // dimensions,
         translate = {},
+        scrollRatio,
+        scrollTopRatio,
+        scrollToElement,
       },
       onNotePointerClick,
     } = this;
@@ -200,7 +225,9 @@ class Section extends Component {
                 }
           </h2>
             }
-          <Renderer raw={ contents } />
+          <div className={ 'main-contents-container' }>
+            <Renderer raw={ contents } />
+          </div>
 
         </div>
         {Object.keys( section.notes ).length > 0 ?
@@ -249,23 +276,30 @@ class Section extends Component {
                 }
           </ul>
         </footer>
-        <Aside
-          isActive={
-            openedContextualizationId !== undefined
-          }
-          title={ openedContextualizationId && translate( 'More informations' ) }
-          onClose={ closeAsideContextualization }
-        >
-          {
-            openedContextualizationId &&
-            <RelatedContexts
-              production={ production }
-              edition={ edition }
-              assetId={ openedContextualizationId }
-              onDismiss={ closeAsideContextualization }
+        {
+          openedContextualizationId ?
+            <Aside
+              isActive={
+              openedContextualizationId !== undefined
+            }
+              title={ openedContextualizationId && translate( 'More informations' ) }
+              onClose={ closeAsideContextualization }
+            >
+              <RelatedContexts
+                production={ production }
+                edition={ edition }
+                assetId={ openedContextualizationId }
+                onDismiss={ closeAsideContextualization }
+              />
+            </Aside>
+          :
+            <Railway
+              scrollRatio={ scrollRatio }
+              scrollTopRatio={ scrollTopRatio }
+              scrollToElement={ scrollToElement }
+              shadows={ shadows }
             />
-          }
-        </Aside>
+        }
       </section>
     );
   }
@@ -281,7 +315,10 @@ Section.childContextTypes = {
 Section.contextTypes = {
   dimensions: PropTypes.object,
   production: PropTypes.object,
+  scrollTopRatio: PropTypes.number,
   scrollTopAbs: PropTypes.number,
+  scrollRatio: PropTypes.number,
+  scrollHeight: PropTypes.number,
   scrollToTop: PropTypes.func,
   scrollToElementId: PropTypes.func,
   contextualizers: PropTypes.object,

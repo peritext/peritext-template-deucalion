@@ -61,6 +61,9 @@ class Layout extends Component {
       scrollToTop: this.scrollTo,
       scrollTop: this.state.gui.scrollTop,
       scrollTopAbs: this.state.gui.scrollTopAbs,
+      scrollRatio: this.state.gui.scrollRatio,
+      scrollTopRatio: this.state.gui.scrollTopRatio,
+      scrollHeight: this.state.gui.scrollHeight,
       rawCitations: this.state.citations,
       bindContextualizationElement: this.bindContextualizationElement,
       scrollToContextualization: this.scrollToContextualization,
@@ -267,6 +270,8 @@ class Layout extends Component {
   onScrollUpdate = ( scrollPosition ) => {
     const scrollTop = scrollPosition.top;
     const scrollTopAbs = scrollPosition.scrollTop;
+    const scrollRatio = scrollPosition.clientHeight / scrollPosition.scrollHeight;
+    const scrollTopRatio = scrollPosition.scrollTop / scrollPosition.scrollHeight;
     let stateChanges = {};
     if ( scrollTop !== this.state.gui.scrollTop ) {
       stateChanges = {
@@ -275,7 +280,10 @@ class Layout extends Component {
           ...this.state.gui,
           inTop: scrollTop === 0 ? true : false,
           scrollTop,
-          scrollTopAbs
+          scrollTopAbs,
+          scrollRatio,
+          scrollTopRatio,
+          scrollHeight: scrollPosition.scrollHeight,
         }
       };
     }
@@ -472,6 +480,9 @@ Layout.childContextTypes = {
   scrollToTop: PropTypes.func,
   scrollTop: PropTypes.number,
   scrollTopAbs: PropTypes.number,
+  scrollRatio: PropTypes.number,
+  scrollTopRatio: PropTypes.number,
+  scrollHeight: PropTypes.number,
   rawCitations: PropTypes.object,
   bindContextualizationElement: PropTypes.func,
   scrollToContextualization: PropTypes.func,

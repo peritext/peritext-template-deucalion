@@ -77,6 +77,9 @@ class Layout extends _react.Component {
         scrollToTop: this.scrollTo,
         scrollTop: this.state.gui.scrollTop,
         scrollTopAbs: this.state.gui.scrollTopAbs,
+        scrollRatio: this.state.gui.scrollRatio,
+        scrollTopRatio: this.state.gui.scrollTopRatio,
+        scrollHeight: this.state.gui.scrollHeight,
         rawCitations: this.state.citations,
         bindContextualizationElement: this.bindContextualizationElement,
         scrollToContextualization: this.scrollToContextualization,
@@ -253,6 +256,8 @@ class Layout extends _react.Component {
     _defineProperty(this, "onScrollUpdate", scrollPosition => {
       const scrollTop = scrollPosition.top;
       const scrollTopAbs = scrollPosition.scrollTop;
+      const scrollRatio = scrollPosition.clientHeight / scrollPosition.scrollHeight;
+      const scrollTopRatio = scrollPosition.scrollTop / scrollPosition.scrollHeight;
       let stateChanges = {};
 
       if (scrollTop !== this.state.gui.scrollTop) {
@@ -260,7 +265,10 @@ class Layout extends _react.Component {
           gui: _objectSpread({}, this.state.gui, {
             inTop: scrollTop === 0 ? true : false,
             scrollTop,
-            scrollTopAbs
+            scrollTopAbs,
+            scrollRatio,
+            scrollTopRatio,
+            scrollHeight: scrollPosition.scrollHeight
           })
         });
       }
@@ -433,6 +441,9 @@ Layout.childContextTypes = {
   scrollToTop: _propTypes.default.func,
   scrollTop: _propTypes.default.number,
   scrollTopAbs: _propTypes.default.number,
+  scrollRatio: _propTypes.default.number,
+  scrollTopRatio: _propTypes.default.number,
+  scrollHeight: _propTypes.default.number,
   rawCitations: _propTypes.default.object,
   bindContextualizationElement: _propTypes.default.func,
   scrollToContextualization: _propTypes.default.func,
