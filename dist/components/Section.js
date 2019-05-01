@@ -76,7 +76,7 @@ class Section extends _react.Component {
           this.context.scrollToContextualization(props.activeViewParams.contextualizationId);
         });
       } else {
-        this.context.scrollToTop(0);
+        this.context.scrollToTop(0, false, false);
       }
 
       this.setState({

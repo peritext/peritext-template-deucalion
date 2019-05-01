@@ -77,7 +77,7 @@ class Section extends Component {
       } );
     }
     else {
-      this.context.scrollToTop( 0 );
+      this.context.scrollToTop( 0, false, false );
     }
     this.setState( {
       gui: {

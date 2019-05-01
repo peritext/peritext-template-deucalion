@@ -201,12 +201,12 @@ class Layout extends Component {
     } );
   }
 
-  scrollToElement = ( element, center = true ) => {
+  scrollToElement = ( element, center = true, withTransition = true ) => {
     if ( element && inBrowser && this.globalScrollbar ) {
       const container = this.globalScrollbar.container;
       let offset = getOffsetToParent( element, container );
       offset = center && this.props.size ? offset - this.props.size.height / 2 : offset;
-      this.scrollTo( offset );
+      this.scrollTo( offset, withTransition );
     }
   }
 
@@ -229,7 +229,13 @@ class Layout extends Component {
    * so that it transitions to a specific point in the page
    * @param {number} top - the position to scroll to
    */
-  scrollTo = ( initialTop ) => {
+  scrollTo = ( initialTop, withTransition = true ) => {
+    if ( !withTransition ) {
+      if ( this.globalScrollbar ) {
+        this.globalScrollbar.scrollTop( initialTop );
+      }
+      return;
+    }
     const scrollbars = this.globalScrollbar;
     if ( !scrollbars ) {
       setTimeout( () => {

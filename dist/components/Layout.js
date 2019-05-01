@@ -194,12 +194,12 @@ class Layout extends _react.Component {
       });
     });
 
-    _defineProperty(this, "scrollToElement", (element, center = true) => {
+    _defineProperty(this, "scrollToElement", (element, center = true, withTransition = true) => {
       if (element && inBrowser && this.globalScrollbar) {
         const container = this.globalScrollbar.container;
         let offset = getOffsetToParent(element, container);
         offset = center && this.props.size ? offset - this.props.size.height / 2 : offset;
-        this.scrollTo(offset);
+        this.scrollTo(offset, withTransition);
       }
     });
 
@@ -213,7 +213,15 @@ class Layout extends _react.Component {
       this.scrollToElement(element, center);
     });
 
-    _defineProperty(this, "scrollTo", initialTop => {
+    _defineProperty(this, "scrollTo", (initialTop, withTransition = true) => {
+      if (!withTransition) {
+        if (this.globalScrollbar) {
+          this.globalScrollbar.scrollTop(initialTop);
+        }
+
+        return;
+      }
+
       const scrollbars = this.globalScrollbar;
 
       if (!scrollbars) {
