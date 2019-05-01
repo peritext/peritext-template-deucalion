@@ -34,9 +34,15 @@ const RelatedContexts = ({
   const contextualization = production.contextualizations[assetId];
   const resourceId = inputResourceId || contextualization.resourceId;
   const usedContextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
-  const related = Object.keys(usedContextualizations).filter(contextualizationId => {
+  const related = usedContextualizations.filter(({
+    contextualization: {
+      id: contextualizationId
+    }
+  }) => {
     return assetId ? contextualizationId !== assetId && production.contextualizations[contextualizationId].resourceId === resourceId : production.contextualizations[contextualizationId].resourceId === resourceId;
-  }).map(contextualizationId => _objectSpread({}, production.contextualizations[contextualizationId], (0, _peritextUtils.buildContextContent)(production, contextualizationId)));
+  }).map(({
+    contextualization: theContextualization
+  }) => _objectSpread({}, theContextualization, (0, _peritextUtils.buildContextContent)(production, theContextualization.id)));
   const resource = production.resources[resourceId];
   let citation = (0, _peritextUtils.resourceToCslJSON)(resource);
   citation = citation && citation.length ? citation[0] : {};

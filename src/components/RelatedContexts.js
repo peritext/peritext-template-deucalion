@@ -19,16 +19,16 @@ const RelatedContexts = ( {
 
   const resourceId = inputResourceId || contextualization.resourceId;
   const usedContextualizations = getContextualizationsFromEdition( production, edition );
-  const related = Object.keys( usedContextualizations )
-    .filter( ( contextualizationId ) => {
+  const related = usedContextualizations
+    .filter( ( { contextualization: { id: contextualizationId } } ) => {
       return assetId ?
         contextualizationId !== assetId &&
         production.contextualizations[contextualizationId].resourceId === resourceId
       : production.contextualizations[contextualizationId].resourceId === resourceId;
     } )
-    .map( ( contextualizationId ) => ( {
-      ...production.contextualizations[contextualizationId],
-      ...buildContextContent( production, contextualizationId )
+    .map( ( { contextualization: theContextualization } ) => ( {
+      ...theContextualization,
+      ...buildContextContent( production, theContextualization.id )
     } ) );
 
   const resource = production.resources[resourceId];
