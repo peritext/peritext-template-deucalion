@@ -465,6 +465,7 @@ export default class Wrapper extends Component {
     if ( routerSummary.length && routerSummary[0].routeClass !== 'landing' ) {
       routerSummary = [ routerSummary[0], ...routerSummary ];
     }
+
     return (
       <Router basename={ window.__urlBaseName }>
         <div>

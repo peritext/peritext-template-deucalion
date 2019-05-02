@@ -82,8 +82,9 @@ class Section extends Component {
       this.context.scrollToTop( 0, false, false );
     }
     setTimeout( () => {
-      const { scrollHeight } = this.context;
-      let elements = document.querySelector( '.main-contents-wrapper .rendered-content' );
+      const { scrollHeight, usedDocument } = this.context;
+      const theDocument = usedDocument || document;
+      let elements = theDocument.querySelector( '.main-contents-wrapper .rendered-content' );
       elements = elements && elements.childNodes;
       const shadows = [];
       if ( elements ) {
@@ -324,6 +325,7 @@ Section.contextTypes = {
   contextualizers: PropTypes.object,
   translate: PropTypes.func,
   citations: PropTypes.object,
+  usedDocument: PropTypes.object,
 
   scrollToContextualization: PropTypes.func,
   scrollToElement: PropTypes.func,
