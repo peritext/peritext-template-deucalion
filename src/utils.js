@@ -1,7 +1,33 @@
+import React from 'react';
 import {
   getContextualizationsFromEdition,
   buildContextContent,
 } from 'peritext-utils';
+
+import { makeBibliography } from 'react-citeproc';
+
+export const makeAssetTitle = ( resource, production, edition, citations ) => {
+  const type = resource.metadata.type;
+  switch ( type ) {
+    case 'glossary':
+      return resource.data.name ? resource.data.name : `${resource.data.firstName } ${ resource.data.lastName}`;
+    case 'bib':
+      const citation = makeBibliography(
+        citations.citationItems,
+        edition.data.citationStyle.data,
+        edition.data.citationLocale.data,
+        {
+          select: [ {
+            field: 'id',
+            value: resource.data[0].id
+          } ]
+        }
+      )[1];
+      return <div dangerouslySetInnerHTML={ { __html: citation } } />;/* eslint react/no-danger : 0 */
+    default:
+      return resource.metadata.title;
+  }
+};
 
 export const convertSectionToCslRecord = ( section, production, edition = {} ) => {
   const {

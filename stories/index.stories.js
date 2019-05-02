@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import ContextProvider from './ContextProvider';
@@ -13,7 +12,6 @@ const {
     Edition
   }
 } = template;
-
 
 const contextualizers = {
   bib: require( 'peritext-contextualizer-bib' ),

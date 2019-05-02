@@ -9,6 +9,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _reactTooltip = _interopRequireDefault(require("react-tooltip"));
+
 var _peritextUtils = require("peritext-utils");
 
 var _ContextMention = _interopRequireDefault(require("./ContextMention"));
@@ -53,21 +55,15 @@ const RelatedContexts = ({
   }, _react.default.createElement(_ResourceIdentityCard.default, {
     resource: resource,
     production: production,
-    edition: edition
+    edition: edition,
+    showTitle: false
   }), _react.default.createElement("div", {
     className: 'related-contexts-actions'
   }, citation.URL && _react.default.createElement("a", {
     target: 'blank',
     rel: 'noopener',
     href: citation.URL
-  }, translate('Browse online')), _react.default.createElement(_LinkProvider.default, {
-    to: {
-      routeClass: 'resourceSheet',
-      routeParams: {
-        resourceId: resource.id
-      }
-    }
-  }, translate('Print mentions')))), related.length ? _react.default.createElement("ul", {
+  }, translate('Browse online')))), related.length ? _react.default.createElement("ul", {
     className: 'related-contexts-container'
   }, _react.default.createElement("h3", null, translate('This item is mentionned in'), ' : '), related.filter(thatContextualization => thatContextualization.targetContents !== undefined).map(thatContextualization => _react.default.createElement("li", {
     className: 'related-context',
@@ -80,6 +76,19 @@ const RelatedContexts = ({
     contextualizationId: thatContextualization.id
   })))) : _react.default.createElement("div", {
     className: 'body'
+  }), _react.default.createElement("div", {
+    className: 'footer'
+  }, _react.default.createElement(_LinkProvider.default, {
+    to: {
+      routeClass: 'resourceSheet',
+      routeParams: {
+        resourceId: resource.id
+      }
+    },
+    target: 'blank',
+    rel: 'noopener'
+  }, translate('Print mentions'))), _react.default.createElement(_reactTooltip.default, {
+    id: 'tooltip'
   }));
 };
 

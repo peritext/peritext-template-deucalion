@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Tooltip from 'react-tooltip';
 
 import { buildContextContent, resourceToCslJSON, getContextualizationsFromEdition } from 'peritext-utils';
 
@@ -41,6 +42,7 @@ const RelatedContexts = ( {
           resource={ resource }
           production={ production }
           edition={ edition }
+          showTitle={ false }
         />
 
         <div className={ 'related-contexts-actions' }>
@@ -54,16 +56,6 @@ const RelatedContexts = ( {
               {translate( 'Browse online' )}
             </a>
           }
-          <Link
-            to={ {
-              routeClass: 'resourceSheet',
-              routeParams: {
-                resourceId: resource.id
-              }
-            } }
-          >
-            {translate( 'Print mentions' )}
-          </Link>
         </div>
       </div>
 
@@ -95,6 +87,21 @@ const RelatedContexts = ( {
       :
         <div className={ 'body' } />
     }
+      <div className={ 'footer' }>
+        <Link
+          to={ {
+              routeClass: 'resourceSheet',
+              routeParams: {
+                resourceId: resource.id
+              }
+            } }
+          target={ 'blank' }
+          rel={ 'noopener' }
+        >
+          {translate( 'Print mentions' )}
+        </Link>
+      </div>
+      <Tooltip id={ 'tooltip' } />
     </div>
   );
 };

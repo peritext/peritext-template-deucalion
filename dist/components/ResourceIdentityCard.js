@@ -11,54 +11,28 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _MarkdownPlayer = _interopRequireDefault(require("./MarkdownPlayer"));
 
-var _reactCiteproc = require("react-citeproc");
+var _utils = require("../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const makeAssetTitle = (resource, production, edition, citations) => {
-  const type = resource.metadata.type;
-
-  switch (type) {
-    case 'glossary':
-      return resource.data.name ? resource.data.name : `${resource.data.firstName} ${resource.data.lastName}`;
-
-    case 'bib':
-      const citation = (0, _reactCiteproc.makeBibliography)(citations.citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data, {
-        select: [{
-          field: 'id',
-          value: resource.data[0].id
-        }]
-      })[1];
-      return _react.default.createElement("div", {
-        dangerouslySetInnerHTML: {
-          __html: citation
-        }
-      });
-
-    /* eslint react/no-danger : 0 */
-
-    default:
-      return resource.metadata.title;
-  }
-};
 
 const ResourceIdentityCard = ({
   resource,
   production,
-  edition
+  edition,
+  showTitle = true
 }, {
   rawCitations,
   contextualizers,
   translate
 }) => {
-  const assetTitle = makeAssetTitle(resource, production, edition, rawCitations);
+  const assetTitle = (0, _utils.makeAssetTitle)(resource, production, edition, rawCitations);
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
   const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
   return _react.default.createElement("div", {
     className: 'resource-identity-card'
   }, _react.default.createElement("div", {
     className: 'main-info'
-  }, _react.default.createElement("div", {
+  }, showTitle && _react.default.createElement("div", {
     className: 'title'
   }, !Citation && _react.default.createElement("span", {
     className: 'resource-identity-card-title'

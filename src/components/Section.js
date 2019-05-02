@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { StructuredCOinS, abbrevString } from 'peritext-utils';
 import Tooltip from 'react-tooltip';
 
-import { convertSectionToCslRecord } from '../utils';
+import { convertSectionToCslRecord, makeAssetTitle } from '../utils';
 
 import RelatedContexts from './RelatedContexts';
 import NotesContainer from './NotesContainer';
@@ -167,6 +167,7 @@ class Section extends Component {
         scrollRatio,
         scrollTopRatio,
         scrollToElement,
+        rawCitations,
       },
       onNotePointerClick,
     } = this;
@@ -283,7 +284,7 @@ class Section extends Component {
               isActive={
               openedContextualizationId !== undefined
             }
-              title={ openedContextualizationId && translate( 'More informations' ) }
+              title={ openedContextualizationId && makeAssetTitle( production.resources[production.contextualizations[openedContextualizationId].resourceId], production, edition, rawCitations )/*translate( 'More informations' )*/ }
               onClose={ closeAsideContextualization }
             >
               <RelatedContexts
@@ -326,6 +327,7 @@ Section.contextTypes = {
   translate: PropTypes.func,
   citations: PropTypes.object,
   usedDocument: PropTypes.object,
+  rawCitations: PropTypes.object,
 
   scrollToContextualization: PropTypes.func,
   scrollToElement: PropTypes.func,

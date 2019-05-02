@@ -107,7 +107,7 @@ const webEdition = {
 };
 
 export const editionTypes = {
-  'landing': {
+  landing: {
     data: {
       animatedBackground: 'none',
       customReadingLinks: []
@@ -115,7 +115,7 @@ export const editionTypes = {
     id: 'd5b00616-000e-42e7-8d63-088d7ab7dbc8',
     type: 'landing'
   },
-  'sections': {
+  sections: {
     data: {
       customSummary: {
         active: false,
@@ -126,7 +126,7 @@ export const editionTypes = {
     id: '4cb71ff0-7b48-41ba-9ba8-344460bd362c',
     type: 'sections'
   },
-  'resourcesMap': {
+  resourcesMap: {
     data: {
       showAllResources: true,
       showUncitedReferences: false
@@ -134,7 +134,7 @@ export const editionTypes = {
     id: 'a6711199-97cd-4936-b406-a7e8f2e8fa55',
     type: 'resourcesMap'
   },
-  'references': {
+  references: {
     data: {
       resourceTypes: [
         'bib'
@@ -147,7 +147,7 @@ export const editionTypes = {
     id: '9e558ccb-00c6-48df-ad9a-6b4a5218a6c8',
     type: 'references'
   },
-  'glossary': {
+  glossary: {
     data: {
       glossaryTypes: [
         'person',
@@ -163,7 +163,7 @@ export const editionTypes = {
     id: 'b8690683-1eec-4002-adf2-3400cf69ce40',
     type: 'glossary'
   },
-  'places': {
+  places: {
     data: {
       mapStyle: 'openstreetmap',
       showUncited: true
@@ -171,7 +171,7 @@ export const editionTypes = {
     id: 'a3a65769-23b0-4958-8558-6033a6cb705e',
     type: 'places'
   },
-  'events': {
+  events: {
     data: {
       showUncited: true
     },

@@ -176,7 +176,8 @@ class Section extends _react.Component {
           translate = {},
           scrollRatio,
           scrollTopRatio,
-          scrollToElement
+          scrollToElement,
+          rawCitations
         },
         onNotePointerClick
       } = this;
@@ -269,7 +270,9 @@ class Section extends _react.Component {
         className: 'navigation-item-arrow'
       }, "\u2192")))))), openedContextualizationId ? _react.default.createElement(_Aside.default, {
         isActive: openedContextualizationId !== undefined,
-        title: openedContextualizationId && translate('More informations'),
+        title: openedContextualizationId && (0, _utils.makeAssetTitle)(production.resources[production.contextualizations[openedContextualizationId].resourceId], production, edition, rawCitations)
+        /*translate( 'More informations' )*/
+        ,
         onClose: closeAsideContextualization
       }, _react.default.createElement(_RelatedContexts.default, {
         production: production,
@@ -317,6 +320,7 @@ Section.contextTypes = {
   translate: _propTypes.default.func,
   citations: _propTypes.default.object,
   usedDocument: _propTypes.default.object,
+  rawCitations: _propTypes.default.object,
   scrollToContextualization: _propTypes.default.func,
   scrollToElement: _propTypes.default.func,
   toggleAsideVisible: _propTypes.default.func,

@@ -142,6 +142,7 @@ button{
 }
 .deucalion-layout .nav-header .title .location-title{
   flex: 1;
+  padding-top: .4rem;
 }
 .deucalion-layout .nav-content-container{
   overflow-y: auto;
@@ -817,6 +818,8 @@ h1{
 .aside .aside-header .aside-title{
   flex: 1;
   margin: 0;
+  max-width: calc(100% - 1rem);
+  overflow: hidden;
 }
 
 .aside .aside-close-btn{
@@ -1176,6 +1179,10 @@ h1{
   padding: 0;
 }
 
+.related-contexts-container > h3{
+  font-size: 1rem;
+}
+
 .related-contexts .header .related-contexts-actions{
   display: flex;
   flex-flow: row nowrap;
@@ -1191,6 +1198,10 @@ h1{
 */
 .related-contexts .related-contexts-title{
   flex: 1;
+}
+
+.related-contexts .footer{
+  padding-left: var(--gutter-medium);
 }
 
 .related-context{
@@ -1225,7 +1236,9 @@ h1{
   bottom: 1rem;
 }
 .context-mention .excerpt{
-  padding: var(--gutter-medium);
+  padding: 0;
+  padding-left: var(--gutter-medium);
+  padding-right: var(--gutter-medium);
   // margin-top: calc(.5 * var(--gutter-medium));
   // margin-bottom: calc(.5 * var(--gutter-medium));
   border-left: 1px solid var(--color-text);

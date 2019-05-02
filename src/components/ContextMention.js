@@ -10,14 +10,19 @@ const ContextMention = ( {
   contextualizationId,
   displayLinks = true,
 }, {
-  translate,
+  // translate,
   getViewIdForSectionId,
 } ) => (
-  <div className={ 'context-mention' }>
+  <div
+    className={ 'context-mention' }
+    data-tip={ sectionTitle }
+    data-for={ 'tooltip' }
+    data-place={ 'left' }
+  >
     {
       displayLinks ?
         <div>
-          <div className={ 'header' }>
+          {/* <div className={ 'header' }>
             <i>
               <Link
                 to={ {
@@ -32,7 +37,7 @@ const ContextMention = ( {
                 {translate( 'Mention context' ) } {`(${sectionTitle})`}
               </Link>
             </i>
-          </div>
+          </div> */}
           <div className={ 'excerpt' }>
             <Link
               to={ {
@@ -47,7 +52,7 @@ const ContextMention = ( {
               <Renderer raw={ contents } />
             </Link>
           </div>
-          <div className={ 'footer' }>
+          {/* <div className={ 'footer' }>
             <i>
               <Link
                 to={ {
@@ -62,7 +67,7 @@ const ContextMention = ( {
                 {translate( 'Go to mention' ) } {`(${sectionTitle})`}
               </Link>
             </i>
-          </div>
+          </div> */}
         </div>
       :
         <div>

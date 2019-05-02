@@ -3,13 +3,48 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.buildGlossary = exports.convertEditionToCslRecord = exports.convertSectionToCslRecord = void 0;
+exports.buildGlossary = exports.convertEditionToCslRecord = exports.convertSectionToCslRecord = exports.makeAssetTitle = void 0;
+
+var _react = _interopRequireDefault(require("react"));
 
 var _peritextUtils = require("peritext-utils");
+
+var _reactCiteproc = require("react-citeproc");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+const makeAssetTitle = (resource, production, edition, citations) => {
+  const type = resource.metadata.type;
+
+  switch (type) {
+    case 'glossary':
+      return resource.data.name ? resource.data.name : `${resource.data.firstName} ${resource.data.lastName}`;
+
+    case 'bib':
+      const citation = (0, _reactCiteproc.makeBibliography)(citations.citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data, {
+        select: [{
+          field: 'id',
+          value: resource.data[0].id
+        }]
+      })[1];
+      return _react.default.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: citation
+        }
+      });
+
+    /* eslint react/no-danger : 0 */
+
+    default:
+      return resource.metadata.title;
+  }
+};
+
+exports.makeAssetTitle = makeAssetTitle;
 
 const convertSectionToCslRecord = (section, production, edition = {}) => {
   const {
