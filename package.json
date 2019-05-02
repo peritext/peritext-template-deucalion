@@ -6,8 +6,8 @@
   "scripts": {
     "build": "rm -rf dist; mkdir dist; babel src -d dist",
     "addbuild": "git add dist",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "eslint src stories",
+    "lint:fix": "eslint src stories --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
