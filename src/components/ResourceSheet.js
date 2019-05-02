@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { buildContextContent } from 'peritext-utils';
+import { buildContextContent, getContextualizationsFromEdition } from 'peritext-utils';
 
 import ContextMention from './ContextMention';
 import ResourceIdentityCard from './ResourceIdentityCard';
@@ -73,13 +73,15 @@ class ResourceSheet extends Component {
 
     const PADDING = 0;
 
-    let related = Object.keys( production.contextualizations )
-      .filter( ( contextualizationId ) =>
+    const usedContextualizations = getContextualizationsFromEdition( production, edition );
+
+    let related = usedContextualizations
+      .filter( ( { contextualization: { id: contextualizationId } } ) =>
         production.contextualizations[contextualizationId].resourceId === resourceId
       )
-      .map( ( contextualizationId ) => ( {
-        ...production.contextualizations[contextualizationId],
-        ...buildContextContent( production, contextualizationId, PADDING )
+      .map( ( { contextualization } ) => ( {
+        ...contextualization,
+        ...buildContextContent( production, contextualization.id, PADDING )
       } ) )
       .filter( ( i ) => i.targetContents );
   related = related

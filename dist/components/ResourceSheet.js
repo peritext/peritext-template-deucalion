@@ -73,7 +73,14 @@ class ResourceSheet extends _react.Component {
       }
 
       const PADDING = 0;
-      let related = Object.keys(production.contextualizations).filter(contextualizationId => production.contextualizations[contextualizationId].resourceId === resourceId).map(contextualizationId => _objectSpread({}, production.contextualizations[contextualizationId], (0, _peritextUtils.buildContextContent)(production, contextualizationId, PADDING))).filter(i => i.targetContents);
+      const usedContextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
+      let related = usedContextualizations.filter(({
+        contextualization: {
+          id: contextualizationId
+        }
+      }) => production.contextualizations[contextualizationId].resourceId === resourceId).map(({
+        contextualization
+      }) => _objectSpread({}, contextualization, (0, _peritextUtils.buildContextContent)(production, contextualization.id, PADDING))).filter(i => i.targetContents);
       related = related.reduce((cur, item, index) => {
         if (index > 0) {
           // console.log('related', related[index - 1].sectionTitle, item.sectionTitle)

@@ -85,9 +85,11 @@ class Section extends _react.Component {
 
       setTimeout(() => {
         const {
-          scrollHeight
+          scrollHeight,
+          usedDocument
         } = this.context;
-        let elements = document.querySelector('.main-contents-wrapper .rendered-content');
+        const theDocument = usedDocument || document;
+        let elements = theDocument.querySelector('.main-contents-wrapper .rendered-content');
         elements = elements && elements.childNodes;
         const shadows = [];
 
@@ -314,6 +316,7 @@ Section.contextTypes = {
   contextualizers: _propTypes.default.object,
   translate: _propTypes.default.func,
   citations: _propTypes.default.object,
+  usedDocument: _propTypes.default.object,
   scrollToContextualization: _propTypes.default.func,
   scrollToElement: _propTypes.default.func,
   toggleAsideVisible: _propTypes.default.func,
