@@ -83,40 +83,43 @@ class Section extends _react.Component {
         this.context.scrollToTop(0, false, false);
       }
 
-      setTimeout(() => {
-        const {
-          scrollHeight,
-          usedDocument
-        } = this.context;
-        const theDocument = usedDocument || document;
-        let elements = theDocument.querySelector('.main-contents-wrapper .rendered-content');
-        elements = elements && elements.childNodes;
-        const shadows = [];
-
-        if (elements) {
-          elements.forEach(element => {
-            const {
-              height
-            } = element.getBoundingClientRect();
-            shadows.push({
-              y: element.offsetTop / scrollHeight,
-              h: height / scrollHeight,
-              html: element.innerHTML,
-              element
-            });
-          });
-          this.setState({
-            shadows
-          });
-
-          _reactTooltip.default.rebuild();
-        }
-      });
+      setTimeout(() => this.buildRailwayData());
+      setTimeout(() => this.buildRailwayData(), 1000);
       this.setState({
         gui: {
           openedContextualizationId: undefined
         }
       });
+    });
+
+    _defineProperty(this, "buildRailwayData", () => {
+      const {
+        scrollHeight,
+        usedDocument
+      } = this.context;
+      const theDocument = usedDocument || document;
+      let elements = theDocument.querySelector('.main-contents-wrapper .rendered-content');
+      elements = elements && elements.childNodes;
+      const shadows = [];
+
+      if (elements) {
+        elements.forEach(element => {
+          const {
+            height
+          } = element.getBoundingClientRect();
+          shadows.push({
+            y: element.offsetTop / scrollHeight,
+            h: height / scrollHeight,
+            html: element.innerHTML,
+            element
+          });
+        });
+        this.setState({
+          shadows
+        });
+
+        _reactTooltip.default.rebuild();
+      }
     });
 
     _defineProperty(this, "onNoteContentPointerClick", noteId => {

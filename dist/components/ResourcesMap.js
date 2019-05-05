@@ -68,17 +68,17 @@ const getResourceTitle = resource => {
 };
 
 const buildMap = (production, edition, {
-  showUncited,
+  showUncitedReferences,
   showAllResources,
   resourceTypes = ['bib'],
-  minimumCooccurrenceNumber = 3
+  minimumCooccurrenceNumber = 2
 }) => {
   let resourcesIds;
+  let usedContextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
 
-  if (showUncited) {
+  if (showUncitedReferences) {
     resourcesIds = Object.keys(production.resources);
   } else {
-    const usedContextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
     resourcesIds = (0, _uniq.default)(usedContextualizations.map(c => c.contextualization.resourceId));
   }
 
@@ -88,11 +88,12 @@ const buildMap = (production, edition, {
     });
   }
 
+  usedContextualizations = usedContextualizations.filter(c => resourcesIds.includes(c.contextualization.resourceId));
   let nodes = resourcesIds.map(resourceId => ({
     resource: production.resources[resourceId],
     id: resourceId,
     type: 'resource',
-    mentions: Object.keys(production.contextualizations).filter(contextualizationId => production.contextualizations[contextualizationId].resourceId === resourceId).map(contextualizationId => production.contextualizations[contextualizationId])
+    mentions: usedContextualizations.filter(c => c.contextualization.resourceId === resourceId).map(c => c.contextualization)
   }));
   nodes = nodes.map(node => _objectSpread({}, node, {
     title: getResourceTitle(node.resource),
@@ -120,7 +121,7 @@ const buildMap = (production, edition, {
     }))];
   }, []).filter(e => e.weight >= minimumCooccurrenceNumber);
   return {
-    nodes,
+    nodes: edges.length ? nodes : [],
     edges
   };
 };
@@ -172,23 +173,24 @@ class ResourcesMap extends _react.Component {
         height
       } = dimensions;
       const {
-        showUncited = false,
+        showUncitedReferences = false,
         showAllResources = true,
-        resourceTypes = ['bib']
+        resourceTypes = ['bib'],
+        minimumCooccurrenceNumber = 2
       } = options;
       const {
         nodes,
         edges
       } = buildMap(production, edition, {
-        showUncited,
+        showUncitedReferences,
         showAllResources,
-        resourceTypes
+        resourceTypes,
+        minimumCooccurrenceNumber
       });
       const graphConfig = {
         automaticRearrangeAfterDropNode: false,
         collapsible: true,
         directed: false,
-        height: 400,
         highlightDegree: 1,
         highlightOpacity: 1,
         linkHighlightBehavior: false,
@@ -225,7 +227,9 @@ class ResourcesMap extends _react.Component {
         onClickNode: onClickNode,
         width: width,
         height: height
-      })) : null, _react.default.createElement(_Aside.default, {
+      })) : _react.default.createElement("div", {
+        className: 'graph-placeholder'
+      }, translate('No links to display')), _react.default.createElement(_Aside.default, {
         isActive: openResourceId !== undefined,
         title: translate('Mentions of this item'),
         onClose: toggleOpenedResource

@@ -132,7 +132,14 @@ export const editionTypes = {
   resourcesMap: {
     data: {
       showAllResources: true,
-      showUncitedReferences: true
+      showUncitedReferences: false,
+      resourceTypes: [
+        'bib',
+        'webpage',
+        'embed',
+        'video'
+      ],
+      minimumCooccurrenceNumber: 1,
     },
     id: 'a6711199-97cd-4936-b406-a7e8f2e8fa55',
     type: 'resourcesMap'

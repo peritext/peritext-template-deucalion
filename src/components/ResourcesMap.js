@@ -45,19 +45,19 @@ const buildMap = (
   production,
   edition,
   {
-    showUncited,
+    showUncitedReferences,
     showAllResources,
     resourceTypes = [ 'bib' ],
-    minimumCooccurrenceNumber = 3
+    minimumCooccurrenceNumber = 2
   }
 ) => {
 
   let resourcesIds;
-  if ( showUncited ) {
+  let usedContextualizations = getContextualizationsFromEdition( production, edition );
+  if ( showUncitedReferences ) {
     resourcesIds = Object.keys( production.resources );
   }
  else {
-    const usedContextualizations = getContextualizationsFromEdition( production, edition );
     resourcesIds = uniq(
       usedContextualizations.map( ( c ) => c.contextualization.resourceId )
     );
@@ -67,15 +67,18 @@ const buildMap = (
       return resourceTypes.includes[production.resources[resourceId].metadata.type];
     } );
   }
+  usedContextualizations = usedContextualizations.filter( ( c ) =>
+    resourcesIds.includes( c.contextualization.resourceId )
+  );
   let nodes = resourcesIds.map( ( resourceId ) => ( {
     resource: production.resources[resourceId],
     id: resourceId,
     type: 'resource',
-    mentions: Object.keys( production.contextualizations )
-      .filter( ( contextualizationId ) =>
-        production.contextualizations[contextualizationId].resourceId === resourceId
+    mentions: usedContextualizations
+      .filter( ( c ) =>
+        c.contextualization.resourceId === resourceId
       )
-      .map( ( contextualizationId ) => production.contextualizations[contextualizationId] )
+      .map( ( c ) => c.contextualization )
   } ) );
 
   nodes = nodes.map( ( node ) => ( {
@@ -112,7 +115,7 @@ const buildMap = (
   }, [] )
   .filter( ( e ) => e.weight >= minimumCooccurrenceNumber );
 
-  return { nodes, edges };
+  return { nodes: edges.length ? nodes : [], edges };
 };
 
 export default class ResourcesMap extends Component {
@@ -176,21 +179,22 @@ export default class ResourcesMap extends Component {
     } = dimensions;
 
     const {
-      showUncited = false,
+      showUncitedReferences = false,
       showAllResources = true,
       resourceTypes = [ 'bib' ],
+      minimumCooccurrenceNumber = 2,
     } = options;
     const { nodes, edges } = buildMap( production, edition, {
-      showUncited,
+      showUncitedReferences,
       showAllResources,
       resourceTypes,
+      minimumCooccurrenceNumber,
     } );
 
     const graphConfig = {
         automaticRearrangeAfterDropNode: false,
         collapsible: true,
         directed: false,
-        height: 400,
         highlightDegree: 1,
         highlightOpacity: 1,
         linkHighlightBehavior: false,
@@ -222,17 +226,17 @@ export default class ResourcesMap extends Component {
               <Graph
                 id={ 'graph' } // id is mandatory, if no id is defined rd3g will throw an error
                 data={ {
-                nodes,
-                links: edges,
-                focusedNodeId: openResourceId
-              } }
+                  nodes,
+                  links: edges,
+                  focusedNodeId: openResourceId
+                } }
                 config={ graphConfig }
                 onClickNode={ onClickNode }
                 width={ width }
                 height={ height }
               />
             </div>
-          : null
+          : <div className={ 'graph-placeholder' }>{translate( 'No links to display' )}</div>
         }
         <Aside
           isActive={ openResourceId !== undefined }

@@ -437,6 +437,7 @@ class Wrapper extends _react.Component {
             production: this.props.production,
             edition: this.props.edition,
             activeViewClass: viewClass,
+            options: navSummary[viewNavSummaryIndex].options,
             activeViewParams: viewParams
           });
 

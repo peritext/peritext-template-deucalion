@@ -850,7 +850,7 @@ h1{
   right: 2rem;
   top: 2rem;
   width: 1rem;
-  height: calc(100% - 2rem);
+  height: calc(100% - 3rem);
 }
 .deucalion-layout .railway .elevator{
   position: absolute;
@@ -1252,9 +1252,19 @@ h1{
 /**
  * NETWORK VIEWS COMPONENT STYLING
  */
+.graph-placeholder{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .graph-container svg
 {
-  position: fixed;
+  position: absolute;
   width: 100%!important;
   height: 100%!important;
   left: 0;
