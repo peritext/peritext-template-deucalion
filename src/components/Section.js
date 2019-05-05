@@ -81,7 +81,16 @@ class Section extends Component {
     else {
       this.context.scrollToTop( 0, false, false );
     }
-    setTimeout( () => {
+    setTimeout( () => this.buildRailwayData() );
+    setTimeout( () => this.buildRailwayData(), 1000 );
+    this.setState( {
+      gui: {
+        openedContextualizationId: undefined
+      }
+    } );
+  }
+
+  buildRailwayData = () => {
       const { scrollHeight, usedDocument } = this.context;
       const theDocument = usedDocument || document;
       let elements = theDocument.querySelector( '.main-contents-wrapper .rendered-content' );
@@ -100,12 +109,6 @@ class Section extends Component {
           this.setState( { shadows } );
           Tooltip.rebuild();
       }
-      } );
-    this.setState( {
-      gui: {
-        openedContextualizationId: undefined
-      }
-    } );
   }
 
   onNoteContentPointerClick = ( noteId ) => {
