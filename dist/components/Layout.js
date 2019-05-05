@@ -17,6 +17,8 @@ var _reactCiteproc = require("react-citeproc");
 
 var _peritextUtils = require("peritext-utils");
 
+var _lodash = require("lodash");
+
 var _ProductionHead = _interopRequireDefault(require("./ProductionHead"));
 
 var _utils = require("../utils");
@@ -424,6 +426,7 @@ class Layout extends _react.Component {
       finalCss: this.updateStyles(_props, _context)
     };
     this.contextualizationElements = {};
+    this.onScrollUpdate = (0, _lodash.debounce)(this.onScrollUpdate, 100);
   }
 
 }

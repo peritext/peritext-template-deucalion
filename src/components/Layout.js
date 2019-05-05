@@ -4,7 +4,7 @@ import { easeCubic } from 'd3-ease';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ReferencesManager } from 'react-citeproc';
 import { resourceToCslJSON, StructuredCOinS } from 'peritext-utils';
-
+import { debounce } from 'lodash';
 import ProductionHead from './ProductionHead';
 
 import { convertEditionToCslRecord } from '../utils';
@@ -46,6 +46,7 @@ class Layout extends Component {
       finalCss: this.updateStyles( props, context )
     };
     this.contextualizationElements = {};
+    this.onScrollUpdate = debounce( this.onScrollUpdate, 100 );
   }
 
   getChildContext = () => {
