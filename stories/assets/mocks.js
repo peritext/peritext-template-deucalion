@@ -48,9 +48,12 @@ const webEdition = {
         {
           data: {
             resourceTypes: [
-              'bib'
+              'bib',
+              'webpage',
+              'video',
+              'embed'
             ],
-            showMentions: false,
+            showMentions: true,
             showUncitedReferences: false,
             sortingAscending: true,
             sortingKey: 'date'
@@ -129,7 +132,7 @@ export const editionTypes = {
   resourcesMap: {
     data: {
       showAllResources: true,
-      showUncitedReferences: false
+      showUncitedReferences: true
     },
     id: 'a6711199-97cd-4936-b406-a7e8f2e8fa55',
     type: 'resourcesMap'
@@ -137,12 +140,17 @@ export const editionTypes = {
   references: {
     data: {
       resourceTypes: [
-        'bib'
+        'bib',
+        'image',
+        'webpage',
+        'embed',
+        'video',
+
       ],
-      showMentions: false,
+      showMentions: true,
       showUncitedReferences: false,
       sortingAscending: true,
-      sortingKey: 'date'
+      sortingKey: 'mentions'
     },
     id: '9e558ccb-00c6-48df-ad9a-6b4a5218a6c8',
     type: 'references'

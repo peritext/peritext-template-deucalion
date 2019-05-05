@@ -25,14 +25,14 @@ const contextualizers = {
   table: require( 'peritext-contextualizer-table' ),
 };
 
-const extractSpecificView = ( viewType ) => {
+const extractSpecificView = ( ...viewTypes ) => {
   return {
     ...webEdition,
     data: {
       ...webEdition.data,
       plan: {
         ...webEdition.data.plan,
-        summary: [ editionTypes[viewType] ]
+        summary: [ ...viewTypes.map( ( viewType ) => editionTypes[viewType] ) ]
       }
     }
   };
@@ -62,7 +62,7 @@ storiesOf( 'Template', module )
   .add( 'sections', () => renderWithEdition( extractSpecificView( 'sections' ) ) )
   .add( 'landing', () => renderWithEdition( extractSpecificView( 'landing' ) ) )
   .add( 'resources map', () => renderWithEdition( extractSpecificView( 'resourcesMap' ) ) )
-  .add( 'references', () => renderWithEdition( extractSpecificView( 'references' ) ) )
+  .add( 'references', () => renderWithEdition( extractSpecificView( 'references', 'sections' ) ) )
   .add( 'glossary', () => renderWithEdition( extractSpecificView( 'glossary' ) ) )
   .add( 'places', () => renderWithEdition( extractSpecificView( 'places' ) ) )
   .add( 'events', () => renderWithEdition( extractSpecificView( 'events' ) ) );

@@ -172,9 +172,12 @@ module.exports = {
       default: {
         showUncitedReferences: false,
         showMentions: false,
-        resourceTypes: ['bib'],
-        sortingKey: 'date',
-        sortingAscending: true
+        resourceTypes: ['bib']
+        /*
+         * sortingKey: 'date',
+         * sortingAscending: true
+         */
+
       },
       properties: {
         resourceTypes: {
@@ -200,7 +203,7 @@ module.exports = {
         sortingKey: {
           type: 'string',
           description: 'key to use for sorting references',
-          enum: ['authors', 'title', 'date']
+          enum: ['authors', 'title', 'date', 'mentions']
         },
         sortingAscending: {
           type: 'boolean',

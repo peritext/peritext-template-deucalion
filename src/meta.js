@@ -176,8 +176,11 @@ module.exports = {
         showUncitedReferences: false,
         showMentions: false,
         resourceTypes: [ 'bib' ],
-        sortingKey: 'date',
-        sortingAscending: true
+
+        /*
+         * sortingKey: 'date',
+         * sortingAscending: true
+         */
       },
       properties: {
         resourceTypes: {
@@ -200,10 +203,11 @@ module.exports = {
           type: 'boolean',
           description: 'whether to show active mentions in the text for each reference',
         },
+
         sortingKey: {
           type: 'string',
           description: 'key to use for sorting references',
-          enum: [ 'authors', 'title', 'date' ]
+          enum: [ 'authors', 'title', 'date', 'mentions' ]
         },
         sortingAscending: {
           type: 'boolean',
