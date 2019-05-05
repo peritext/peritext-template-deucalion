@@ -406,6 +406,7 @@ export default class Wrapper extends Component {
             production={ this.props.production }
             edition={ this.props.edition }
             activeViewClass={ viewClass }
+            options={ navSummary[viewNavSummaryIndex].options }
             activeViewParams={ viewParams }
           />
         );

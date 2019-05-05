@@ -407,6 +407,7 @@ button{
   .deucalion-layout .main-container .main-column{
     padding: 1cm;
   }
+
 }
 
 /**
@@ -645,16 +646,45 @@ h1{
 .block-contextualization-container.embed{
   min-height: 50vh;
   max-height: 80vh;
+  position: absolute;
+}
+
+.block-contextualization-container.embed .fullscreen > div{
+  height: 100%;
+}
+
+.block-contextualization-container.embed .fullscreen-btn{
+  position : absolute;
+  right: 1rem;
+  bottom: 4rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.block-contextualization-container.embed .fullscreen .fullscreen-btn{
+  right: 1rem;
+  botttom: 1rem;
 }
 
 .block-contextualization-container.table{
   max-width: 100%;
-  overflow: auto;
+  width: 100%;
 }
-.block-contextualization-container.table table{
+.block-contextualization-container.table .static-table-container{
   max-width: 100%;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  height: 70vh;
 }
-
+.block-contextualization-container.table .static-table-container table{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 .block-contextualization-container.table .ReactTable .rt-tbody{
   max-height: 70vh;
   overflow: auto;
@@ -845,7 +875,7 @@ h1{
   right: 2rem;
   top: 2rem;
   width: 1rem;
-  height: calc(100% - 2rem);
+  height: calc(100% - 3rem);
 }
 .deucalion-layout .railway .elevator{
   position: absolute;
@@ -1172,6 +1202,10 @@ h1{
     padding: var(--gutter-medium);
     border: 1px solid black;
   }
+
+  .block-contextualization-container.table .static-table-container{
+    height: unset;
+  }
 }
 
 /* related contexts */
@@ -1247,9 +1281,19 @@ h1{
 /**
  * NETWORK VIEWS COMPONENT STYLING
  */
+.graph-placeholder{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .graph-container svg
 {
-  position: fixed;
+  position: absolute;
   width: 100%!important;
   height: 100%!important;
   left: 0;
