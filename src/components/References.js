@@ -79,13 +79,14 @@ function buildBibliography ( {
   );
   const ids = bibliographyData[0].entry_ids.map( ( group ) => group[0] );
   let items = ids
-  .filter( ( id ) => resourcesMap[id] )
+  // .filter( ( id ) => resourcesMap[id] )
   .map( ( id, index ) => ( {
     id,
     resource: resourcesMap[id],
-    citation: resourcesMap[id].citation,
+    citation: resourcesMap[id] && resourcesMap[id].citation,
     html: bibliographyData[1][index]
-  } ) );
+  } ) )
+  .filter( ( i ) => i.citation );
 
   items = items.sort( ( a, b ) => {
     switch ( sortingKey ) {
@@ -221,7 +222,7 @@ export default class References extends Component {
     } = options;
 
     const contextualizations = getContextualizationsFromEdition( production, edition );
-    const citations = buildCitations( production );
+    const citations = buildCitations( { production, edition } );
 
     const references = buildBibliography( {
       production,

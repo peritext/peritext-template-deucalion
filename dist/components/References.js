@@ -83,12 +83,13 @@ function buildBibliography({
   }, {});
   const bibliographyData = (0, _reactCiteproc.makeBibliography)(citations.citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data);
   const ids = bibliographyData[0].entry_ids.map(group => group[0]);
-  let items = ids.filter(id => resourcesMap[id]).map((id, index) => ({
+  let items = ids // .filter( ( id ) => resourcesMap[id] )
+  .map((id, index) => ({
     id,
     resource: resourcesMap[id],
-    citation: resourcesMap[id].citation,
+    citation: resourcesMap[id] && resourcesMap[id].citation,
     html: bibliographyData[1][index]
-  }));
+  })).filter(i => i.citation);
   items = items.sort((a, b) => {
     switch (sortingKey) {
       case 'mentions':
@@ -199,7 +200,10 @@ class References extends _react.Component {
         sortingAscending = true
       } = options;
       const contextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
-      const citations = (0, _peritextUtils.buildCitations)(production);
+      const citations = (0, _peritextUtils.buildCitations)({
+        production,
+        edition
+      });
       const references = buildBibliography({
         production,
         edition,

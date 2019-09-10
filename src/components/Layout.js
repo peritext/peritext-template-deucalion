@@ -134,7 +134,10 @@ class Layout extends Component {
     const citationItems = bibContextualizations
       .reduce( ( finalCitations, contextualization ) => {
         const resource = resources[contextualization.resourceId];
-        const citations = resourceToCslJSON( resource );
+        const citations = [
+          ...resourceToCslJSON( resource ),
+          ...( contextualization.additionalResources ? contextualization.additionalResources.map( ( resId ) => resourceToCslJSON( resources[resId] ) ) : [] )
+        ].flat();
         const newCitations = citations.reduce( ( final2, citation ) => {
           return {
             ...final2,
@@ -155,9 +158,13 @@ class Layout extends Component {
 
         const contextualizer = contextualizers[contextualization.contextualizerId];
         const resource = resources[contextualization.resourceId];
+        const targets = [
+          ...resourceToCslJSON( resource ),
+          ...( bibCit.additionalResources ? bibCit.additionalResources.map( ( resId ) => resourceToCslJSON( resources[resId] ) ) : [] )
+        ].flat();
         return {
           citationID: key1,
-          citationItems: resourceToCslJSON( resource ).map( ( ref ) => ( {
+          citationItems: targets.map( ( ref ) => ( {
             locator: contextualizer.locator,
             prefix: contextualizer.prefix,
             suffix: contextualizer.suffix,
