@@ -20,10 +20,10 @@ const Railway = ( {
                 <div
                   className={ 'shadow' }
                   data-html
-                  data-tip={ shadow.html }
+                  data-tip={ shadow.text }
                   data-place={ 'left' }
                   data-effect={ 'solid' }
-                  data-for={ 'tooltip' }
+                  data-for={ 'railway-tooltip' }
                   data-offset={ "{'left': 20}" }
                   onClick={ handleClick }
                   key={ index }
@@ -47,7 +47,7 @@ const Railway = ( {
             />
           : null
       }
-      <Tooltip id={ 'tooltip' } />
+      <Tooltip id={ 'railway-tooltip' } />
     </nav>
   );
 

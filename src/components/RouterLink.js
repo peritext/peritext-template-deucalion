@@ -17,7 +17,7 @@ const RouterLink = ( {
     >
       {children}
     </NavLink>
-);
+  );
 };
 
 RouterLink.contextTypes = {

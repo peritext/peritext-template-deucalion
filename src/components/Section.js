@@ -14,6 +14,12 @@ import InternalLink from './LinkProvider';
 import Aside from './Aside';
 import Railway from './Railway';
 
+const ellipse = ( str, max = 50 ) => {
+  if ( str.length > max )
+    return `${str.substr( 0, max - 3 ) }...`;
+  return str;
+};
+
 class Section extends Component {
 
   static contextTypes = {
@@ -45,12 +51,14 @@ class Section extends Component {
 
   componentDidMount = () => {
     this.init( this.props );
+    this.buildRailwayData();
   }
 
   componentWillReceiveProps = ( nextProps ) => {
     if (
       this.props.activeViewClass !== nextProps.activeViewClass ||
-      this.props.activeViewParams !== nextProps.activeViewParams
+      this.props.activeViewParams.sectionId !== nextProps.activeViewParams.sectionId ||
+      this.props.activeViewParams.contextualizationId !== nextProps.activeViewParams.contextualizationId
     ) {
       this.init( nextProps );
     }
@@ -70,6 +78,23 @@ class Section extends Component {
     ) {
       nextContext.toggleAsideVisible();
     }
+    if ( this.context.dimensions && nextContext.dimensions && (
+      this.context.dimensions.width !== nextContext.dimensions.width ||
+      this.context.dimensions.height !== nextContext.dimensions.height
+
+    ) || this.context.scrollHeight !== nextContext.scrollHeight ) {
+      setTimeout( () => this.buildRailwayData() );
+    }
+  }
+
+  componentDidUpdate = ( prevProps ) => {
+    if (
+      this.props.activeViewClass !== prevProps.activeViewClass ||
+      this.props.activeViewParams.sectionId !== prevProps.activeViewParams.sectionId ||
+      this.props.activeViewParams.contextualizationId !== prevProps.activeViewParams.contextualizationId
+    ) {
+      this.buildRailwayData();
+    }
   }
 
   init = ( props ) => {
@@ -81,8 +106,11 @@ class Section extends Component {
     else {
       this.context.scrollToTop( 0, false, false );
     }
-    setTimeout( () => this.buildRailwayData() );
-    setTimeout( () => this.buildRailwayData(), 1000 );
+
+    /*
+     * setTimeout( () => this.buildRailwayData() );
+     * setTimeout( () => this.buildRailwayData(), 1000 );
+     */
     this.setState( {
       gui: {
         openedContextualizationId: undefined
@@ -103,6 +131,7 @@ class Section extends Component {
                   y: element.offsetTop / scrollHeight,
                   h: height / scrollHeight,
                   html: element.innerHTML,
+                  text: ellipse( element.textContent, 60 ),
                   element
               } );
           } );

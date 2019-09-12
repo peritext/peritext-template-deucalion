@@ -52,7 +52,7 @@ class NotesContainer extends Component {
        * notesStyles will store a map of styles for each note
        * (keys will be notes ids, values styling objects)
        */
-      notesStyles: {}
+      notesStyles: {},
     };
   }
 
@@ -162,7 +162,7 @@ class NotesContainer extends Component {
     } = this.props;
 
     const {
-      notesStyles
+      notesStyles,
     } = this.state;
 
     return (

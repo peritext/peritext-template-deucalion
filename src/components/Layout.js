@@ -46,7 +46,7 @@ class Layout extends Component {
       finalCss: this.updateStyles( props, context )
     };
     this.contextualizationElements = {};
-    this.onScrollUpdate = debounce( this.onScrollUpdate, 100 );
+    this.onScrollUpdate = debounce( this.onScrollUpdate, 1000 );
   }
 
   getChildContext = () => {
@@ -64,7 +64,7 @@ class Layout extends Component {
       scrollTopAbs: this.state.gui.scrollTopAbs,
       scrollRatio: this.state.gui.scrollRatio,
       scrollTopRatio: this.state.gui.scrollTopRatio,
-      scrollHeight: this.state.gui.scrollHeight,
+      scrollHeight: this.globalScrollbar && this.globalScrollbar.getScrollHeight(),
       rawCitations: this.state.citations,
       bindContextualizationElement: this.bindContextualizationElement,
       scrollToContextualization: this.scrollToContextualization,
@@ -231,7 +231,8 @@ class Layout extends Component {
    * @param {string} id - the id of the item to scroll to
    */
   scrollToElementId = ( id, center = true ) => {
-    const element = this.context.usedDocument.getElementById( id );
+    const theDocument = this.context.usedDocument || document;
+    const element = theDocument.getElementById( id );
     this.scrollToElement( element, center );
   }
 

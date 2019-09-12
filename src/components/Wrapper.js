@@ -469,7 +469,11 @@ export default class Wrapper extends Component {
 
     return (
       <Router basename={ window.__urlBaseName }>
-        <div>
+        <Layout
+          summary={ navSummary }
+          production={ production }
+          edition={ edition }
+        >
           <Switch>
             {
             routerSummary.map( ( element, index ) => {
@@ -495,15 +499,7 @@ export default class Wrapper extends Component {
                           ...mini
                         } ), {} );
                     }
-                    return (
-                      <Layout
-                        summary={ navSummary }
-                        production={ production }
-                        edition={ edition }
-                        viewId={ viewId }
-                        viewClass={ element.routeClass }
-                      >
-                        {renderView( {
+                    return renderView( {
                           viewClass: element.routeClass,
                           viewParams: {
                             ...element.routeParams,
@@ -511,14 +507,13 @@ export default class Wrapper extends Component {
                           },
                           navSummary,
                           viewNavSummaryIndex: summaryIndex
-                        } )}
-                      </Layout>
-                    );
+                        } );
                   } }
                 />
               );
             } )
           }
+            {/* render specific route */}
             <Route
               path={ '/resource' }
               component={ ( props ) => {
@@ -528,51 +523,26 @@ export default class Wrapper extends Component {
                   [tuple[0]]: tuple[1],
                 } ), {} );
                 const { resourceId } = searchParams;
-                return (
-                  <Layout
-                    summary={ navSummary }
-                    production={ production }
-                    edition={ edition }
-                    viewId={ 'resource' }
-                    viewClass={ 'resource' }
-                  >
-                    {renderView( { viewClass: 'resourceSheet', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } )}
-                  </Layout>
-
-                );
-            } }
+                return renderView( { viewClass: 'resourceSheet', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } );
+              }
+            }
             />
+            {/* 404 */}
             <Route
               component={ () => {
               return (
-                <Layout
-                  summary={ navSummary }
-                  production={ production }
-                  edition={ edition }
-                  viewId={ '404' }
-                  viewClass={ '404' }
-                >
-                  <Layout
-                    summary={ navSummary }
-                    production={ production }
-                    edition={ edition }
-                    viewId={ 'resource' }
-                    viewClass={ 'resource' }
-                  >
-                    <div className={ 'main-contents-container' }>
-                      <div className={ 'main-column' }>
-                        <h1>{this.translate( 'Nothing to see here!' )}</h1>
-                        <h2>{this.translate( 'There is not content to display for this URL.' )}</h2>
-                      </div>
-                    </div>
-                  </Layout>
-                </Layout>
+                <div className={ 'main-contents-container' }>
+                  <div className={ 'main-column' }>
+                    <h1>{this.translate( 'Nothing to see here!' )}</h1>
+                    <h2>{this.translate( 'There is not content to display for this URL.' )}</h2>
+                  </div>
+                </div>
 
               );
             } }
             />
           </Switch>
-        </div>
+        </Layout>
       </Router>
     );
 
