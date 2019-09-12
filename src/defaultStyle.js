@@ -160,6 +160,7 @@ button{
 .deucalion-layout .nav-header .nav-toggle {
   width: calc(var(--gutter-medium) * 2);
   justify-content: center;
+  align-items: center;
   display: flex;
 }
 
@@ -209,6 +210,7 @@ button{
   width: 100%;
   left: 0;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .deucalion-layout.has-aside-visible .main-container{
@@ -492,6 +494,7 @@ even when notes are in the end*/
 .main-contents-container .main-column {
   padding-left: var(--content-margin-width);
   padding-bottom: var(--gutter-medium);
+  padding-right: var(--gutter-medium);
 }
 
 /**
@@ -1127,6 +1130,17 @@ h1{
 .navigation-footer li{
   margin: 0;
   list-style-type: none;
+  position: relative;
+  transition: all .5s ease;
+  left: 0;
+  right: 0;
+}
+
+.navigation-footer li.prev:hover{
+  right: var(--gutter-large)
+}
+.navigation-footer li.next:hover{
+  left: var(--gutter-large)
 }
 
 .navigation-footer .navigation-item{

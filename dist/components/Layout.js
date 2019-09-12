@@ -404,6 +404,7 @@ class Layout extends _react.Component {
         locationTitle: locationTitle,
         inTop: inTop,
         edition: edition,
+        summary: summary,
         title: globalTitle
       })), _react.default.createElement("style", {
         type: 'text/css',

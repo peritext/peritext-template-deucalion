@@ -30,7 +30,7 @@ const Railway = ({
       "data-tip": shadow.html,
       "data-place": 'left',
       "data-effect": 'solid',
-      "data-for": 'tooltip',
+      "data-for": 'railway-tooltip',
       "data-offset": "{'left': 20}",
       onClick: handleClick,
       key: index,
@@ -46,7 +46,7 @@ const Railway = ({
       height: `${scrollRatio * 100}%`
     }
   }) : null, _react.default.createElement(_reactTooltip.default, {
-    id: 'tooltip'
+    id: 'railway-tooltip'
   }));
 };
 

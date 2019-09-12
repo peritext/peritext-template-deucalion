@@ -402,7 +402,6 @@ class Layout extends Component {
 
     const activeItem = viewId && summary.find( ( v ) => v.viewId === viewId );
     const locationTitle = activeItem && activeItem.routeClass !== 'landing' && activeItem.title;
-
     return (
       <ReferencesManager
         style={ citationStyle }
@@ -454,6 +453,7 @@ class Layout extends Component {
               locationTitle={ locationTitle }
               inTop={ inTop }
               edition={ edition }
+              summary={ summary }
               title={ globalTitle }
             />
           </section>
