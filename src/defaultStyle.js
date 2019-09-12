@@ -528,6 +528,7 @@ h1{
 
 .rendered-content blockquote{
   margin: 0;
+  margin-bottom: var(--gutter-medium);
   padding: var(--gutter-medium);
   padding-left: var(--gutter-large);
   position: relative;
@@ -1116,6 +1117,8 @@ h1{
 .section-player.has-notes-position-footnotes .notes-container{
   padding-left: var(--content-margin-width);
 }
+
+
 .navigation-footer ul{
   margin: 0;
   padding: 0;
@@ -1137,10 +1140,12 @@ h1{
 }
 
 .navigation-footer li.prev:hover{
-  right: var(--gutter-large)
+  right: var(--gutter-medium);
+  left: unset;
 }
 .navigation-footer li.next:hover{
-  left: var(--gutter-large)
+  left: var(--gutter-medium);
+  right: unset;
 }
 
 .navigation-footer .navigation-item{

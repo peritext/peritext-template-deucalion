@@ -27,7 +27,7 @@ const Railway = ({
     return _react.default.createElement("div", {
       className: 'shadow',
       "data-html": true,
-      "data-tip": shadow.html,
+      "data-tip": shadow.text,
       "data-place": 'left',
       "data-effect": 'solid',
       "data-for": 'railway-tooltip',

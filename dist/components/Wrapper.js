@@ -535,7 +535,11 @@ class Wrapper extends _react.Component {
 
     return _react.default.createElement(Router, {
       basename: window.__urlBaseName
-    }, _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Switch, null, routerSummary.map((element, index) => {
+    }, _react.default.createElement(_Layout.default, {
+      summary: navSummary,
+      production: production,
+      edition: edition
+    }, _react.default.createElement(_reactRouterDom.Switch, null, routerSummary.map((element, index) => {
       const url = routeItemToUrl(element, index);
       const summaryIndex = this.getSummaryIndex({
         routeClass: element.routeClass,
@@ -555,18 +559,12 @@ class Wrapper extends _react.Component {
             })).reduce((result, mini) => _objectSpread({}, result, mini), {});
           }
 
-          return _react.default.createElement(_Layout.default, {
-            summary: navSummary,
-            production: production,
-            edition: edition,
-            viewId: viewId,
-            viewClass: element.routeClass
-          }, renderView({
+          return renderView({
             viewClass: element.routeClass,
             viewParams: _objectSpread({}, element.routeParams, additionalRouteParams),
             navSummary,
             viewNavSummaryIndex: summaryIndex
-          }));
+          });
         }
       });
     }), _react.default.createElement(_reactRouterDom.Route, {
@@ -579,40 +577,22 @@ class Wrapper extends _react.Component {
         const {
           resourceId
         } = searchParams;
-        return _react.default.createElement(_Layout.default, {
-          summary: navSummary,
-          production: production,
-          edition: edition,
-          viewId: 'resource',
-          viewClass: 'resource'
-        }, renderView({
+        return renderView({
           viewClass: 'resourceSheet',
           viewParams: {
             resourceId
           },
           navSummary,
           viewNavSummaryIndex
-        }));
+        });
       }
     }), _react.default.createElement(_reactRouterDom.Route, {
       component: () => {
-        return _react.default.createElement(_Layout.default, {
-          summary: navSummary,
-          production: production,
-          edition: edition,
-          viewId: '404',
-          viewClass: '404'
-        }, _react.default.createElement(_Layout.default, {
-          summary: navSummary,
-          production: production,
-          edition: edition,
-          viewId: 'resource',
-          viewClass: 'resource'
-        }, _react.default.createElement("div", {
+        return _react.default.createElement("div", {
           className: 'main-contents-container'
         }, _react.default.createElement("div", {
           className: 'main-column'
-        }, _react.default.createElement("h1", null, this.translate('Nothing to see here!')), _react.default.createElement("h2", null, this.translate('There is not content to display for this URL.'))))));
+        }, _react.default.createElement("h1", null, this.translate('Nothing to see here!')), _react.default.createElement("h2", null, this.translate('There is not content to display for this URL.'))));
       }
     }))));
   }

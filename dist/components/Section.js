@@ -37,6 +37,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+const ellipse = (str, max = 50) => {
+  if (str.length > max) return `${str.substr(0, max - 3)}...`;
+  return str;
+};
+
 class Section extends _react.Component {
   constructor(_props) {
     super(_props);
@@ -56,10 +61,11 @@ class Section extends _react.Component {
 
     _defineProperty(this, "componentDidMount", () => {
       this.init(this.props);
+      this.buildRailwayData();
     });
 
     _defineProperty(this, "componentWillReceiveProps", nextProps => {
-      if (this.props.activeViewClass !== nextProps.activeViewClass || this.props.activeViewParams !== nextProps.activeViewParams) {
+      if (this.props.activeViewClass !== nextProps.activeViewClass || this.props.activeViewParams.sectionId !== nextProps.activeViewParams.sectionId || this.props.activeViewParams.contextualizationId !== nextProps.activeViewParams.contextualizationId) {
         this.init(nextProps);
       }
     });
@@ -72,6 +78,16 @@ class Section extends _react.Component {
       if (this.props.activeViewParams.sectionId === nextProps.activeViewParams.sectionId && this.state.gui.openedContextualizationId && !nextState.gui.openedContextualizationId && nextContext.asideVisible) {
         nextContext.toggleAsideVisible();
       }
+
+      if (this.context.dimensions && nextContext.dimensions && (this.context.dimensions.width !== nextContext.dimensions.width || this.context.dimensions.height !== nextContext.dimensions.height) || this.context.scrollHeight !== nextContext.scrollHeight) {
+        setTimeout(() => this.buildRailwayData());
+      }
+    });
+
+    _defineProperty(this, "componentDidUpdate", prevProps => {
+      if (this.props.activeViewClass !== prevProps.activeViewClass || this.props.activeViewParams.sectionId !== prevProps.activeViewParams.sectionId || this.props.activeViewParams.contextualizationId !== prevProps.activeViewParams.contextualizationId) {
+        this.buildRailwayData();
+      }
     });
 
     _defineProperty(this, "init", props => {
@@ -82,9 +98,12 @@ class Section extends _react.Component {
       } else {
         this.context.scrollToTop(0, false, false);
       }
+      /*
+       * setTimeout( () => this.buildRailwayData() );
+       * setTimeout( () => this.buildRailwayData(), 1000 );
+       */
 
-      setTimeout(() => this.buildRailwayData());
-      setTimeout(() => this.buildRailwayData(), 1000);
+
       this.setState({
         gui: {
           openedContextualizationId: undefined
@@ -111,6 +130,7 @@ class Section extends _react.Component {
             y: element.offsetTop / scrollHeight,
             h: height / scrollHeight,
             html: element.innerHTML,
+            text: ellipse(element.textContent, 60),
             element
           });
         });

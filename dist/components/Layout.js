@@ -81,7 +81,7 @@ class Layout extends _react.Component {
         scrollTopAbs: this.state.gui.scrollTopAbs,
         scrollRatio: this.state.gui.scrollRatio,
         scrollTopRatio: this.state.gui.scrollTopRatio,
-        scrollHeight: this.state.gui.scrollHeight,
+        scrollHeight: this.globalScrollbar && this.globalScrollbar.getScrollHeight(),
         rawCitations: this.state.citations,
         bindContextualizationElement: this.bindContextualizationElement,
         scrollToContextualization: this.scrollToContextualization,
@@ -215,7 +215,8 @@ class Layout extends _react.Component {
     });
 
     _defineProperty(this, "scrollToElementId", (id, center = true) => {
-      const element = this.context.usedDocument.getElementById(id);
+      const theDocument = this.context.usedDocument || document;
+      const element = theDocument.getElementById(id);
       this.scrollToElement(element, center);
     });
 
@@ -428,7 +429,7 @@ class Layout extends _react.Component {
       finalCss: this.updateStyles(_props, _context)
     };
     this.contextualizationElements = {};
-    this.onScrollUpdate = (0, _lodash.debounce)(this.onScrollUpdate, 100);
+    this.onScrollUpdate = (0, _lodash.debounce)(this.onScrollUpdate, 1000);
   }
 
 }
