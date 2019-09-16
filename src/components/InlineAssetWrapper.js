@@ -35,7 +35,7 @@ const InlineAssetWrapper = ( {
   };
 
   const handleMainClick = () => {
-    if ( resource.metadata.type === 'glossary' ) {
+    if ( resource.metadata.type === 'glossary' || resource.metadata.type === 'bib' ) {
       onClick();
     }
   };
