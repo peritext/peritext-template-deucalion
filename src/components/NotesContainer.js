@@ -67,9 +67,10 @@ class NotesContainer extends Component {
      * rendered a first time
      */
     if ( this.props.notesPosition === 'sidenotes' ) {
+
       setTimeout( () => {
         this.updatePositions();
-      } );
+      }, 2000 );
     }
   }
 
@@ -78,12 +79,14 @@ class NotesContainer extends Component {
    * @param {object} nextProps - the future properties of the component
    */
   componentWillReceiveProps( nextProps, nextContext ) {
-    if (
-      ( this.props.notesPosition !== nextProps.notesPosition && nextProps.notesPosition === 'sidenotes' ) ||
-      ( nextProps.notesPosition === 'sidenotes' && this.context.dimensions.width !== nextContext.dimensions.width ) ||
-      ( nextProps.notesPosition === 'sidenotes' && this.props.notes !== nextProps.notes )
+    if ( nextProps.notesPosition === 'sidenotes' &&
+      (
+        // ( this.props.notesPosition !== nextProps.notesPosition ) ||
+        ( this.context.dimensions.width !== nextContext.dimensions.width )
+        // ( this.props.notes !== nextProps.notes )
+      )
     ) {
-      this.updatePositions();
+      // this.updatePositions();
 
       /*
        * we launch it a second time to wait the height
@@ -91,7 +94,20 @@ class NotesContainer extends Component {
        * (todo: improve that)
        */
       setTimeout( this.updatePositions );
-      setTimeout( this.updatePositions, 1000 );
+      // setTimeout( this.updatePositions, 1000 );
+    }
+  }
+
+  componentDidUpdate = ( prevProps ) => {
+    if ( this.props.notesPosition === 'sidenotes' &&
+      (
+        ( this.props.notesPosition !== prevProps.notesPosition ) ||
+        ( this.props.notes !== prevProps.notes )
+      )
+    ) {
+      setTimeout( () => {
+        this.updatePositions();
+      } );
     }
   }
 
