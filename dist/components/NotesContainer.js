@@ -52,6 +52,14 @@ class NotesContainer extends _react.Component {
   constructor(props) {
     super(props);
 
+    _defineProperty(this, "componentDidUpdate", prevProps => {
+      if (this.props.notesPosition === 'sidenotes' && (this.props.notesPosition !== prevProps.notesPosition || this.props.notes !== prevProps.notes)) {
+        setTimeout(() => {
+          this.updatePositions();
+        });
+      }
+    });
+
     _defineProperty(this, "updatePositions", () => {
       // we store the elements to position in the right order
       const components = this.props.notesOrder.map(noteId => {
@@ -129,7 +137,7 @@ class NotesContainer extends _react.Component {
     if (this.props.notesPosition === 'sidenotes') {
       setTimeout(() => {
         this.updatePositions();
-      });
+      }, 2000);
     }
   }
   /**
@@ -139,23 +147,18 @@ class NotesContainer extends _react.Component {
 
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (this.props.notesPosition !== nextProps.notesPosition && nextProps.notesPosition === 'sidenotes' || nextProps.notesPosition === 'sidenotes' && this.context.dimensions.width !== nextContext.dimensions.width || nextProps.notesPosition === 'sidenotes' && this.props.notes !== nextProps.notes) {
-      this.updatePositions();
+    if (nextProps.notesPosition === 'sidenotes' && // ( this.props.notesPosition !== nextProps.notesPosition ) ||
+    this.context.dimensions.width !== nextContext.dimensions.width) {
+      // this.updatePositions();
+
       /*
        * we launch it a second time to wait the height
        * of notes has adjusted to their new container
        * (todo: improve that)
        */
-
-      setTimeout(this.updatePositions);
-      setTimeout(this.updatePositions, 1000);
+      setTimeout(this.updatePositions); // setTimeout( this.updatePositions, 1000 );
     }
   }
-  /**
-   * Updates the position of each note according to the notes position option
-   * and positions of note pointers if in sideNotes mode
-   */
-
 
   /**
    * Renders the component

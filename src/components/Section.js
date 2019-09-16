@@ -131,7 +131,8 @@ class Section extends Component {
                   y: element.offsetTop / scrollHeight,
                   h: height / scrollHeight,
                   html: element.innerHTML,
-                  text: ellipse( element.textContent, 60 ),
+                  text: element.tagName.indexOf( 'H' ) === 0 ? element.textContent : ellipse( element.textContent, 60 ),
+                  tagName: element.tagName,
                   element
               } );
           } );

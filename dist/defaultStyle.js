@@ -893,6 +893,37 @@ h1{
   width: 100%;
   pointer-events: none;
 }
+.deucalion-layout .railway .shadow.h1,
+.deucalion-layout .railway .shadow.h2,
+.deucalion-layout .railway .shadow.h3,
+.deucalion-layout .railway .shadow.h4,
+.deucalion-layout .railway .shadow.h5,
+.deucalion-layout .railway .shadow.h6 {
+  background: var(--color-link-active);
+  border: 1px solid var(--color-link-active);
+}
+.deucalion-layout .railway .railway-title{
+  font-size: 0.5rem;
+  right: 1.2rem;
+  position: absolute;
+  top: 0;
+  text-align: right;
+  font-style: italic;
+  width: 20vw
+}
+
+.deucalion-layout .railway.h2 .railway-title {
+  font-size: 0.4rem;
+}
+
+.deucalion-layout .railway.h3 .railway-title,
+.deucalion-layout .railway.h4 .railway-title,
+.deucalion-layout .railway.h5 .railway-title,
+.deucalion-layout .railway.h6 .railway-title
+ {
+  font-size: 0.3rem;
+}
+
 .__react_component_tooltip{
   font-size: .5em;
 }

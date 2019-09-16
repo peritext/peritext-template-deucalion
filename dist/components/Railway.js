@@ -25,9 +25,9 @@ const Railway = ({
     };
 
     return _react.default.createElement("div", {
-      className: 'shadow',
+      className: `shadow ${shadow.tagName.toLowerCase()}`,
       "data-html": true,
-      "data-tip": shadow.text,
+      "data-tip": shadow.tagName.indexOf('H1') !== 0 ? shadow.text : undefined,
       "data-place": 'left',
       "data-effect": 'solid',
       "data-for": 'railway-tooltip',
@@ -38,7 +38,9 @@ const Railway = ({
         top: `${shadow.y * 100}%`,
         height: `${shadow.h * 100}%`
       }
-    });
+    }, shadow.tagName.indexOf('H1') === 0 && _react.default.createElement("span", {
+      className: 'railway-title'
+    }, shadow.text));
   }), scrollRatio !== undefined && scrollTopRatio !== undefined ? _react.default.createElement("div", {
     className: 'elevator',
     style: {

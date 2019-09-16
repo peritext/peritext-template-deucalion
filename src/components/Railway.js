@@ -18,9 +18,9 @@ const Railway = ( {
               };
               return (
                 <div
-                  className={ 'shadow' }
+                  className={ `shadow ${shadow.tagName.toLowerCase()}` }
                   data-html
-                  data-tip={ shadow.text }
+                  data-tip={ shadow.tagName.indexOf( 'H1' ) !== 0 ? shadow.text : undefined }
                   data-place={ 'left' }
                   data-effect={ 'solid' }
                   data-for={ 'railway-tooltip' }
@@ -31,7 +31,11 @@ const Railway = ( {
                             top: `${shadow.y * 100 }%`,
                             height: `${shadow.h * 100 }%`,
                         } }
-                />
+                >
+                  {shadow.tagName.indexOf( 'H1' ) === 0 &&
+                    <span className={ 'railway-title' }>{shadow.text}</span>
+                  }
+                </div>
                 );
             } )
       }
