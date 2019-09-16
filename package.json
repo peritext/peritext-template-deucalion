@@ -1,6 +1,6 @@
 {
   "name": "peritext-template-deucalion",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": " a web template designed dedicated to long reading experiences and context explorations, for the peritext ecosystem",
   "main": "dist/index.js",
   "scripts": {
