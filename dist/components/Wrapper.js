@@ -318,6 +318,14 @@ class Wrapper extends _react.Component {
         viewNavSummaryIndex: index,
         viewId: finalViewId
       });
+
+      if (typeof this.props.onActiveViewChange === 'function') {
+        this.props.onActiveViewChange({
+          viewClass: routeClass,
+          viewId: finalViewId,
+          viewParams: routeParams
+        });
+      }
     });
 
     _defineProperty(this, "getViewIdForSectionId", sectionId => {
@@ -479,9 +487,13 @@ class Wrapper extends _react.Component {
         locale
       });
       const firstEl = summary.length && summary[0];
+      const viewClass = nextProps.viewClass || firstEl && firstEl.routeClass || 'landing';
+      const viewId = nextProps.viewId || firstEl && firstEl.viewId;
+      const viewParams = nextProps.viewParams || firstEl && firstEl.routeParams || {};
       this.setState({
-        viewClass: firstEl && firstEl.routeClass || 'landing',
-        viewParams: firstEl && firstEl.routeParams || {},
+        viewClass,
+        viewParams,
+        viewId,
         viewNavSummaryIndex: 0,
         navSummary: summary
       });
@@ -619,5 +631,6 @@ _defineProperty(Wrapper, "childContextTypes", {
 _defineProperty(Wrapper, "propTypes", {
   contextualizers: _propTypes.default.object,
   locale: _propTypes.default.object,
+  onActiveViewIdChange: _propTypes.default.object,
   production: _propTypes.default.object
 });

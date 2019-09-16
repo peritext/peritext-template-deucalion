@@ -91,19 +91,13 @@ class Section extends _react.Component {
     });
 
     _defineProperty(this, "init", props => {
-      if (props.activeViewParams.contextualizationId) {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (props.activeViewParams.contextualizationId) {
           this.context.scrollToContextualization(props.activeViewParams.contextualizationId);
-        });
-      } else {
-        this.context.scrollToTop(0, false, false);
-      }
-      /*
-       * setTimeout( () => this.buildRailwayData() );
-       * setTimeout( () => this.buildRailwayData(), 1000 );
-       */
-
-
+        } else {
+          this.context.scrollToTop(0, false, false);
+        }
+      });
       this.setState({
         gui: {
           openedContextualizationId: undefined

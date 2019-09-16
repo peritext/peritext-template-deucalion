@@ -731,6 +731,13 @@ h1{
 }
 
 /**
+ * Inline (specific)
+ * */
+.block-contextualization-container.bib {
+  cursor: pointer;
+}
+
+/**
  * BIG LISTS (GLOSSARY, REFERENCES, ...)
  */
 .big-list-items-container{
@@ -909,7 +916,13 @@ h1{
   top: 0;
   text-align: right;
   font-style: italic;
-  width: 20vw
+  width: 20vw;
+  opacity: .5;
+  transition: opacity .5s ease;
+}
+
+.deucalion-layout .railway .railway-title:hover{
+  opacity: 1;
 }
 
 .deucalion-layout .railway.h2 .railway-title {
@@ -1113,6 +1126,7 @@ h1{
   .section-player.has-notes-position-sidenotes .note-item{
     position: relative!important;
     top: unset!important;
+    max-width: unset;
   }
 }
 @media print {
