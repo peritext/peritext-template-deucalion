@@ -174,7 +174,8 @@ export default class Wrapper extends Component {
   static propTypes = {
     contextualizers: PropTypes.object,
     locale: PropTypes.object,
-    production: PropTypes.object,
+    onActiveViewIdChange: PropTypes.object,
+    production: PropTypes.object
   }
 
   constructor( props ) {
@@ -215,9 +216,13 @@ export default class Wrapper extends Component {
       const { production, edition, locale } = nextProps;
       const summary = buildNav( { production, edition, locale } );
       const firstEl = summary.length && summary[0];
+      const viewClass = nextProps.viewClass || ( firstEl && firstEl.routeClass ) || 'landing';
+      const viewId = nextProps.viewId || ( firstEl && firstEl.viewId );
+      const viewParams = nextProps.viewParams || ( firstEl && firstEl.routeParams ) || {};
       this.setState( {
-        viewClass: ( firstEl && firstEl.routeClass ) || 'landing',
-        viewParams: ( firstEl && firstEl.routeParams ) || {},
+        viewClass,
+        viewParams,
+        viewId,
         viewNavSummaryIndex: 0,
         navSummary: summary
 
@@ -287,6 +292,9 @@ export default class Wrapper extends Component {
       viewNavSummaryIndex: index,
       viewId: finalViewId
     } );
+    if ( typeof this.props.onActiveViewChange === 'function' ) {
+      this.props.onActiveViewChange( { viewClass: routeClass, viewId: finalViewId, viewParams: routeParams } );
+    }
   }
 
   getViewIdForSectionId = ( sectionId ) => {
