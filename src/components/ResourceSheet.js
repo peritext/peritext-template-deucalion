@@ -77,7 +77,7 @@ class ResourceSheet extends Component {
 
     let related = usedContextualizations
       .filter( ( { contextualization: { id: contextualizationId } } ) =>
-        production.contextualizations[contextualizationId].resourceId === resourceId
+        production.contextualizations[contextualizationId].sourceId === resourceId
       )
       .map( ( { contextualization } ) => ( {
         ...contextualization,
@@ -101,7 +101,6 @@ class ResourceSheet extends Component {
       return [ ...cur, item ];
     }, [] );
     const resource = production.resources[resourceId];
-
     return (
       <div className={ 'resource-sheet main-contents-container' }>
         <div className={ 'main-column' }>

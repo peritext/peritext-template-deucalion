@@ -78,7 +78,7 @@ class ResourceSheet extends _react.Component {
         contextualization: {
           id: contextualizationId
         }
-      }) => production.contextualizations[contextualizationId].resourceId === resourceId).map(({
+      }) => production.contextualizations[contextualizationId].sourceId === resourceId).map(({
         contextualization
       }) => _objectSpread({}, contextualization, (0, _peritextUtils.buildContextContent)(production, contextualization.id, PADDING))).filter(i => i.targetContents);
       related = related.reduce((cur, item, index) => {
