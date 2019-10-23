@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _default = ({
   src = ''
 }) => _react.default.createElement(_reactMarkdown.default, {
+  escapeHtml: false,
   source: src
 });
 
