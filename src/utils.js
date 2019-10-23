@@ -19,7 +19,7 @@ export const makeAssetTitle = ( resource, production, edition, citations ) => {
         {
           select: [ {
             field: 'id',
-            value: resource.data[0].id
+            value: resource.data.citations[0].id
           } ]
         }
       )[1];
@@ -202,7 +202,7 @@ export const buildGlossary = ( {
         .map( ( resource ) => {
           return {
             resource,
-            mentions: usedContextualizations.filter( ( c ) => c.contextualization.resourceId === resource.id )
+            mentions: usedContextualizations.filter( ( c ) => c.contextualization.sourceId === resource.id )
           };
         } );
   }
@@ -219,7 +219,7 @@ export const buildGlossary = ( {
         return {
           ...contextualization,
           contextualizer: contextualizers[contextualization.contextualizerId],
-          resource: resources[contextualization.resourceId],
+          resource: resources[contextualization.sourceId],
           contextContent: buildContextContent( production, contextualization.id ),
           containerId: element.containerId,
         };
@@ -227,10 +227,10 @@ export const buildGlossary = ( {
       .reduce( ( entries, contextualization ) => {
         return {
           ...entries,
-          [contextualization.resourceId]: {
+          [contextualization.sourceId]: {
             resource: contextualization.resource,
-            mentions: entries[contextualization.resourceId] ?
-                        entries[contextualization.resourceId].mentions.concat( contextualization )
+            mentions: entries[contextualization.sourceId] ?
+                        entries[contextualization.sourceId].mentions.concat( contextualization )
                         : [ contextualization ]
           }
         };

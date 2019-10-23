@@ -35,7 +35,7 @@ function buildBibliography ( {
     uniq(
       contextualizations.map( ( element ) => {
         const contextualization = element.contextualization;
-        return contextualization.resourceId;
+        return contextualization.sourceId;
       } )
     );
   // filter by type of resource
@@ -44,7 +44,7 @@ function buildBibliography ( {
     return resourceTypes.includes( type );
   } );
   const resourcesMap = citedResourcesIds.reduce( ( res, resourceId ) => {
-    const mentions = contextualizations.filter( ( c ) => c.contextualization.resourceId === resourceId )
+    const mentions = contextualizations.filter( ( c ) => c.contextualization.sourceId === resourceId )
     .map( ( c ) => ( {
       ...c,
       id: c.contextualization.id,
@@ -55,7 +55,7 @@ function buildBibliography ( {
     if ( resources[resourceId].metadata.type === 'bib' ) {
       return {
         ...res,
-        [resources[resourceId].data[0].id]: {
+        [resources[resourceId].data.citations[0].id]: {
           ...resources[resourceId],
           citation,
           mentions

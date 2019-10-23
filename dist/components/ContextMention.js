@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const ContextMention = ({
   contents,
   sectionTitle,
-  sectionId,
+  targetId,
   contextualizationId,
   displayLinks = true
 }, {
@@ -34,9 +34,9 @@ const ContextMention = ({
 }, _react.default.createElement(_LinkProvider.default, {
   to: {
     routeClass: 'sections',
-    viewId: getViewIdForSectionId(sectionId),
+    viewId: getViewIdForSectionId(targetId),
     routeParams: {
-      sectionId,
+      sectionId: targetId,
       contextualizationId
     }
   }

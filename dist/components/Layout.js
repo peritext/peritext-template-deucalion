@@ -140,7 +140,7 @@ class Layout extends _react.Component {
       const bibContextualizations = Object.keys(contextualizations).filter(assetKey => contextualizers[contextualizations[assetKey].contextualizerId].type === 'bib').map(assetKey => contextualizations[assetKey]); // build citations items data
 
       const citationItems = bibContextualizations.reduce((finalCitations, contextualization) => {
-        const resource = resources[contextualization.resourceId];
+        const resource = resources[contextualization.sourceId];
         const citations = [...(0, _peritextUtils.resourceToCslJSON)(resource), ...(contextualization.additionalResources ? contextualization.additionalResources.map(resId => (0, _peritextUtils.resourceToCslJSON)(resources[resId])) : [])].flat();
         const newCitations = citations.reduce((final2, citation) => {
           return _objectSpread({}, final2, {
@@ -155,7 +155,7 @@ class Layout extends _react.Component {
         const key1 = bibCit.id;
         const contextualization = contextualizations[key1];
         const contextualizer = contextualizers[contextualization.contextualizerId];
-        const resource = resources[contextualization.resourceId];
+        const resource = resources[contextualization.sourceId];
         const targets = [...(0, _peritextUtils.resourceToCslJSON)(resource), ...(bibCit.additionalResources ? bibCit.additionalResources.map(resId => (0, _peritextUtils.resourceToCslJSON)(resources[resId])) : [])].flat();
         return {
           citationID: key1,

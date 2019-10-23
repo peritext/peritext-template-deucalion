@@ -312,7 +312,7 @@ class Section extends Component {
               isActive={
               openedContextualizationId !== undefined
             }
-              title={ openedContextualizationId && makeAssetTitle( production.resources[production.contextualizations[openedContextualizationId].resourceId], production, edition, rawCitations )/*translate( 'More informations' )*/ }
+              title={ openedContextualizationId && makeAssetTitle( production.resources[production.contextualizations[openedContextualizationId].sourceId], production, edition, rawCitations )/*translate( 'More informations' )*/ }
               onClose={ closeAsideContextualization }
             >
               <RelatedContexts

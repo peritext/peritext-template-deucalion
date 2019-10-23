@@ -45,7 +45,7 @@ const BlockAssetWrapper = ({
     }
   } = contextualization;
   const contextualizer = production.contextualizers[contextualization.contextualizerId];
-  const resource = production.resources[contextualization.resourceId];
+  const resource = production.resources[contextualization.sourceId];
   const contextualizerModule = contextualizers[contextualizer.type];
   const Component = contextualizerModule && contextualizerModule.Block;
 

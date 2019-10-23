@@ -96,10 +96,10 @@ module.exports = {
               items: {
                 type: 'object',
                 properties: {
-                  sectionId: {
+                  resourceId: {
                     type: 'string'
                   },
-                  sectionLevel: {
+                  level: {
                     type: 'number'
                   }
                 }

@@ -79,7 +79,7 @@ const buildMap = (production, edition, {
   if (showUncitedReferences) {
     resourcesIds = Object.keys(production.resources);
   } else {
-    resourcesIds = (0, _uniq.default)(usedContextualizations.map(c => c.contextualization.resourceId));
+    resourcesIds = (0, _uniq.default)(usedContextualizations.map(c => c.contextualization.sourceId));
   }
 
   if (!showAllResources) {
@@ -88,17 +88,17 @@ const buildMap = (production, edition, {
     });
   }
 
-  usedContextualizations = usedContextualizations.filter(c => resourcesIds.includes(c.contextualization.resourceId));
+  usedContextualizations = usedContextualizations.filter(c => resourcesIds.includes(c.contextualization.sourceId));
   let nodes = resourcesIds.map(resourceId => ({
     resource: production.resources[resourceId],
     id: resourceId,
     type: 'resource',
-    mentions: usedContextualizations.filter(c => c.contextualization.resourceId === resourceId).map(c => c.contextualization)
+    mentions: usedContextualizations.filter(c => c.contextualization.sourceId === resourceId).map(c => c.contextualization)
   }));
   nodes = nodes.map(node => _objectSpread({}, node, {
     title: getResourceTitle(node.resource),
     color: getResourceColor(node.resource.metadata.type),
-    sectionsIds: node.mentions.map(c => c.sectionId)
+    sectionsIds: node.mentions.map(c => c.targetId)
   }));
   const edgesMap = {};
   nodes.forEach((node1, index1) => {

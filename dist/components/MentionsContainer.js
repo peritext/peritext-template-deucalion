@@ -63,7 +63,7 @@ const MentionsContainer = ({
         targetContents,
         contents,
         sectionTitle,
-        sectionId
+        targetId
       },
       id
     } = mention;
@@ -74,7 +74,7 @@ const MentionsContainer = ({
       targetContents: targetContents,
       contents: contents,
       sectionTitle: sectionTitle,
-      sectionId: sectionId,
+      targetId: targetId,
       contextualizationId: id
     }));
   }))));

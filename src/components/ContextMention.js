@@ -6,7 +6,7 @@ import Link from './LinkProvider';
 const ContextMention = ( {
   contents,
   sectionTitle,
-  sectionId,
+  targetId,
   contextualizationId,
   displayLinks = true,
 }, {
@@ -22,29 +22,13 @@ const ContextMention = ( {
     {
       displayLinks ?
         <div>
-          {/* <div className={ 'header' }>
-            <i>
-              <Link
-                to={ {
-                  routeClass: 'sections',
-                  viewId: getViewIdForSectionId( sectionId ),
-                  routeParams: {
-                    sectionId,
-                    contextualizationId,
-                  }
-                } }
-              >
-                {translate( 'Mention context' ) } {`(${sectionTitle})`}
-              </Link>
-            </i>
-          </div> */}
           <div className={ 'excerpt' }>
             <Link
               to={ {
               routeClass: 'sections',
-            viewId: getViewIdForSectionId( sectionId ),
+            viewId: getViewIdForSectionId( targetId ),
               routeParams: {
-                sectionId,
+                sectionId: targetId,
                 contextualizationId,
               }
             } }
@@ -52,22 +36,6 @@ const ContextMention = ( {
               <Renderer raw={ contents } />
             </Link>
           </div>
-          {/* <div className={ 'footer' }>
-            <i>
-              <Link
-                to={ {
-              routeClass: 'sections',
-              viewId: getViewIdForSectionId( sectionId ),
-              routeParams: {
-                sectionId,
-                contextualizationId,
-              }
-            } }
-              >
-                {translate( 'Go to mention' ) } {`(${sectionTitle})`}
-              </Link>
-            </i>
-          </div> */}
         </div>
       :
         <div>

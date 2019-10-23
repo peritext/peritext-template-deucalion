@@ -28,7 +28,7 @@ const makeAssetTitle = (resource, production, edition, citations) => {
       const citation = (0, _reactCiteproc.makeBibliography)(citations.citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data, {
         select: [{
           field: 'id',
-          value: resource.data[0].id
+          value: resource.data.citations[0].id
         }]
       })[1];
       return _react.default.createElement("div", {
@@ -223,7 +223,7 @@ const buildGlossary = ({
     items = Object.keys(production.resources).filter(resourceId => production.resources[resourceId].metadata.type === 'glossary').map(resourceId => production.resources[resourceId]).map(resource => {
       return {
         resource,
-        mentions: usedContextualizations.filter(c => c.contextualization.resourceId === resource.id)
+        mentions: usedContextualizations.filter(c => c.contextualization.sourceId === resource.id)
       };
     });
   } else {
@@ -236,15 +236,15 @@ const buildGlossary = ({
       const contextualization = element.contextualization;
       return _objectSpread({}, contextualization, {
         contextualizer: contextualizers[contextualization.contextualizerId],
-        resource: resources[contextualization.resourceId],
+        resource: resources[contextualization.sourceId],
         contextContent: (0, _peritextUtils.buildContextContent)(production, contextualization.id),
         containerId: element.containerId
       });
     }).reduce((entries, contextualization) => {
       return _objectSpread({}, entries, {
-        [contextualization.resourceId]: {
+        [contextualization.sourceId]: {
           resource: contextualization.resource,
-          mentions: entries[contextualization.resourceId] ? entries[contextualization.resourceId].mentions.concat(contextualization) : [contextualization]
+          mentions: entries[contextualization.sourceId] ? entries[contextualization.sourceId].mentions.concat(contextualization) : [contextualization]
         }
       });
     }, {});

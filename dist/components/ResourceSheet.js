@@ -115,7 +115,7 @@ class ResourceSheet extends _react.Component {
         targetContents: thatContextualization.targetContents,
         contents: thatContextualization.contents,
         sectionTitle: thatContextualization.sectionTitle,
-        sectionId: thatContextualization.sectionId,
+        targetId: thatContextualization.targetId,
         contextualizationId: thatContextualization.id,
         displayLinks: false
       })))) : _react.default.createElement("div", {

@@ -132,7 +132,7 @@ class ResourceSheet extends Component {
                       targetContents={ thatContextualization.targetContents }
                       contents={ thatContextualization.contents }
                       sectionTitle={ thatContextualization.sectionTitle }
-                      sectionId={ thatContextualization.sectionId }
+                      targetId={ thatContextualization.targetId }
                       contextualizationId={ thatContextualization.id }
                       displayLinks={ false }
                     />

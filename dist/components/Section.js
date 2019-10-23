@@ -288,7 +288,7 @@ class Section extends _react.Component {
         className: 'navigation-item-arrow'
       }, "\u2192")))))), openedContextualizationId ? _react.default.createElement(_Aside.default, {
         isActive: openedContextualizationId !== undefined,
-        title: openedContextualizationId && (0, _utils.makeAssetTitle)(production.resources[production.contextualizations[openedContextualizationId].resourceId], production, edition, rawCitations)
+        title: openedContextualizationId && (0, _utils.makeAssetTitle)(production.resources[production.contextualizations[openedContextualizationId].sourceId], production, edition, rawCitations)
         /*translate( 'More informations' )*/
         ,
         onClose: closeAsideContextualization

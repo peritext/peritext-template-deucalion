@@ -59,7 +59,7 @@ const buildMap = (
   }
  else {
     resourcesIds = uniq(
-      usedContextualizations.map( ( c ) => c.contextualization.resourceId )
+      usedContextualizations.map( ( c ) => c.contextualization.sourceId )
     );
   }
   if ( !showAllResources ) {
@@ -68,7 +68,7 @@ const buildMap = (
     } );
   }
   usedContextualizations = usedContextualizations.filter( ( c ) =>
-    resourcesIds.includes( c.contextualization.resourceId )
+    resourcesIds.includes( c.contextualization.sourceId )
   );
   let nodes = resourcesIds.map( ( resourceId ) => ( {
     resource: production.resources[resourceId],
@@ -76,7 +76,7 @@ const buildMap = (
     type: 'resource',
     mentions: usedContextualizations
       .filter( ( c ) =>
-        c.contextualization.resourceId === resourceId
+        c.contextualization.sourceId === resourceId
       )
       .map( ( c ) => c.contextualization )
   } ) );
@@ -85,7 +85,7 @@ const buildMap = (
     ...node,
     title: getResourceTitle( node.resource ),
     color: getResourceColor( node.resource.metadata.type ),
-    sectionsIds: node.mentions.map( ( c ) => c.sectionId )
+    sectionsIds: node.mentions.map( ( c ) => c.targetId )
   } ) );
 
   const edgesMap = {};

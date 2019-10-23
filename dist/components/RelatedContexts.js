@@ -34,14 +34,14 @@ const RelatedContexts = ({
   translate
 }) => {
   const contextualization = production.contextualizations[assetId];
-  const resourceId = inputResourceId || contextualization.resourceId;
+  const resourceId = inputResourceId || contextualization.sourceId;
   const usedContextualizations = (0, _peritextUtils.getContextualizationsFromEdition)(production, edition);
   const related = usedContextualizations.filter(({
     contextualization: {
       id: contextualizationId
     }
   }) => {
-    return assetId ? contextualizationId !== assetId && production.contextualizations[contextualizationId].resourceId === resourceId : production.contextualizations[contextualizationId].resourceId === resourceId;
+    return assetId ? contextualizationId !== assetId && production.contextualizations[contextualizationId].sourceId === resourceId : production.contextualizations[contextualizationId].sourceId === resourceId;
   }).map(({
     contextualization: theContextualization
   }) => _objectSpread({}, theContextualization, (0, _peritextUtils.buildContextContent)(production, theContextualization.id)));
@@ -72,7 +72,7 @@ const RelatedContexts = ({
     targetContents: thatContextualization.targetContents,
     contents: thatContextualization.contents,
     sectionTitle: thatContextualization.sectionTitle,
-    sectionId: thatContextualization.sectionId,
+    targetId: thatContextualization.targetId,
     contextualizationId: thatContextualization.id
   })))) : _react.default.createElement("div", {
     className: 'body'

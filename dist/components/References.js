@@ -51,7 +51,7 @@ function buildBibliography({
 
   let citedResourcesIds = showUncitedReferences ? Object.keys(resources) : (0, _uniq.default)(contextualizations.map(element => {
     const contextualization = element.contextualization;
-    return contextualization.resourceId;
+    return contextualization.sourceId;
   })); // filter by type of resource
 
   citedResourcesIds = citedResourcesIds.filter(resourceId => {
@@ -59,7 +59,7 @@ function buildBibliography({
     return resourceTypes.includes(type);
   });
   const resourcesMap = citedResourcesIds.reduce((res, resourceId) => {
-    const mentions = contextualizations.filter(c => c.contextualization.resourceId === resourceId).map(c => _objectSpread({}, c, {
+    const mentions = contextualizations.filter(c => c.contextualization.sourceId === resourceId).map(c => _objectSpread({}, c, {
       id: c.contextualization.id,
       contextContent: (0, _peritextUtils.buildContextContent)(production, c.contextualization.id)
     }));
@@ -67,7 +67,7 @@ function buildBibliography({
 
     if (resources[resourceId].metadata.type === 'bib') {
       return _objectSpread({}, res, {
-        [resources[resourceId].data[0].id]: _objectSpread({}, resources[resourceId], {
+        [resources[resourceId].data.citations[0].id]: _objectSpread({}, resources[resourceId], {
           citation,
           mentions
         })
