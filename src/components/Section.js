@@ -44,7 +44,7 @@ class Section extends Component {
 
       openAsideContextualization: this.openAsideContextualization,
       openedContextualizationId: this.state.openedContextualizationId,
-      notes: production.sections[activeViewParams.sectionId].notes,
+      notes: production.resources[activeViewParams.sectionId].data.contents.notes,
       onNoteContentPointerClick: this.onNoteContentPointerClick,
     };
   }
@@ -217,12 +217,12 @@ class Section extends Component {
       :
       production.metadata.title;
 
-    const section = production.sections[activeViewParams.sectionId];
+    const section = production.resources[activeViewParams.sectionId];
     if ( !section ) {
       return;
     }
 
-    const contents = section.contents;
+    const contents = section.data.contents.contents;
     const sectionAuthors = section.metadata.authors;
     const notesPosition = options.notesPosition;
 
@@ -260,11 +260,11 @@ class Section extends Component {
           </div>
 
         </div>
-        {Object.keys( section.notes ).length > 0 ?
+        {Object.keys( section.data.contents.notes ).length > 0 ?
           <NotesContainer
             pointers={ this.noteContentPointers }
-            notes={ section.notes }
-            notesOrder={ section.notesOrder }
+            notes={ section.data.contents.notes }
+            notesOrder={ section.data.contents.notesOrder }
             notesPosition={ notesPosition }
             title={ translate( 'Notes' ) }
             id={ 'notes-container' }
@@ -281,7 +281,7 @@ class Section extends Component {
                 <span className={ 'navigation-item' }>
                   <span className={ 'navigation-item-arrow' }>←</span>
                   <span className={ 'navigation-item-text' }>
-                    {abbrevString( production.sections[previousSection.routeParams.sectionId].metadata.title, 40 ) }
+                    {abbrevString( production.resources[previousSection.routeParams.sectionId].metadata.title, 40 ) }
                   </span>
                 </span>
 
@@ -297,7 +297,7 @@ class Section extends Component {
                 to={ { routeClass: 'sections', viewId: nextSection.viewId, routeParams: { sectionId: nextSection.routeParams.sectionId } } }
               >
                 <span className={ 'navigation-item' }>
-                  <span className={ 'navigation-item-text' }>{abbrevString( production.sections[nextSection.routeParams.sectionId].metadata.title, 40 ) }</span>
+                  <span className={ 'navigation-item-text' }>{abbrevString( production.resources[nextSection.routeParams.sectionId].metadata.title, 40 ) }</span>
                   <span className={ 'navigation-item-arrow' }>→</span>
                 </span>
 

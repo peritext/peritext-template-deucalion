@@ -113,27 +113,30 @@ const buildNav = ({
             summary: sectionsSummary
           } = customSummary;
           sections = sectionsSummary.map(({
-            id: sectionId,
-            sectionLevel: level
+            resourceId,
+            level
           }, thatIndex) => ({
             routeClass: 'sections',
             level,
-            title: production.sections[sectionId].metadata.title,
+            title: production.resources[resourceId].metadata.title,
             routeParams: {
-              sectionId
+              sectionId: resourceId
             },
             options: element.data,
             viewId: `${element.id}-${thatIndex}`
           }));
         } else {
-          sections = production.sectionsOrder.map((sectionId, thatIndex) => ({
+          sections = production.sectionsOrder.map(({
+            resourceId,
+            level
+          }, thatIndex) => ({
             routeClass: 'sections',
-            level: production.sections[sectionId].metadata.level,
-            title: production.sections[sectionId].metadata.title,
+            level,
+            title: production.resources[resourceId].metadata.title,
             options: element.data,
             viewId: `${element.id}-${thatIndex}`,
             routeParams: {
-              sectionId
+              sectionId: resourceId
             }
           }));
         }
@@ -197,7 +200,7 @@ const renderHeadFromRouteItem = ({
       return _react.default.createElement(_SectionHead.default, {
         production: production,
         edition: edition,
-        section: production.sections[item.routeParams.sectionId]
+        section: production.resources[item.routeParams.sectionId]
       });
 
     case 'landing':

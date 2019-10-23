@@ -66,26 +66,26 @@ export const buildNav = ( { production, edition = {}, locale = {} } ) => {
           let sections;
           if ( customSummary.active ) {
             const { summary: sectionsSummary } = customSummary;
-            sections = sectionsSummary.map( ( { id: sectionId, sectionLevel: level }, thatIndex ) => ( {
+            sections = sectionsSummary.map( ( { resourceId, level }, thatIndex ) => ( {
               routeClass: 'sections',
               level,
-              title: production.sections[sectionId].metadata.title,
+              title: production.resources[resourceId].metadata.title,
               routeParams: {
-                sectionId
+                sectionId: resourceId
               },
               options: element.data,
               viewId: `${element.id}-${thatIndex}`,
             } ) );
           }
           else {
-            sections = production.sectionsOrder.map( ( sectionId, thatIndex ) => ( {
+            sections = production.sectionsOrder.map( ( { resourceId, level }, thatIndex ) => ( {
               routeClass: 'sections',
-              level: production.sections[sectionId].metadata.level,
-              title: production.sections[sectionId].metadata.title,
+              level,
+              title: production.resources[resourceId].metadata.title,
               options: element.data,
               viewId: `${element.id}-${thatIndex}`,
               routeParams: {
-                sectionId
+                sectionId: resourceId
               }
             } ) );
           }
@@ -137,7 +137,7 @@ export const renderHeadFromRouteItem = ( { item, production, edition } ) => {
           <SectionHead
             production={ production }
             edition={ edition }
-            section={ production.sections[item.routeParams.sectionId] }
+            section={ production.resources[item.routeParams.sectionId] }
           />
         );
 

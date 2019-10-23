@@ -54,7 +54,7 @@ class Section extends _react.Component {
       return {
         openAsideContextualization: this.openAsideContextualization,
         openedContextualizationId: this.state.openedContextualizationId,
-        notes: production.sections[activeViewParams.sectionId].notes,
+        notes: production.resources[activeViewParams.sectionId].data.contents.notes,
         onNoteContentPointerClick: this.onNoteContentPointerClick
       };
     });
@@ -211,13 +211,13 @@ class Section extends _react.Component {
         publicationTitle = ''
       } = editionData;
       const displayedTitle = publicationTitle.length ? publicationTitle : production.metadata.title;
-      const section = production.sections[activeViewParams.sectionId];
+      const section = production.resources[activeViewParams.sectionId];
 
       if (!section) {
         return;
       }
 
-      const contents = section.contents;
+      const contents = section.data.contents.contents;
       const sectionAuthors = section.metadata.authors;
       const notesPosition = options.notesPosition;
       const sectionAsCSLRecord = (0, _utils.convertSectionToCslRecord)(section, production, edition);
@@ -244,10 +244,10 @@ class Section extends _react.Component {
         className: 'main-contents-wrapper'
       }, _react.default.createElement(_Renderer.default, {
         raw: contents
-      }))), Object.keys(section.notes).length > 0 ? _react.default.createElement(_NotesContainer.default, {
+      }))), Object.keys(section.data.contents.notes).length > 0 ? _react.default.createElement(_NotesContainer.default, {
         pointers: this.noteContentPointers,
-        notes: section.notes,
-        notesOrder: section.notesOrder,
+        notes: section.data.contents.notes,
+        notesOrder: section.data.contents.notesOrder,
         notesPosition: notesPosition,
         title: translate('Notes'),
         id: 'notes-container',
@@ -270,7 +270,7 @@ class Section extends _react.Component {
         className: 'navigation-item-arrow'
       }, "\u2190"), _react.default.createElement("span", {
         className: 'navigation-item-text'
-      }, (0, _peritextUtils.abbrevString)(production.sections[previousSection.routeParams.sectionId].metadata.title, 40))))), _react.default.createElement("li", null, _react.default.createElement("i", null, (0, _peritextUtils.abbrevString)(displayedTitle, 30), " - ", (0, _peritextUtils.abbrevString)(section.metadata.title, 40))), nextSection && _react.default.createElement("li", {
+      }, (0, _peritextUtils.abbrevString)(production.resources[previousSection.routeParams.sectionId].metadata.title, 40))))), _react.default.createElement("li", null, _react.default.createElement("i", null, (0, _peritextUtils.abbrevString)(displayedTitle, 30), " - ", (0, _peritextUtils.abbrevString)(section.metadata.title, 40))), nextSection && _react.default.createElement("li", {
         className: 'next'
       }, _react.default.createElement(_LinkProvider.default, {
         to: {
@@ -284,7 +284,7 @@ class Section extends _react.Component {
         className: 'navigation-item'
       }, _react.default.createElement("span", {
         className: 'navigation-item-text'
-      }, (0, _peritextUtils.abbrevString)(production.sections[nextSection.routeParams.sectionId].metadata.title, 40)), _react.default.createElement("span", {
+      }, (0, _peritextUtils.abbrevString)(production.resources[nextSection.routeParams.sectionId].metadata.title, 40)), _react.default.createElement("span", {
         className: 'navigation-item-arrow'
       }, "\u2192")))))), openedContextualizationId ? _react.default.createElement(_Aside.default, {
         isActive: openedContextualizationId !== undefined,
