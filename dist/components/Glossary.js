@@ -17,6 +17,10 @@ var _Aside = _interopRequireDefault(require("./Aside"));
 
 var _utils = require("../utils");
 
+var _peritextUtils = require("peritext-utils");
+
+var _LinkProvider = _interopRequireDefault(require("./LinkProvider"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -99,7 +103,16 @@ class Glossary extends _react.Component {
         }, showMentions && item.mentions.length > 0 && _react.default.createElement("div", null, _react.default.createElement("button", {
           className: 'link',
           onClick: handleClick
-        }, item.mentions.length, " ", item.mentions.length === 1 ? translate('mention') : translate('mentions')))));
+        }, item.mentions.length, " ", item.mentions.length === 1 ? translate('mention') : translate('mentions')))), item.resource && (0, _peritextUtils.resourceHasContents)(item.resource) && _react.default.createElement("div", {
+          className: 'big-list-item-actions'
+        }, _react.default.createElement(_LinkProvider.default, {
+          to: {
+            routeClass: 'resourcePage',
+            routeParams: {
+              resourceId: item.resource.id
+            }
+          }
+        }, translate('Expand contents'))));
       }))), _react.default.createElement(_Aside.default, {
         isActive: openResourceId !== undefined,
         title: translate('Mentions of this item'),

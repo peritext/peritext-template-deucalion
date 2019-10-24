@@ -24,6 +24,10 @@ export const getAdditionalRoutes = () => {
   return [ {
     routeClass: 'resourceSheet',
     routeParams: {}
+  },
+  {
+    routeClass: 'resourcePage',
+    routeParams: {}
   } ];
 };
 
@@ -71,7 +75,7 @@ export const buildNav = ( { production, edition = {}, locale = {} } ) => {
               level,
               title: production.resources[resourceId].metadata.title,
               routeParams: {
-                sectionId: resourceId
+                resourceId
               },
               options: element.data,
               viewId: `${element.id}-${thatIndex}`,
@@ -85,7 +89,7 @@ export const buildNav = ( { production, edition = {}, locale = {} } ) => {
               options: element.data,
               viewId: `${element.id}-${thatIndex}`,
               routeParams: {
-                sectionId: resourceId
+                resourceId
               }
             } ) );
           }
@@ -124,7 +128,9 @@ export const routeItemToUrl = ( item, index ) => {
     case 'customPage':
       return `/c/${item.viewId}/${item.routeParams.routeSlug}`;
     case 'resourceSheet':
-      return `/resource?resourceId=${item.routeParams.resourceId}`;
+      return `/resource?resourceId=${item.routeParams.resourceId}&mode=print`;
+    case 'resourcePage':
+      return `/resource?resourceId=${item.routeParams.resourceId}&mode=screen`;
     default:
       return `/${item.routeClass}/${item.viewId}`;
   }
@@ -137,9 +143,17 @@ export const renderHeadFromRouteItem = ( { item, production, edition } ) => {
           <SectionHead
             production={ production }
             edition={ edition }
-            section={ production.resources[item.routeParams.sectionId] }
+            section={ production.resources[item.routeParams.resourceId] }
           />
         );
+      case 'resourcePage':
+          return (
+            <SectionHead
+              production={ production }
+              edition={ edition }
+              section={ production.resources[item.routeParams.resourceId] }
+            />
+          );
 
       case 'landing':
       case 'customPage':
@@ -238,7 +252,7 @@ export default class Wrapper extends Component {
   identifyView = ( viewType, params1, params2 ) => {
     switch ( viewType ) {
       case 'sections':
-        return params1.sectionId === params2.sectionId;
+        return params1.resourceId === params2.resourceId;
       case 'customPage':
         return params1.routeSlug === params2.routeSlug;
       default:
@@ -304,7 +318,7 @@ export default class Wrapper extends Component {
      * (explanations: there can be several times the same section)
      */
     const { navSummary } = this.state;
-    const firstMatch = navSummary.find( ( item ) => item.routeClass === 'sections' && item.routeParams.sectionId === sectionId );
+    const firstMatch = navSummary.find( ( item ) => item.routeClass === 'sections' && item.routeParams.resourceId === sectionId );
     if ( firstMatch ) {
       return firstMatch.viewId;
     }
@@ -402,6 +416,15 @@ export default class Wrapper extends Component {
       case 'resourceSheet':
         return (
           <ResourceSheet
+            production={ this.props.production }
+            edition={ this.props.edition }
+            activeViewClass={ viewClass }
+            activeViewParams={ viewParams }
+          />
+        );
+      case 'resourcePage':
+        return (
+          <Section
             production={ this.props.production }
             edition={ this.props.edition }
             activeViewClass={ viewClass }
@@ -530,8 +553,13 @@ export default class Wrapper extends Component {
                   ...result,
                   [tuple[0]]: tuple[1],
                 } ), {} );
-                const { resourceId } = searchParams;
-                return renderView( { viewClass: 'resourceSheet', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } );
+                const { resourceId, mode } = searchParams;
+                if ( mode === 'print' ) {
+                  return renderView( { viewClass: 'resourceSheet', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } );
+                }
+ else {
+                  return renderView( { viewClass: 'resourcePage', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } );
+                }
               }
             }
             />

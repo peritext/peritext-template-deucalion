@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
-import { StructuredCOinS, abbrevString } from 'peritext-utils';
+import { StructuredCOinS, abbrevString, getResourceTitle } from 'peritext-utils';
 import Tooltip from 'react-tooltip';
 
 import { convertSectionToCslRecord, makeAssetTitle } from '../utils';
@@ -44,7 +44,7 @@ class Section extends Component {
 
       openAsideContextualization: this.openAsideContextualization,
       openedContextualizationId: this.state.openedContextualizationId,
-      notes: production.resources[activeViewParams.sectionId].data.contents.notes,
+      notes: production.resources[activeViewParams.resourceId].data.contents.notes,
       onNoteContentPointerClick: this.onNoteContentPointerClick,
     };
   }
@@ -57,7 +57,7 @@ class Section extends Component {
   componentWillReceiveProps = ( nextProps ) => {
     if (
       this.props.activeViewClass !== nextProps.activeViewClass ||
-      this.props.activeViewParams.sectionId !== nextProps.activeViewParams.sectionId ||
+      this.props.activeViewParams.resourceId !== nextProps.activeViewParams.resourceId ||
       this.props.activeViewParams.contextualizationId !== nextProps.activeViewParams.contextualizationId
     ) {
       this.init( nextProps );
@@ -71,7 +71,7 @@ class Section extends Component {
      * within the same section
      */
     if (
-      this.props.activeViewParams.sectionId === nextProps.activeViewParams.sectionId
+      this.props.activeViewParams.resourceId === nextProps.activeViewParams.resourceId
       && this.state.gui.openedContextualizationId
       && !nextState.gui.openedContextualizationId
       && nextContext.asideVisible
@@ -90,7 +90,7 @@ class Section extends Component {
   componentDidUpdate = ( prevProps ) => {
     if (
       this.props.activeViewClass !== prevProps.activeViewClass ||
-      this.props.activeViewParams.sectionId !== prevProps.activeViewParams.sectionId ||
+      this.props.activeViewParams.resourceId !== prevProps.activeViewParams.resourceId ||
       this.props.activeViewParams.contextualizationId !== prevProps.activeViewParams.contextualizationId
     ) {
       this.buildRailwayData();
@@ -200,7 +200,7 @@ class Section extends Component {
       onNotePointerClick,
     } = this;
 
-    if ( activeViewClass !== 'sections' ) {
+    if ( ![ 'sections', 'resourcePage' ].includes( activeViewClass ) ) {
       return null;
     }
 
@@ -217,7 +217,7 @@ class Section extends Component {
       :
       production.metadata.title;
 
-    const section = production.resources[activeViewParams.sectionId];
+    const section = production.resources[activeViewParams.resourceId];
     if ( !section ) {
       return;
     }
@@ -241,7 +241,7 @@ class Section extends Component {
         <StructuredCOinS cslRecord={ sectionAsCSLRecord } />
         <div className={ 'main-column' }>
           <h1 className={ 'view-title section-title' }>
-            {section.metadata.title || ( translate( 'untitled section' ) || 'Section sans titre' )}
+            {getResourceTitle( section ) || ( translate( 'untitled section' ) || 'Section sans titre' )}
           </h1>
           {section.metadata.subtitle && <h2 className={ 'subtitle' }>{section.metadata.subtitle}</h2>}
           {sectionAuthors.length > 0 &&
@@ -276,12 +276,12 @@ class Section extends Component {
             {previousSection &&
             <li className={ 'prev' }>
               <InternalLink
-                to={ { routeClass: 'sections', viewId: previousSection.viewId, routeParams: { sectionId: previousSection.routeParams.sectionId } } }
+                to={ { routeClass: 'sections', viewId: previousSection.viewId, routeParams: { resourceId: previousSection.routeParams.resourceId } } }
               >
                 <span className={ 'navigation-item' }>
                   <span className={ 'navigation-item-arrow' }>←</span>
                   <span className={ 'navigation-item-text' }>
-                    {abbrevString( production.resources[previousSection.routeParams.sectionId].metadata.title, 40 ) }
+                    {abbrevString( getResourceTitle( production.resources[previousSection.routeParams.resourceId] ), 40 ) }
                   </span>
                 </span>
 
@@ -289,15 +289,15 @@ class Section extends Component {
             </li>
                 }
             <li>
-              <i>{abbrevString( displayedTitle, 30 )} - {abbrevString( section.metadata.title, 40 )}</i>
+              <i>{abbrevString( displayedTitle, 30 )} - {abbrevString( getResourceTitle( section ), 40 )}</i>
             </li>
             {nextSection &&
             <li className={ 'next' }>
               <InternalLink
-                to={ { routeClass: 'sections', viewId: nextSection.viewId, routeParams: { sectionId: nextSection.routeParams.sectionId } } }
+                to={ { routeClass: 'sections', viewId: nextSection.viewId, routeParams: { resourceId: nextSection.routeParams.resourceId } } }
               >
                 <span className={ 'navigation-item' }>
-                  <span className={ 'navigation-item-text' }>{abbrevString( production.resources[nextSection.routeParams.sectionId].metadata.title, 40 ) }</span>
+                  <span className={ 'navigation-item-text' }>{abbrevString( getResourceTitle( production.resources[nextSection.routeParams.resourceId] ), 40 ) }</span>
                   <span className={ 'navigation-item-arrow' }>→</span>
                 </span>
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RelatedContexts from './RelatedContexts';
-import objectPath from 'object-path';
 import Aside from './Aside';
 
 import {
-  getContextualizationsFromEdition
+  getContextualizationsFromEdition,
+  getResourceTitle,
 } from 'peritext-utils';
 
-import resourceSchema from 'peritext-schemas/resource';
+// import resourceSchema from 'peritext-schemas/resource';
 import uniq from 'lodash/uniq';
 import intersection from 'lodash/intersection';
 
@@ -31,14 +31,11 @@ const getResourceColor = ( type ) => {
     case 'video':
     case 'embed':
       return 'red';
+    case 'section':
+      return 'white';
     default:
       return 'lightgrey';
   }
-};
-const getResourceTitle = ( resource ) => {
-  const titlePath = objectPath.get( resourceSchema, [ 'definitions', resource.metadata.type, 'titlePath' ] );
-  const title = titlePath ? objectPath.get( resource, titlePath ) : resource.metadata.title;
-  return title;
 };
 
 const buildMap = (
@@ -85,18 +82,22 @@ const buildMap = (
     ...node,
     title: getResourceTitle( node.resource ),
     color: getResourceColor( node.resource.metadata.type ),
-    sectionsIds: node.mentions.map( ( c ) => c.targetId )
+    targetsIds: node.mentions.map( ( c ) => c.targetId ),
   } ) );
 
   const edgesMap = {};
   nodes.forEach( ( node1, index1 ) => {
     nodes.slice( index1 + 1 )
       .forEach( ( node2 ) => {
-        const intersects = intersection( node1.sectionsIds, node2.sectionsIds );
-        if ( intersects.length ) {
+        const intersects = intersection( node1.targetsIds, node2.targetsIds );
+        if (
+          intersects.length ||
+          node2.targetsIds.includes( node1.resource.id ) ||
+          node1.targetsIds.includes( node2.resource.id )
+        ) {
           const ids = [ node1, node2 ].map( ( n ) => n.resource.id ).sort();
           const edgePoint = edgesMap[ids[0]] || {};
-          edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + intersects.length : intersects.length;
+          edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + ( intersects.length || 1 ) : ( intersects.length || 1 );
           edgesMap[ids[0]] = edgePoint;
         }
       } );
@@ -115,7 +116,7 @@ const buildMap = (
   }, [] )
   .filter( ( e ) => e.weight >= minimumCooccurrenceNumber );
 
-  return { nodes: edges.length ? nodes : [], edges };
+  return { nodes, edges };
 };
 
 export default class ResourcesMap extends Component {
@@ -182,7 +183,7 @@ export default class ResourcesMap extends Component {
       showUncitedReferences = false,
       showAllResources = true,
       resourceTypes = [ 'bib' ],
-      minimumCooccurrenceNumber = 2,
+      minimumCooccurrenceNumber = 1,
     } = options;
     const { nodes, edges } = buildMap( production, edition, {
       showUncitedReferences,

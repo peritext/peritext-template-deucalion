@@ -56,6 +56,9 @@ const getAdditionalRoutes = () => {
   return [{
     routeClass: 'resourceSheet',
     routeParams: {}
+  }, {
+    routeClass: 'resourcePage',
+    routeParams: {}
   }];
 };
 
@@ -120,7 +123,7 @@ const buildNav = ({
             level,
             title: production.resources[resourceId].metadata.title,
             routeParams: {
-              sectionId: resourceId
+              resourceId
             },
             options: element.data,
             viewId: `${element.id}-${thatIndex}`
@@ -136,7 +139,7 @@ const buildNav = ({
             options: element.data,
             viewId: `${element.id}-${thatIndex}`,
             routeParams: {
-              sectionId: resourceId
+              resourceId
             }
           }));
         }
@@ -181,7 +184,10 @@ const routeItemToUrl = (item, index) => {
       return `/c/${item.viewId}/${item.routeParams.routeSlug}`;
 
     case 'resourceSheet':
-      return `/resource?resourceId=${item.routeParams.resourceId}`;
+      return `/resource?resourceId=${item.routeParams.resourceId}&mode=print`;
+
+    case 'resourcePage':
+      return `/resource?resourceId=${item.routeParams.resourceId}&mode=screen`;
 
     default:
       return `/${item.routeClass}/${item.viewId}`;
@@ -200,7 +206,14 @@ const renderHeadFromRouteItem = ({
       return _react.default.createElement(_SectionHead.default, {
         production: production,
         edition: edition,
-        section: production.resources[item.routeParams.sectionId]
+        section: production.resources[item.routeParams.resourceId]
+      });
+
+    case 'resourcePage':
+      return _react.default.createElement(_SectionHead.default, {
+        production: production,
+        edition: edition,
+        section: production.resources[item.routeParams.resourceId]
       });
 
     case 'landing':
@@ -246,7 +259,7 @@ class Wrapper extends _react.Component {
     _defineProperty(this, "identifyView", (viewType, params1, params2) => {
       switch (viewType) {
         case 'sections':
-          return params1.sectionId === params2.sectionId;
+          return params1.resourceId === params2.resourceId;
 
         case 'customPage':
           return params1.routeSlug === params2.routeSlug;
@@ -339,7 +352,7 @@ class Wrapper extends _react.Component {
       const {
         navSummary
       } = this.state;
-      const firstMatch = navSummary.find(item => item.routeClass === 'sections' && item.routeParams.sectionId === sectionId);
+      const firstMatch = navSummary.find(item => item.routeClass === 'sections' && item.routeParams.resourceId === sectionId);
 
       if (firstMatch) {
         return firstMatch.viewId;
@@ -437,6 +450,14 @@ class Wrapper extends _react.Component {
 
         case 'resourceSheet':
           return _react.default.createElement(_ResourceSheet.default, {
+            production: this.props.production,
+            edition: this.props.edition,
+            activeViewClass: viewClass,
+            activeViewParams: viewParams
+          });
+
+        case 'resourcePage':
+          return _react.default.createElement(_Section.default, {
             production: this.props.production,
             edition: this.props.edition,
             activeViewClass: viewClass,
@@ -590,16 +611,29 @@ class Wrapper extends _react.Component {
           [tuple[0]]: tuple[1]
         }), {});
         const {
-          resourceId
+          resourceId,
+          mode
         } = searchParams;
-        return renderView({
-          viewClass: 'resourceSheet',
-          viewParams: {
-            resourceId
-          },
-          navSummary,
-          viewNavSummaryIndex
-        });
+
+        if (mode === 'print') {
+          return renderView({
+            viewClass: 'resourceSheet',
+            viewParams: {
+              resourceId
+            },
+            navSummary,
+            viewNavSummaryIndex
+          });
+        } else {
+          return renderView({
+            viewClass: 'resourcePage',
+            viewParams: {
+              resourceId
+            },
+            navSummary,
+            viewNavSummaryIndex
+          });
+        }
       }
     }), _react.default.createElement(_reactRouterDom.Route, {
       component: () => {

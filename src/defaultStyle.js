@@ -738,6 +738,12 @@ h1{
 .big-list-items-container{
   padding: 0;
 }
+
+.big-list-item-actions .link{
+  font-size: .8rem;
+  padding: 0;
+}
+
 .big-list-item{
   margin: 0;
   list-style-type: none;
@@ -1355,6 +1361,7 @@ h1{
   align-items: center;
   justify-content: center;
 }
+/*
 .graph-container svg
 {
   position: absolute;
@@ -1362,7 +1369,7 @@ h1{
   height: 100%!important;
   left: 0;
   top: 0;
-}
+}*/
 /**
  * EVENTS VIEWS COMPONENT STYLING
  */

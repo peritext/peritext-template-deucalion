@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RelatedContexts from './RelatedContexts';
 import Aside from './Aside';
-import { buildContextContent, buildCitations, getContextualizationsFromEdition, resourceToCslJSON } from 'peritext-utils';
+import { buildContextContent, buildCitations, getContextualizationsFromEdition, resourceToCslJSON, resourceHasContents } from 'peritext-utils';
 import { makeBibliography } from 'react-citeproc';
 import uniq from 'lodash/uniq';
+
+import Link from './LinkProvider';
 
 /**
  * Computes interactive bibliography materials
@@ -186,6 +188,20 @@ const ReferenceCard = ( {
             >
               {item.resource.mentions.length} {item.resource.mentions.length === 1 ? translate( 'mention' ) : translate( 'mentions' )}
             </button>
+          </div>
+          }
+        {item.resource && resourceHasContents( item.resource ) &&
+          <div className={ 'big-list-item-actions' }>
+            <Link
+              to={ {
+                routeClass: 'resourcePage',
+                  routeParams: {
+                    resourceId: item.resource.id,
+                  }
+              } }
+            >
+              {translate( 'Expand contents' )}
+            </Link>
           </div>
           }
       </li>

@@ -24,29 +24,32 @@ const ContextMention = ({
 }, {
   // translate,
   getViewIdForSectionId
-}) => _react.default.createElement("div", {
-  className: 'context-mention',
-  "data-tip": sectionTitle,
-  "data-for": 'tooltip',
-  "data-place": 'left'
-}, displayLinks ? _react.default.createElement("div", null, _react.default.createElement("div", {
-  className: 'excerpt'
-}, _react.default.createElement(_LinkProvider.default, {
-  to: {
-    routeClass: 'sections',
-    viewId: getViewIdForSectionId(targetId),
-    routeParams: {
-      sectionId: targetId,
-      contextualizationId
+}) => {
+  const viewId = getViewIdForSectionId(targetId);
+  return _react.default.createElement("div", {
+    className: 'context-mention',
+    "data-tip": sectionTitle,
+    "data-for": 'tooltip',
+    "data-place": 'left'
+  }, displayLinks ? _react.default.createElement("div", null, _react.default.createElement("div", {
+    className: 'excerpt'
+  }, _react.default.createElement(_LinkProvider.default, {
+    to: {
+      routeClass: viewId ? 'sections' : 'resourcePage',
+      viewId,
+      routeParams: {
+        resourceId: targetId,
+        contextualizationId
+      }
     }
-  }
-}, _react.default.createElement(_Renderer.default, {
-  raw: contents
-})))) : _react.default.createElement("div", null, _react.default.createElement("h3", null, sectionTitle), _react.default.createElement("div", {
-  className: 'excerpt'
-}, _react.default.createElement(_Renderer.default, {
-  raw: contents
-}))));
+  }, _react.default.createElement(_Renderer.default, {
+    raw: contents
+  }), _react.default.createElement("h3", null, sectionTitle)))) : _react.default.createElement("div", null, _react.default.createElement("h3", null, sectionTitle), _react.default.createElement("div", {
+    className: 'excerpt'
+  }, _react.default.createElement(_Renderer.default, {
+    raw: contents
+  }))));
+};
 
 ContextMention.contextTypes = {
   translate: _propTypes.default.func,

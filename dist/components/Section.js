@@ -54,7 +54,7 @@ class Section extends _react.Component {
       return {
         openAsideContextualization: this.openAsideContextualization,
         openedContextualizationId: this.state.openedContextualizationId,
-        notes: production.resources[activeViewParams.sectionId].data.contents.notes,
+        notes: production.resources[activeViewParams.resourceId].data.contents.notes,
         onNoteContentPointerClick: this.onNoteContentPointerClick
       };
     });
@@ -65,7 +65,7 @@ class Section extends _react.Component {
     });
 
     _defineProperty(this, "componentWillReceiveProps", nextProps => {
-      if (this.props.activeViewClass !== nextProps.activeViewClass || this.props.activeViewParams.sectionId !== nextProps.activeViewParams.sectionId || this.props.activeViewParams.contextualizationId !== nextProps.activeViewParams.contextualizationId) {
+      if (this.props.activeViewClass !== nextProps.activeViewClass || this.props.activeViewParams.resourceId !== nextProps.activeViewParams.resourceId || this.props.activeViewParams.contextualizationId !== nextProps.activeViewParams.contextualizationId) {
         this.init(nextProps);
       }
     });
@@ -75,7 +75,7 @@ class Section extends _react.Component {
        * edge case of navigating mentions
        * within the same section
        */
-      if (this.props.activeViewParams.sectionId === nextProps.activeViewParams.sectionId && this.state.gui.openedContextualizationId && !nextState.gui.openedContextualizationId && nextContext.asideVisible) {
+      if (this.props.activeViewParams.resourceId === nextProps.activeViewParams.resourceId && this.state.gui.openedContextualizationId && !nextState.gui.openedContextualizationId && nextContext.asideVisible) {
         nextContext.toggleAsideVisible();
       }
 
@@ -85,7 +85,7 @@ class Section extends _react.Component {
     });
 
     _defineProperty(this, "componentDidUpdate", prevProps => {
-      if (this.props.activeViewClass !== prevProps.activeViewClass || this.props.activeViewParams.sectionId !== prevProps.activeViewParams.sectionId || this.props.activeViewParams.contextualizationId !== prevProps.activeViewParams.contextualizationId) {
+      if (this.props.activeViewClass !== prevProps.activeViewClass || this.props.activeViewParams.resourceId !== prevProps.activeViewParams.resourceId || this.props.activeViewParams.contextualizationId !== prevProps.activeViewParams.contextualizationId) {
         this.buildRailwayData();
       }
     });
@@ -200,7 +200,7 @@ class Section extends _react.Component {
         onNotePointerClick
       } = this;
 
-      if (activeViewClass !== 'sections') {
+      if (!['sections', 'resourcePage'].includes(activeViewClass)) {
         return null;
       }
 
@@ -211,7 +211,7 @@ class Section extends _react.Component {
         publicationTitle = ''
       } = editionData;
       const displayedTitle = publicationTitle.length ? publicationTitle : production.metadata.title;
-      const section = production.resources[activeViewParams.sectionId];
+      const section = production.resources[activeViewParams.resourceId];
 
       if (!section) {
         return;
@@ -234,7 +234,7 @@ class Section extends _react.Component {
         className: 'main-column'
       }, _react.default.createElement("h1", {
         className: 'view-title section-title'
-      }, section.metadata.title || translate('untitled section') || 'Section sans titre'), section.metadata.subtitle && _react.default.createElement("h2", {
+      }, (0, _peritextUtils.getResourceTitle)(section) || translate('untitled section') || 'Section sans titre'), section.metadata.subtitle && _react.default.createElement("h2", {
         className: 'subtitle'
       }, section.metadata.subtitle), sectionAuthors.length > 0 && _react.default.createElement("h2", {
         className: 'authors'
@@ -261,7 +261,7 @@ class Section extends _react.Component {
           routeClass: 'sections',
           viewId: previousSection.viewId,
           routeParams: {
-            sectionId: previousSection.routeParams.sectionId
+            resourceId: previousSection.routeParams.resourceId
           }
         }
       }, _react.default.createElement("span", {
@@ -270,21 +270,21 @@ class Section extends _react.Component {
         className: 'navigation-item-arrow'
       }, "\u2190"), _react.default.createElement("span", {
         className: 'navigation-item-text'
-      }, (0, _peritextUtils.abbrevString)(production.resources[previousSection.routeParams.sectionId].metadata.title, 40))))), _react.default.createElement("li", null, _react.default.createElement("i", null, (0, _peritextUtils.abbrevString)(displayedTitle, 30), " - ", (0, _peritextUtils.abbrevString)(section.metadata.title, 40))), nextSection && _react.default.createElement("li", {
+      }, (0, _peritextUtils.abbrevString)((0, _peritextUtils.getResourceTitle)(production.resources[previousSection.routeParams.resourceId]), 40))))), _react.default.createElement("li", null, _react.default.createElement("i", null, (0, _peritextUtils.abbrevString)(displayedTitle, 30), " - ", (0, _peritextUtils.abbrevString)((0, _peritextUtils.getResourceTitle)(section), 40))), nextSection && _react.default.createElement("li", {
         className: 'next'
       }, _react.default.createElement(_LinkProvider.default, {
         to: {
           routeClass: 'sections',
           viewId: nextSection.viewId,
           routeParams: {
-            sectionId: nextSection.routeParams.sectionId
+            resourceId: nextSection.routeParams.resourceId
           }
         }
       }, _react.default.createElement("span", {
         className: 'navigation-item'
       }, _react.default.createElement("span", {
         className: 'navigation-item-text'
-      }, (0, _peritextUtils.abbrevString)(production.resources[nextSection.routeParams.sectionId].metadata.title, 40)), _react.default.createElement("span", {
+      }, (0, _peritextUtils.abbrevString)((0, _peritextUtils.getResourceTitle)(production.resources[nextSection.routeParams.resourceId]), 40)), _react.default.createElement("span", {
         className: 'navigation-item-arrow'
       }, "\u2192")))))), openedContextualizationId ? _react.default.createElement(_Aside.default, {
         isActive: openedContextualizationId !== undefined,

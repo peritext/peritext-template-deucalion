@@ -86,7 +86,7 @@ module.exports = {
       properties: {
         customSummary: {
           type: 'object',
-          uiType: 'customSummary',
+          uiType: 'customSectionsSummary',
           properties: {
             active: {
               type: 'boolean'
@@ -175,7 +175,7 @@ module.exports = {
       type: 'object',
       default: {
         showUncitedReferences: false,
-        showMentions: false,
+        showMentions: true,
         resourceTypes: ['bib']
         /*
          * sortingKey: 'date',

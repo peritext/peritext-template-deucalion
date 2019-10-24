@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from 'react-tooltip';
 
-import { buildContextContent, resourceToCslJSON, getContextualizationsFromEdition } from 'peritext-utils';
+import {
+  buildContextContent,
+  resourceToCslJSON,
+  getContextualizationsFromEdition,
+  resourceHasContents,
+  getResourceTitle,
+} from 'peritext-utils';
 
 import ContextMention from './ContextMention';
 import Link from './LinkProvider';
@@ -76,7 +82,7 @@ const RelatedContexts = ( {
                 <ContextMention
                   targetContents={ thatContextualization.targetContents }
                   contents={ thatContextualization.contents }
-                  sectionTitle={ thatContextualization.sectionTitle }
+                  sectionTitle={ getResourceTitle( production.resources[thatContextualization.targetId] ) }
                   targetId={ thatContextualization.targetId }
                   contextualizationId={ thatContextualization.id }
                 />
@@ -88,18 +94,38 @@ const RelatedContexts = ( {
         <div className={ 'body' } />
     }
       <div className={ 'footer' }>
-        <Link
-          to={ {
+        <p>
+          <Link
+            to={ {
               routeClass: 'resourceSheet',
               routeParams: {
                 resourceId: resource.id
               }
             } }
-          target={ 'blank' }
-          rel={ 'noopener' }
-        >
-          {translate( 'Print mentions' )}
-        </Link>
+            target={ 'blank' }
+            rel={ 'noopener' }
+          >
+            {translate( 'Print mentions' )}
+          </Link>
+        </p>
+        {
+          resourceHasContents( resource ) &&
+          <p>
+            <Link
+              to={ {
+                routeClass: 'resourcePage',
+                routeParams: {
+                  resourceId: resource.id
+                }
+              } }
+              target={ 'blank' }
+              rel={ 'noopener' }
+            >
+              {translate( 'Expand contents' )}
+            </Link>
+          </p>
+
+        }
       </div>
       <Tooltip id={ 'tooltip' } />
     </div>

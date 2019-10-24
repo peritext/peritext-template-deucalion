@@ -71,14 +71,14 @@ const RelatedContexts = ({
   }, _react.default.createElement(_ContextMention.default, {
     targetContents: thatContextualization.targetContents,
     contents: thatContextualization.contents,
-    sectionTitle: thatContextualization.sectionTitle,
+    sectionTitle: (0, _peritextUtils.getResourceTitle)(production.resources[thatContextualization.targetId]),
     targetId: thatContextualization.targetId,
     contextualizationId: thatContextualization.id
   })))) : _react.default.createElement("div", {
     className: 'body'
   }), _react.default.createElement("div", {
     className: 'footer'
-  }, _react.default.createElement(_LinkProvider.default, {
+  }, _react.default.createElement("p", null, _react.default.createElement(_LinkProvider.default, {
     to: {
       routeClass: 'resourceSheet',
       routeParams: {
@@ -87,7 +87,16 @@ const RelatedContexts = ({
     },
     target: 'blank',
     rel: 'noopener'
-  }, translate('Print mentions'))), _react.default.createElement(_reactTooltip.default, {
+  }, translate('Print mentions'))), (0, _peritextUtils.resourceHasContents)(resource) && _react.default.createElement("p", null, _react.default.createElement(_LinkProvider.default, {
+    to: {
+      routeClass: 'resourcePage',
+      routeParams: {
+        resourceId: resource.id
+      }
+    },
+    target: 'blank',
+    rel: 'noopener'
+  }, translate('Expand contents')))), _react.default.createElement(_reactTooltip.default, {
     id: 'tooltip'
   }));
 };

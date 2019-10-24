@@ -11,13 +11,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _RelatedContexts = _interopRequireDefault(require("./RelatedContexts"));
 
-var _objectPath = _interopRequireDefault(require("object-path"));
-
 var _Aside = _interopRequireDefault(require("./Aside"));
 
 var _peritextUtils = require("peritext-utils");
-
-var _resource = _interopRequireDefault(require("peritext-schemas/resource"));
 
 var _uniq = _interopRequireDefault(require("lodash/uniq"));
 
@@ -55,16 +51,12 @@ const getResourceColor = type => {
     case 'embed':
       return 'red';
 
+    case 'section':
+      return 'white';
+
     default:
       return 'lightgrey';
   }
-};
-
-const getResourceTitle = resource => {
-  const titlePath = _objectPath.default.get(_resource.default, ['definitions', resource.metadata.type, 'titlePath']);
-
-  const title = titlePath ? _objectPath.default.get(resource, titlePath) : resource.metadata.title;
-  return title;
 };
 
 const buildMap = (production, edition, {
@@ -96,19 +88,19 @@ const buildMap = (production, edition, {
     mentions: usedContextualizations.filter(c => c.contextualization.sourceId === resourceId).map(c => c.contextualization)
   }));
   nodes = nodes.map(node => _objectSpread({}, node, {
-    title: getResourceTitle(node.resource),
+    title: (0, _peritextUtils.getResourceTitle)(node.resource),
     color: getResourceColor(node.resource.metadata.type),
-    sectionsIds: node.mentions.map(c => c.targetId)
+    targetsIds: node.mentions.map(c => c.targetId)
   }));
   const edgesMap = {};
   nodes.forEach((node1, index1) => {
     nodes.slice(index1 + 1).forEach(node2 => {
-      const intersects = (0, _intersection.default)(node1.sectionsIds, node2.sectionsIds);
+      const intersects = (0, _intersection.default)(node1.targetsIds, node2.targetsIds);
 
-      if (intersects.length) {
+      if (intersects.length || node2.targetsIds.includes(node1.resource.id) || node1.targetsIds.includes(node2.resource.id)) {
         const ids = [node1, node2].map(n => n.resource.id).sort();
         const edgePoint = edgesMap[ids[0]] || {};
-        edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + intersects.length : intersects.length;
+        edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + (intersects.length || 1) : intersects.length || 1;
         edgesMap[ids[0]] = edgePoint;
       }
     });
@@ -121,7 +113,7 @@ const buildMap = (production, edition, {
     }))];
   }, []).filter(e => e.weight >= minimumCooccurrenceNumber);
   return {
-    nodes: edges.length ? nodes : [],
+    nodes,
     edges
   };
 };
@@ -176,7 +168,7 @@ class ResourcesMap extends _react.Component {
         showUncitedReferences = false,
         showAllResources = true,
         resourceTypes = ['bib'],
-        minimumCooccurrenceNumber = 2
+        minimumCooccurrenceNumber = 1
       } = options;
       const {
         nodes,

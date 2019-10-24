@@ -19,6 +19,8 @@ var _reactCiteproc = require("react-citeproc");
 
 var _uniq = _interopRequireDefault(require("lodash/uniq"));
 
+var _LinkProvider = _interopRequireDefault(require("./LinkProvider"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -178,7 +180,16 @@ const ReferenceCard = ({
   }, _react.default.createElement("button", {
     className: 'link',
     onClick: onOpen
-  }, item.resource.mentions.length, " ", item.resource.mentions.length === 1 ? translate('mention') : translate('mentions'))));
+  }, item.resource.mentions.length, " ", item.resource.mentions.length === 1 ? translate('mention') : translate('mentions'))), item.resource && (0, _peritextUtils.resourceHasContents)(item.resource) && _react.default.createElement("div", {
+    className: 'big-list-item-actions'
+  }, _react.default.createElement(_LinkProvider.default, {
+    to: {
+      routeClass: 'resourcePage',
+      routeParams: {
+        resourceId: item.resource.id
+      }
+    }
+  }, translate('Expand contents'))));
 };
 
 class References extends _react.Component {

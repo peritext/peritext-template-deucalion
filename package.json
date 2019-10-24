@@ -26,7 +26,7 @@
     "react": "^16.7.0-alpha",
     "react-dom": "^16.7.0-alpha",
     "lodash": "^4.17",
-    "peritext-utils": "^0.2.0"
+    "peritext-utils": "^0.2.1"
   },
   "dependencies": {
     "d3-array": "^2.0.3",
@@ -40,13 +40,13 @@
     "install": "^0.12.2",
     "npm": "^6.9.0",
     "object-path": "^0.11.4",
-    "peritext-schemas": "^0.2.0",
-    "peritext-utils": "^0.2.0",
+    "peritext-schemas": "^0.2.1",
+    "peritext-utils": "^0.2.1",
     "pigeon-maps": "^0.12.1",
     "pigeon-overlay": "^0.2.3",
     "react-citeproc": "^0.1.10",
     "react-custom-scrollbars": "^4.2.1",
-    "react-d3-graph": "^2.0.2",
+    "react-d3-graph": "^2.3.0",
     "react-full-screen": "^0.2.4",
     "react-helmet": "^5.2.0",
     "react-markdown": "^4.0.6",

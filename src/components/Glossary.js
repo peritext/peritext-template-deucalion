@@ -4,6 +4,8 @@ import RelatedContexts from './RelatedContexts';
 import MarkdownPlayer from './MarkdownPlayer';
 import Aside from './Aside';
 import { buildGlossary } from '../utils';
+import { resourceHasContents } from 'peritext-utils';
+import Link from './LinkProvider';
 
 export default class Glossary extends Component {
 
@@ -98,6 +100,20 @@ export default class Glossary extends Component {
                         </div>
                       }
                     </div>
+                    {item.resource && resourceHasContents( item.resource ) &&
+                      <div className={ 'big-list-item-actions' }>
+                        <Link
+                          to={ {
+                            routeClass: 'resourcePage',
+                              routeParams: {
+                                resourceId: item.resource.id,
+                              }
+                          } }
+                        >
+                          {translate( 'Expand contents' )}
+                        </Link>
+                      </div>
+                      }
                   </li>
                 );
               } )
