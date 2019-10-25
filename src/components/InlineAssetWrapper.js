@@ -13,6 +13,7 @@ const InlineAssetWrapper = ( {
   openAsideContextualization,
   bindContextualizationElement,
   renderingMode = 'screened',
+  productionAssets: assets = {},
 } ) => {
   const assetId = data.asset && data.asset.id;
   if ( !assetId || !production ) {
@@ -51,7 +52,7 @@ const InlineAssetWrapper = ( {
   if ( contextualizer && Component ) {
     return (
       <span
-        className={ `${'InlineAssetWrapper ' + 'inline-'}${ contextualizer.type }${active ? ' active' : ''}` }
+        className={ `${'InlineAssetWrapper ' + 'inline-'}${ contextualizer.type }${active ? ' active' : ''} inline-contextualization-container ${ contextualizer.type}` }
         id={ assetId }
         ref={ bindRef }
         onClick={ handleMainClick }
@@ -63,8 +64,10 @@ const InlineAssetWrapper = ( {
           contextualization={ contextualization }
           contextualizer={ contextualizer }
 
+          assets={ assets }
+
           resource={ resource }
-          renderingMode={ 'screen' }
+          renderingMode={ 'screened' }
         >
           {children}
         </Component>
@@ -107,6 +110,7 @@ InlineAssetWrapper.contextTypes = {
   openedContextualizationId: PropTypes.string,
   openAsideContextualization: PropTypes.func,
   bindContextualizationElement: PropTypes.func,
+  productionAssets: PropTypes.object,
   renderingMode: PropTypes.string,
 };
 

@@ -22,7 +22,8 @@ const InlineAssetWrapper = ({
   openedContextualizationId,
   openAsideContextualization,
   bindContextualizationElement,
-  renderingMode = 'screened'
+  renderingMode = 'screened',
+  productionAssets: assets = {}
 }) => {
   const assetId = data.asset && data.asset.id;
 
@@ -63,7 +64,7 @@ const InlineAssetWrapper = ({
 
   if (contextualizer && Component) {
     return _react.default.createElement("span", {
-      className: `${'InlineAssetWrapper ' + 'inline-'}${contextualizer.type}${active ? ' active' : ''}`,
+      className: `${'InlineAssetWrapper ' + 'inline-'}${contextualizer.type}${active ? ' active' : ''} inline-contextualization-container ${contextualizer.type}`,
       id: assetId,
       ref: bindRef,
       onClick: handleMainClick
@@ -72,8 +73,9 @@ const InlineAssetWrapper = ({
     }), _react.default.createElement(Component, {
       contextualization: contextualization,
       contextualizer: contextualizer,
+      assets: assets,
       resource: resource,
-      renderingMode: 'screen'
+      renderingMode: 'screened'
     }, children), renderingMode === 'screened' && _react.default.createElement("sup", {
       className: 'link mention-context-pointer',
       onClick: onClick
@@ -108,6 +110,7 @@ InlineAssetWrapper.contextTypes = {
   openedContextualizationId: _propTypes.default.string,
   openAsideContextualization: _propTypes.default.func,
   bindContextualizationElement: _propTypes.default.func,
+  productionAssets: _propTypes.default.object,
   renderingMode: _propTypes.default.string
 };
 var _default = InlineAssetWrapper;

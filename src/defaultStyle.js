@@ -647,6 +647,16 @@ h1{
   color: var(--color-link-active);
 }
 
+.inline-contextualization-container.image{
+  cursor: pointer;
+}
+
+.inline-images-container img {
+      max-width: 2rem;
+      max-height: 1rem;
+      padding-right: .3rem;
+}
+
 .block-contextualization-container.embed{
   min-height: 50vh;
   max-height: 80vh;
