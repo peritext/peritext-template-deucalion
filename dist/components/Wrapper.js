@@ -9,6 +9,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _peritextUtils = require("peritext-utils");
+
 var _reactRouterDom = require("react-router-dom");
 
 var _Section = _interopRequireDefault(require("./Section"));
@@ -38,6 +40,8 @@ var _ResourcesMap = _interopRequireDefault(require("./ResourcesMap"));
 var _PreviewLink = _interopRequireDefault(require("./PreviewLink"));
 
 var _RouterLink = _interopRequireDefault(require("./RouterLink"));
+
+var _getResourceTitle = _interopRequireDefault(require("peritext-utils/dist/getResourceTitle"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -145,6 +149,35 @@ const buildNav = ({
         }
 
         return [...result, ...sections];
+
+      case 'resourceSections':
+        let thatSummary;
+
+        if (element.data.customSummary.active) {
+          thatSummary = element.data.customSummary.summary;
+        } else {
+          thatSummary = Object.keys(production.resources).filter(resourceId => element.data.resourceTypes.includes(production.resources[resourceId].metadata.type) && (0, _peritextUtils.resourceHasContents)(production.resources[resourceId])).map(resourceId => ({
+            resourceId,
+            level: 0
+          }));
+        }
+
+        thatSummary = thatSummary.map(({
+          resourceId,
+          level
+        }, thatIndex) => {
+          return {
+            routeClass: 'sections',
+            level: element.data.level + level,
+            title: (0, _getResourceTitle.default)(production.resources[resourceId]),
+            options: element.data,
+            viewId: `${element.id}-${thatIndex}`,
+            routeParams: {
+              resourceId
+            }
+          };
+        });
+        return [...result, ...thatSummary];
 
       default:
         const {

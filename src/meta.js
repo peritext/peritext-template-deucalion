@@ -123,6 +123,59 @@ module.exports = {
         notesPosition: 'sidenotes'
       }
     },
+    resourceSections: {
+      type: 'object',
+      default: {
+        resourceTypes: [ 'glossary' ],
+        customSummary: {
+          active: false,
+          summary: []
+        },
+        notesPosition: 'footnotes',
+        level: 0
+      },
+      properties: {
+        level: {
+          type: 'number'
+        },
+        resourceTypes: {
+          type: 'array',
+          items: {
+            type: 'string',
+            enum: [ 'bib', 'image', 'table', 'video', 'embed', 'webpage', 'glossary' ]
+          },
+          uiType: 'select',
+          description: 'which types of resources to show'
+        },
+        customSummary: {
+          type: 'object',
+          uiType: 'customResourcesSummary',
+          properties: {
+            active: {
+              type: 'boolean'
+            },
+            summary: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  resourceId: {
+                    type: 'string',
+                  },
+                  level: {
+                    type: 'number'
+                  }
+                }
+              }
+            }
+          }
+        },
+        notesPosition: {
+          type: 'string',
+          enum: [ 'footnotes', 'sideNotes' ]
+        },
+      }
+    },
     customPage: {
       type: 'object',
       properties: {

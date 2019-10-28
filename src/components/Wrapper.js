@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { resourceHasContents } from 'peritext-utils';
 import { HashRouter, BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const isBrowser = new Function( 'try {return this===window;}catch(e){ return false;}' );/* eslint no-new-func : 0 */
@@ -19,6 +20,7 @@ import References from './References';
 import ResourcesMap from './ResourcesMap';
 import PreviewLink from './PreviewLink';
 import RouterLink from './RouterLink';
+import getResourceTitle from 'peritext-utils/dist/getResourceTitle';
 
 export const getAdditionalRoutes = () => {
   return [ {
@@ -94,6 +96,30 @@ export const buildNav = ( { production, edition = {}, locale = {} } ) => {
             } ) );
           }
           return [ ...result, ...sections ];
+          case 'resourceSections':
+              let thatSummary;
+              if ( element.data.customSummary.active ) {
+                thatSummary = element.data.customSummary.summary;
+              }
+ else {
+                thatSummary = Object.keys( production.resources )
+                .filter( ( resourceId ) => element.data.resourceTypes.includes( production.resources[resourceId].metadata.type )
+                && resourceHasContents( production.resources[resourceId] ) )
+                .map( ( resourceId ) => ( { resourceId, level: 0 } ) );
+              }
+              thatSummary = thatSummary.map( ( { resourceId, level }, thatIndex ) => {
+                return {
+                  routeClass: 'sections',
+                  level: element.data.level + level,
+                  title: getResourceTitle( production.resources[resourceId] ),
+                  options: element.data,
+                  viewId: `${element.id}-${thatIndex}`,
+                  routeParams: {
+                    resourceId,
+                  }
+                };
+              } );
+              return [ ...result, ...thatSummary ];
         default:
           const { data: elementData = {} } = element;
           return [
@@ -557,7 +583,7 @@ export default class Wrapper extends Component {
                 if ( mode === 'print' ) {
                   return renderView( { viewClass: 'resourceSheet', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } );
                 }
- else {
+                else {
                   return renderView( { viewClass: 'resourcePage', viewParams: { resourceId }, navSummary, viewNavSummaryIndex } );
                 }
               }
