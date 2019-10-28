@@ -27,35 +27,46 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-let Graph;
+let SigmaLib;
+let Sigma;
+let RandomizeNodePositions;
+let ForceAtlas2;
 const isBrowser = new Function('try {return this===window;}catch(e){ return false;}');
 const inBrowser = isBrowser();
 /* eslint no-new-func : 0 */
 
 if (inBrowser) {
-  Graph = require('react-d3-graph').Graph;
+  SigmaLib = require('react-sigma');
+  Sigma = SigmaLib.Sigma;
+  RandomizeNodePositions = SigmaLib.RandomizeNodePositions;
+  ForceAtlas2 = SigmaLib.ForceAtlas2;
 }
 
 const getResourceColor = type => {
   switch (type) {
     case 'bib':
-      return 'lightgreen';
+      return '#c7f9ed';
 
     case 'glossary':
-      return 'lightblue';
+      return '#ddc8fc';
 
     case 'webpage':
-      return 'blue';
+      return '#92beff';
 
     case 'video':
+      return '#ef6d3f';
+
     case 'embed':
-      return 'red';
+      return '#cc4a27';
+
+    case 'table':
+      return '#f2cf00';
 
     case 'section':
-      return 'white';
+      return '#00a99d';
 
     default:
-      return 'lightgrey';
+      return '#00a99d';
   }
 };
 
@@ -88,9 +99,10 @@ const buildMap = (production, edition, {
     mentions: usedContextualizations.filter(c => c.contextualization.sourceId === resourceId).map(c => c.contextualization)
   }));
   nodes = nodes.map(node => _objectSpread({}, node, {
-    title: (0, _peritextUtils.getResourceTitle)(node.resource),
+    label: (0, _peritextUtils.getResourceTitle)(node.resource),
     color: getResourceColor(node.resource.metadata.type),
-    targetsIds: node.mentions.map(c => c.targetId)
+    targetsIds: node.mentions.map(c => c.targetId),
+    size: 1
   }));
   const edgesMap = {};
   nodes.forEach((node1, index1) => {
@@ -102,6 +114,8 @@ const buildMap = (production, edition, {
         const edgePoint = edgesMap[ids[0]] || {};
         edgePoint[ids[1]] = edgePoint[ids[1]] ? edgePoint[ids[1]] + (intersects.length || 1) : intersects.length || 1;
         edgesMap[ids[0]] = edgePoint;
+        node1.size++;
+        node2.size++;
       }
     });
   });
@@ -109,7 +123,8 @@ const buildMap = (production, edition, {
     return [...res, ...Object.keys(edgesMap[edge1]).map(edge2 => ({
       source: edge1,
       target: edge2,
-      weight: edgesMap[edge1][edge2]
+      weight: edgesMap[edge1][edge2],
+      color: '#888889'
     }))];
   }, []).filter(e => e.weight >= minimumCooccurrenceNumber);
   return {
@@ -179,47 +194,42 @@ class ResourcesMap extends _react.Component {
         resourceTypes,
         minimumCooccurrenceNumber
       });
-      const graphConfig = {
-        automaticRearrangeAfterDropNode: false,
-        collapsible: true,
-        directed: false,
-        highlightDegree: 1,
-        highlightOpacity: 1,
-        linkHighlightBehavior: false,
-        maxZoom: 8,
-        minZoom: 0.1,
-        focusZoom: 1,
-        focusAnimationDuration: 0.75,
-        nodeHighlightBehavior: false,
-        panAndZoom: true,
-        staticGraph: false,
-        link: {
-          highlightColor: 'lightblue'
-        },
-        node: {
-          labelProperty: 'title'
-        }
+
+      const onClickNode = function ({
+        data
+      }) {
+        const {
+          node: {
+            id
+          }
+        } = data;
+        openResource(id);
       };
 
-      const onClickNode = function (nodeId) {
-        openResource(nodeId);
-      };
-
-      return _react.default.createElement("div", null, _react.default.createElement("h1", null, title), Graph && nodes.length ? _react.default.createElement("div", {
+      return _react.default.createElement("div", null, _react.default.createElement("h1", null, title), SigmaLib && nodes.length ? _react.default.createElement("div", {
         className: 'graph-container'
-      }, _react.default.createElement(Graph, {
-        id: 'graph' // id is mandatory, if no id is defined rd3g will throw an error
-        ,
-        data: {
-          nodes,
-          links: edges,
-          focusedNodeId: openResourceId
-        },
-        config: graphConfig,
+      }, _react.default.createElement(Sigma, {
         onClickNode: onClickNode,
-        width: width,
-        height: height
-      })) : _react.default.createElement("div", {
+        style: {
+          width,
+          height
+        },
+        graph: {
+          nodes,
+          edges
+        },
+        settings: {
+          drawEdges: true
+        },
+        renderer: 'webgl'
+      }, _react.default.createElement(RandomizeNodePositions, null), _react.default.createElement(ForceAtlas2, {
+        worker: true,
+        barnesHutOptimize: true,
+        barnesHutTheta: 0.6,
+        iterationsPerRender: 10,
+        linLogMode: true,
+        timeout: 3000
+      }))) : _react.default.createElement("div", {
         className: 'graph-placeholder'
       }, translate('No links to display')), _react.default.createElement(_Aside.default, {
         isActive: openResourceId !== undefined,

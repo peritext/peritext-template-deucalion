@@ -46,11 +46,11 @@
     "pigeon-overlay": "^0.2.3",
     "react-citeproc": "^0.1.10",
     "react-custom-scrollbars": "^4.2.1",
-    "react-d3-graph": "^2.3.0",
     "react-full-screen": "^0.2.4",
     "react-helmet": "^5.2.0",
     "react-markdown": "^4.0.6",
     "react-router-dom": "^4.3.1",
+    "react-sigma": "^1.2.31",
     "react-sizeme": "^2.5.2",
     "react-tooltip": "^3.10.0",
     "redraft": "^0.10.2"
