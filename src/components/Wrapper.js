@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { resourceHasContents } from 'peritext-utils';
+import {
+  resourceHasContents,
+  defaultSortResourceSections,
+} from 'peritext-utils';
 import { HashRouter, BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const isBrowser = new Function( 'try {return this===window;}catch(e){ return false;}' );/* eslint no-new-func : 0 */
@@ -101,11 +104,18 @@ export const buildNav = ( { production, edition = {}, locale = {} } ) => {
               if ( element.data.customSummary.active ) {
                 thatSummary = element.data.customSummary.summary;
               }
- else {
+              else {
+                const { hideEmptyResources = false } = element.data;
                 thatSummary = Object.keys( production.resources )
-                .filter( ( resourceId ) => element.data.resourceTypes.includes( production.resources[resourceId].metadata.type )
-                && resourceHasContents( production.resources[resourceId] ) )
-                .map( ( resourceId ) => ( { resourceId, level: 0 } ) );
+                .filter( ( resourceId ) => element.data.resourceTypes.includes( production.resources[resourceId].metadata.type ) )
+                .filter( ( resourceId ) => {
+                  if ( hideEmptyResources ) {
+                    return resourceHasContents( production.resources[resourceId] );
+                  }
+                  return true;
+                } )
+                .map( ( resourceId ) => ( { resourceId, level: 0 } ) )
+                .sort( defaultSortResourceSections );
               }
               thatSummary = thatSummary.map( ( { resourceId, level }, thatIndex ) => {
                 return {

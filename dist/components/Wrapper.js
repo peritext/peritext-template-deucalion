@@ -156,10 +156,19 @@ const buildNav = ({
         if (element.data.customSummary.active) {
           thatSummary = element.data.customSummary.summary;
         } else {
-          thatSummary = Object.keys(production.resources).filter(resourceId => element.data.resourceTypes.includes(production.resources[resourceId].metadata.type) && (0, _peritextUtils.resourceHasContents)(production.resources[resourceId])).map(resourceId => ({
+          const {
+            hideEmptyResources = false
+          } = element.data;
+          thatSummary = Object.keys(production.resources).filter(resourceId => element.data.resourceTypes.includes(production.resources[resourceId].metadata.type)).filter(resourceId => {
+            if (hideEmptyResources) {
+              return (0, _peritextUtils.resourceHasContents)(production.resources[resourceId]);
+            }
+
+            return true;
+          }).map(resourceId => ({
             resourceId,
             level: 0
-          }));
+          })).sort(_peritextUtils.defaultSortResourceSections);
         }
 
         thatSummary = thatSummary.map(({

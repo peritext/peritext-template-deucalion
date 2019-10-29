@@ -13,6 +13,7 @@ import SectionHead from './SectionHead';
 import InternalLink from './LinkProvider';
 import Aside from './Aside';
 import Railway from './Railway';
+import ResourcePreview from './ResourcePreview';
 
 const ellipse = ( str, max = 50 ) => {
   if ( str.length > max )
@@ -223,8 +224,11 @@ class Section extends Component {
     }
 
     const contents = section.data.contents.contents;
-    const sectionAuthors = section.metadata.authors;
-    const notesPosition = options.notesPosition;
+    const sectionAuthors = section.metadata.authors || {};
+    const {
+      notesPosition,
+      displayHeader,
+    } = options;
 
     const sectionAsCSLRecord = convertSectionToCslRecord( section, production, edition );
 
@@ -238,12 +242,18 @@ class Section extends Component {
             withHelmet
           />
         }
+
         <StructuredCOinS cslRecord={ sectionAsCSLRecord } />
         <div className={ 'main-column' }>
+          {
+            displayHeader &&
+            <ResourcePreview resource={ section } />
+          }
           <h1 className={ 'view-title section-title' }>
             {getResourceTitle( section ) || ( translate( 'untitled section' ) || 'Section sans titre' )}
           </h1>
           {section.metadata.subtitle && <h2 className={ 'subtitle' }>{section.metadata.subtitle}</h2>}
+
           {sectionAuthors.length > 0 &&
           <h2 className={ 'authors' }>
             {

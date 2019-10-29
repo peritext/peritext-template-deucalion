@@ -29,6 +29,8 @@ var _Aside = _interopRequireDefault(require("./Aside"));
 
 var _Railway = _interopRequireDefault(require("./Railway"));
 
+var _ResourcePreview = _interopRequireDefault(require("./ResourcePreview"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -218,8 +220,11 @@ class Section extends _react.Component {
       }
 
       const contents = section.data.contents.contents;
-      const sectionAuthors = section.metadata.authors;
-      const notesPosition = options.notesPosition;
+      const sectionAuthors = section.metadata.authors || {};
+      const {
+        notesPosition,
+        displayHeader
+      } = options;
       const sectionAsCSLRecord = (0, _utils.convertSectionToCslRecord)(section, production, edition);
       return _react.default.createElement("section", {
         className: `main-contents-container section-player has-notes-position-${notesPosition}`
@@ -232,7 +237,9 @@ class Section extends _react.Component {
         cslRecord: sectionAsCSLRecord
       }), _react.default.createElement("div", {
         className: 'main-column'
-      }, _react.default.createElement("h1", {
+      }, displayHeader && _react.default.createElement(_ResourcePreview.default, {
+        resource: section
+      }), _react.default.createElement("h1", {
         className: 'view-title section-title'
       }, (0, _peritextUtils.getResourceTitle)(section) || translate('untitled section') || 'Section sans titre'), section.metadata.subtitle && _react.default.createElement("h2", {
         className: 'subtitle'
