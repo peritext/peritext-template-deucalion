@@ -30,9 +30,11 @@ const RelatedContexts = ( {
     .filter( ( { contextualization: { id: contextualizationId } } ) => {
       return assetId ?
         contextualizationId !== assetId &&
+        production.contextualizations[contextualizationId] &&
         production.contextualizations[contextualizationId].sourceId === resourceId
-      : production.contextualizations[contextualizationId].sourceId === resourceId;
+      : production.contextualizations[contextualizationId] && production.contextualizations[contextualizationId].sourceId === resourceId;
     } )
+    .filter( ( c ) => c )
     .map( ( { contextualization: theContextualization } ) => ( {
       ...theContextualization,
       ...buildContextContent( production, theContextualization.id )
