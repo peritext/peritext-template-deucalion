@@ -420,7 +420,6 @@ class Layout extends Component {
           <section
             className={ `deucalion-layout has-view-class-${viewClass} ${asideVisible ? 'has-aside-visible' : ''} ${indexOpen ? 'has-index-open' : ''}` }
           >
-
             <section className={ 'main-container' }>
               <Scrollbars
                 ref={ bindGlobalScrollbarRef }

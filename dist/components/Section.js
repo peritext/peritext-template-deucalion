@@ -56,7 +56,7 @@ class Section extends _react.Component {
       return {
         openAsideContextualization: this.openAsideContextualization,
         openedContextualizationId: this.state.openedContextualizationId,
-        notes: production.resources[activeViewParams.resourceId].data.contents.notes,
+        notes: production.resources[activeViewParams.resourceId] && production.resources[activeViewParams.resourceId].data.contents.notes,
         onNoteContentPointerClick: this.onNoteContentPointerClick
       };
     });
@@ -216,7 +216,7 @@ class Section extends _react.Component {
       const section = production.resources[activeViewParams.resourceId];
 
       if (!section) {
-        return;
+        return null;
       }
 
       const contents = section.data.contents.contents;

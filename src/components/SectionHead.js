@@ -9,6 +9,9 @@ const SectionHead = ( {
   edition,
   withHelmet = false,
 } ) => {
+  if ( !section || !production ) {
+    return null;
+  }
   const title = `${edition.data.publicationTitle && edition.data.publicationTitle.length ? edition.data.publicationTitle : production.metadata.title} - ${section.metadata.title}`,
         authors = ( section.metadata.authors && section.metadata.authors.length ) ? section.metadata.authors : production.metadata.authors || [],
         tags = section.metadata.tags && section.metadata.tags.length ? section.metadata.tags : production.metadata.tags || [],
