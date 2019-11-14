@@ -13,8 +13,6 @@ var _d3Ease = require("d3-ease");
 
 var _reactCustomScrollbars = require("react-custom-scrollbars");
 
-var _reactCiteproc = require("react-citeproc");
-
 var _peritextUtils = require("peritext-utils");
 
 var _lodash = require("lodash");
@@ -26,6 +24,8 @@ var _utils = require("../utils");
 var _Nav = _interopRequireDefault(require("./Nav"));
 
 var _defaultStyle = _interopRequireDefault(require("../defaultStyle"));
+
+var _CitationsProvider = _interopRequireDefault(require("./CitationsProvider"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,7 +86,8 @@ class Layout extends _react.Component {
         bindContextualizationElement: this.bindContextualizationElement,
         scrollToContextualization: this.scrollToContextualization,
         toggleAsideVisible: this.toggleAsideVisible,
-        asideVisible: this.state.gui.asideVisible
+        asideVisible: this.state.gui.asideVisible,
+        preprocessedData: this.props.preprocessedData
       };
     });
 
@@ -131,72 +132,15 @@ class Layout extends _react.Component {
       this.contextualizationElements[id] = element;
     });
 
-    _defineProperty(this, "buildCitations", production => {
-      const {
-        contextualizations,
-        resources,
-        contextualizers
-      } = production;
-      const bibContextualizations = Object.keys(contextualizations).filter(assetKey => contextualizers[contextualizations[assetKey].contextualizerId].type === 'bib').map(assetKey => contextualizations[assetKey]); // build citations items data
-
-      const citationItems = bibContextualizations.reduce((finalCitations, contextualization) => {
-        const resource = resources[contextualization.sourceId];
-        const citations = [...(0, _peritextUtils.resourceToCslJSON)(resource), ...(contextualization.additionalResources ? contextualization.additionalResources.map(resId => (0, _peritextUtils.resourceToCslJSON)(resources[resId])) : [])].flat();
-        const newCitations = citations.reduce((final2, citation) => {
-          return _objectSpread({}, final2, {
-            [citation.id]: citation
-          });
-        }, {});
-        return _objectSpread({}, finalCitations, newCitations);
-      }, {}); // build citations's citations data
-
-      const citationInstances = bibContextualizations // Object.keys(bibContextualizations)
-      .map((bibCit, index) => {
-        const key1 = bibCit.id;
-        const contextualization = contextualizations[key1];
-        const contextualizer = contextualizers[contextualization.contextualizerId];
-        const resource = resources[contextualization.sourceId];
-        const targets = [...(0, _peritextUtils.resourceToCslJSON)(resource), ...(bibCit.additionalResources ? bibCit.additionalResources.map(resId => (0, _peritextUtils.resourceToCslJSON)(resources[resId])) : [])].flat();
-        return {
-          citationID: key1,
-          citationItems: targets.map(ref => ({
-            locator: contextualizer.locator,
-            prefix: contextualizer.prefix,
-            suffix: contextualizer.suffix,
-            // ...contextualizer,
-            id: ref.id
-          })),
-          properties: {
-            noteIndex: index + 1
-          }
-        };
-      }).filter(c => c);
-      /*
-       * map them to the clumsy formatting needed by citeProc
-       * todo: refactor the citationInstances --> citeProc-formatted data as a util
-       */
-
-      const citationData = citationInstances.map((instance, index) => [instance, // citations before
-      citationInstances.slice(0, index === 0 ? 0 : index).map(oCitation => [oCitation.citationID, oCitation.properties.noteIndex]), []
-      /*
-       * citations after (not using it seems to work anyway)
-       * citationInstances.slice(index)
-       *   .map((oCitation) => [
-       *       oCitation.citationID,
-       *       oCitation.properties.noteIndex
-       *     ]
-       *   ),
-       */
-      ]);
-      return {
-        citationItems,
-        citationData
-      };
-    });
-
     _defineProperty(this, "onProductionChange", production => {
+      const {
+        edition
+      } = this.props;
       this.setState({
-        citations: this.buildCitations(production)
+        citations: this.props.preprocessedData && this.props.preprocessedData.global && this.props.preprocessedData.global.citations || (0, _peritextUtils.buildCitations)({
+          production,
+          edition
+        }, true)
       });
     });
 
@@ -355,8 +299,6 @@ class Layout extends _react.Component {
       const {
         additionalHTML = ''
       } = data;
-      const citationStyle = edition.data.citationStyle.data;
-      const citationLocale = edition.data.citationLocale.data;
       const globalTitle = edition.data.publicationTitle && edition.data.publicationTitle.length ? edition.data.publicationTitle : production.metadata.title;
       const editionAsCSLRecord = (0, _utils.convertEditionToCslRecord)(production, edition);
 
@@ -366,12 +308,8 @@ class Layout extends _react.Component {
 
       const activeItem = viewId && summary.find(v => v.viewId === viewId);
       const locationTitle = activeItem && activeItem.routeClass !== 'landing' && activeItem.title;
-      return _react.default.createElement(_reactCiteproc.ReferencesManager, {
-        style: citationStyle,
-        locale: citationLocale,
-        items: citations.citationItems,
-        citations: citations.citationData,
-        componentClass: 'references-manager'
+      return _react.default.createElement(_CitationsProvider.default, {
+        citations: citations
       }, _react.default.createElement(_ProductionHead.default, {
         production: production,
         edition: edition,
@@ -425,7 +363,10 @@ class Layout extends _react.Component {
       gui: {
         indexOpen: false
       },
-      citations: this.buildCitations(_props.production),
+      citations: this.props.preprocessedData && this.props.preprocessedData.global && this.props.preprocessedData.global.citations || (0, _peritextUtils.buildCitations)({
+        production: _props.production,
+        edition: _props.edition
+      }, true),
       finalCss: this.updateStyles(_props, _context)
     };
     this.contextualizationElements = {};
@@ -454,7 +395,8 @@ Layout.childContextTypes = {
   bindContextualizationElement: _propTypes.default.func,
   scrollToContextualization: _propTypes.default.func,
   asideVisible: _propTypes.default.bool,
-  toggleAsideVisible: _propTypes.default.func
+  toggleAsideVisible: _propTypes.default.func,
+  preprocessedData: _propTypes.default.object
 };
 
 var _default = inBrowser && sizeMe ? sizeMe({

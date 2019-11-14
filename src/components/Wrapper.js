@@ -412,6 +412,7 @@ export default class Wrapper extends Component {
             edition={ this.props.edition }
             title={ navSummary[viewNavSummaryIndex].title }
             activeViewClass={ viewClass }
+            id={ navSummary[viewNavSummaryIndex].id }
             activeViewParams={ viewParams }
             options={ navSummary[viewNavSummaryIndex].options }
           />
@@ -443,6 +444,7 @@ export default class Wrapper extends Component {
           <References
             production={ this.props.production }
             edition={ this.props.edition }
+            id={ navSummary[viewNavSummaryIndex].id }
             title={ navSummary[viewNavSummaryIndex].title }
             activeViewClass={ viewClass }
             activeViewParams={ viewParams }
@@ -496,6 +498,7 @@ export default class Wrapper extends Component {
          production,
          edition,
          previewMode,
+         preprocessedData,
          useBrowserRouter = false,
        },
        state: {
@@ -518,6 +521,7 @@ export default class Wrapper extends Component {
           edition={ edition }
           viewId={ viewId }
           viewClass={ viewClass }
+          preprocessedData={ preprocessedData }
         >
           {renderView( { viewId, viewClass, viewParams, navSummary, viewNavSummaryIndex } )}
         </Layout>
@@ -540,6 +544,7 @@ export default class Wrapper extends Component {
           summary={ navSummary }
           production={ production }
           edition={ edition }
+          preprocessedData={ preprocessedData }
         >
           <Switch>
             {

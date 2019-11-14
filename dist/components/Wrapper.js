@@ -456,6 +456,7 @@ class Wrapper extends _react.Component {
             edition: this.props.edition,
             title: navSummary[viewNavSummaryIndex].title,
             activeViewClass: viewClass,
+            id: navSummary[viewNavSummaryIndex].id,
             activeViewParams: viewParams,
             options: navSummary[viewNavSummaryIndex].options
           });
@@ -484,6 +485,7 @@ class Wrapper extends _react.Component {
           return _react.default.createElement(_References.default, {
             production: this.props.production,
             edition: this.props.edition,
+            id: navSummary[viewNavSummaryIndex].id,
             title: navSummary[viewNavSummaryIndex].title,
             activeViewClass: viewClass,
             activeViewParams: viewParams,
@@ -572,6 +574,7 @@ class Wrapper extends _react.Component {
         production,
         edition,
         previewMode,
+        preprocessedData,
         useBrowserRouter = false
       },
       state: {
@@ -591,7 +594,8 @@ class Wrapper extends _react.Component {
         production: production,
         edition: edition,
         viewId: viewId,
-        viewClass: viewClass
+        viewClass: viewClass,
+        preprocessedData: preprocessedData
       }, renderView({
         viewId,
         viewClass,
@@ -616,7 +620,8 @@ class Wrapper extends _react.Component {
     }, _react.default.createElement(_Layout.default, {
       summary: navSummary,
       production: production,
-      edition: edition
+      edition: edition,
+      preprocessedData: preprocessedData
     }, _react.default.createElement(_reactRouterDom.Switch, null, routerSummary.map((element, index) => {
       const url = routeItemToUrl(element, index);
       const summaryIndex = this.getSummaryIndex({

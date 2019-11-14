@@ -15,8 +15,6 @@ var _MarkdownPlayer = _interopRequireDefault(require("./MarkdownPlayer"));
 
 var _Aside = _interopRequireDefault(require("./Aside"));
 
-var _utils = require("../utils");
-
 var _peritextUtils = require("peritext-utils");
 
 var _LinkProvider = _interopRequireDefault(require("./LinkProvider"));
@@ -28,8 +26,31 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 class Glossary extends _react.Component {
-  constructor(props) {
-    super(props);
+  constructor(_props, _context) {
+    super(_props);
+
+    _defineProperty(this, "componentWillReceiveProps", nextProps => {
+      this.setState({
+        glossaryData: this.buildGlossaryData(nextProps, this.context)
+      });
+    });
+
+    _defineProperty(this, "buildGlossaryData", (props, context) => {
+      const {
+        options,
+        production,
+        edition,
+        id
+      } = props;
+      const {
+        preprocessedData
+      } = context;
+      return preprocessedData && preprocessedData.blocks && preprocessedData.blocks[id] && preprocessedData.blocks[id].glossaryData || (0, _peritextUtils.buildGlossary)({
+        options,
+        production,
+        edition
+      });
+    });
 
     _defineProperty(this, "openResource", id => {
       if (!this.context.asideVisible) {
@@ -57,7 +78,8 @@ class Glossary extends _react.Component {
           title
         },
         state: {
-          openResourceId
+          openResourceId,
+          glossaryData
         },
         context: {
           translate
@@ -69,11 +91,6 @@ class Glossary extends _react.Component {
         showMentions = true,
         showDescription = true
       } = options;
-      const items = (0, _utils.buildGlossary)({
-        options,
-        production,
-        edition
-      });
       return _react.default.createElement("div", {
         className: 'main-contents-container glossary-player'
       }, _react.default.createElement("div", {
@@ -82,7 +99,7 @@ class Glossary extends _react.Component {
         className: 'view-title'
       }, title), _react.default.createElement("ul", {
         className: 'big-list-items-container'
-      }, items.map((item, index) => {
+      }, glossaryData.map((item, index) => {
         const handleClick = () => {
           openResource(item.resource.id);
         };
@@ -125,7 +142,8 @@ class Glossary extends _react.Component {
     });
 
     this.state = {
-      openResourceId: undefined
+      openResourceId: undefined,
+      glossaryData: this.buildGlossaryData(_props, _context)
     };
   }
 

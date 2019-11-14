@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import RelatedContexts from './RelatedContexts';
 import MarkdownPlayer from './MarkdownPlayer';
 import Aside from './Aside';
-import { buildGlossary } from '../utils';
-import { resourceHasContents } from 'peritext-utils';
+import { resourceHasContents, buildGlossary } from 'peritext-utils';
 import Link from './LinkProvider';
 
 export default class Glossary extends Component {
@@ -14,12 +13,28 @@ export default class Glossary extends Component {
     asideVisible: PropTypes.bool,
     toggleAsideVisible: PropTypes.func,
   }
-  constructor( props ) {
+  constructor( props, context ) {
     super( props );
     this.state = {
-      openResourceId: undefined
+      openResourceId: undefined,
+      glossaryData: this.buildGlossaryData( props, context )
     };
   }
+
+  componentWillReceiveProps = ( nextProps ) => {
+    this.setState( {
+      glossaryData: this.buildGlossaryData( nextProps, this.context )
+    } );
+  }
+
+  buildGlossaryData = ( props, context ) => {
+    const { options, production, edition, id } = props;
+    const { preprocessedData } = context;
+
+    return ( preprocessedData && preprocessedData.blocks && preprocessedData.blocks[id] && preprocessedData.blocks[id].glossaryData )
+  || buildGlossary( { options, production, edition } );
+  }
+
   openResource = ( id ) => {
     if ( !this.context.asideVisible ) {
       this.context.toggleAsideVisible();
@@ -44,7 +59,8 @@ export default class Glossary extends Component {
         title,
       },
       state: {
-        openResourceId
+        openResourceId,
+        glossaryData,
       },
       context: {
         translate,
@@ -58,7 +74,6 @@ export default class Glossary extends Component {
       showDescription = true,
     } = options;
 
-    const items = buildGlossary( { options, production, edition } );
     return (
       <div className={ 'main-contents-container glossary-player' }>
         <div className={ 'main-column' }>
@@ -66,7 +81,7 @@ export default class Glossary extends Component {
           {
             <ul className={ 'big-list-items-container' }>
               {
-              items.
+              glossaryData.
               map( ( item, index ) => {
                 const handleClick = () => {
                   openResource( item.resource.id );

@@ -467,7 +467,7 @@ a:active{
  */
 /* bibliographic citations */
 .csl-entry {
-    word-break: break-all;
+    // word-break: break-all;
 }
 
 /* nav toggle */
