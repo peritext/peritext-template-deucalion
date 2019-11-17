@@ -11,7 +11,7 @@ var _reactCiteproc = require("react-citeproc");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const makeAssetTitle = (resource, production, edition, citations) => {
+const makeAssetTitle = (resource, production, edition, citationItems) => {
   const type = resource.metadata.type;
 
   switch (type) {
@@ -19,7 +19,7 @@ const makeAssetTitle = (resource, production, edition, citations) => {
       return resource.data.name ? resource.data.name : `${resource.data.firstName} ${resource.data.lastName}`;
 
     case 'bib':
-      const citation = (0, _reactCiteproc.makeBibliography)(citations.citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data, {
+      const citation = (0, _reactCiteproc.makeBibliography)(citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data, {
         select: [{
           field: 'id',
           value: resource.data.citations[0].id

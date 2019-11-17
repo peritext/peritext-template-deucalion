@@ -2,14 +2,14 @@ import React from 'react';
 
 import { makeBibliography } from 'react-citeproc';
 
-export const makeAssetTitle = ( resource, production, edition, citations ) => {
+export const makeAssetTitle = ( resource, production, edition, citationItems ) => {
   const type = resource.metadata.type;
   switch ( type ) {
     case 'glossary':
       return resource.data.name ? resource.data.name : `${resource.data.firstName } ${ resource.data.lastName}`;
     case 'bib':
       const citation = makeBibliography(
-        citations.citationItems,
+        citationItems,
         edition.data.citationStyle.data,
         edition.data.citationLocale.data,
         {

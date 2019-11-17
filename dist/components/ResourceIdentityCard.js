@@ -11,21 +11,18 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _MarkdownPlayer = _interopRequireDefault(require("./MarkdownPlayer"));
 
-var _utils = require("../utils");
+var _peritextUtils = require("peritext-utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const ResourceIdentityCard = ({
   resource,
-  production,
-  edition,
   showTitle = true
 }, {
-  rawCitations,
   contextualizers,
   translate
 }) => {
-  const assetTitle = (0, _utils.makeAssetTitle)(resource, production, edition, rawCitations);
+  const assetTitle = (0, _peritextUtils.getResourceTitle)(resource);
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
   const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
   return _react.default.createElement("div", {
@@ -53,7 +50,7 @@ const ResourceIdentityCard = ({
 };
 
 ResourceIdentityCard.contextTypes = {
-  rawCitations: _propTypes.default.object,
+  citationItems: _propTypes.default.object,
   contextualizers: _propTypes.default.object,
   translate: _propTypes.default.func
 };

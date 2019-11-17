@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MarkdownPlayer from './MarkdownPlayer';
-import { makeAssetTitle } from '../utils';
+import { getResourceTitle } from 'peritext-utils';
 
 const ResourceIdentityCard = ( {
   resource,
-  production,
-  edition,
   showTitle = true,
 }, {
-  rawCitations,
   contextualizers,
   translate
 } ) => {
-  const assetTitle = makeAssetTitle( resource, production, edition, rawCitations );
+  const assetTitle = getResourceTitle( resource );
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
   const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
   return (
@@ -58,7 +55,7 @@ const ResourceIdentityCard = ( {
 };
 
 ResourceIdentityCard.contextTypes = {
-  rawCitations: PropTypes.object,
+  citationItems: PropTypes.object,
   contextualizers: PropTypes.object,
   translate: PropTypes.func,
 };

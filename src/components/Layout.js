@@ -75,6 +75,9 @@ class Layout extends Component {
       asideVisible: this.state.gui.asideVisible,
 
       preprocessedData: this.props.preprocessedData,
+
+      citationStyle: this.props.edition.data.citationStyle.data,
+      citationLocale: this.props.edition.data.citationLocale.data,
     };
   }
 
@@ -410,6 +413,9 @@ Layout.childContextTypes = {
   toggleAsideVisible: PropTypes.func,
 
   preprocessedData: PropTypes.object,
+
+  citationStyle: PropTypes.string,
+  citationLocale: PropTypes.string,
 };
 
 export default inBrowser && sizeMe ? sizeMe( {

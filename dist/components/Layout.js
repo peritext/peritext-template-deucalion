@@ -87,7 +87,9 @@ class Layout extends _react.Component {
         scrollToContextualization: this.scrollToContextualization,
         toggleAsideVisible: this.toggleAsideVisible,
         asideVisible: this.state.gui.asideVisible,
-        preprocessedData: this.props.preprocessedData
+        preprocessedData: this.props.preprocessedData,
+        citationStyle: this.props.edition.data.citationStyle.data,
+        citationLocale: this.props.edition.data.citationLocale.data
       };
     });
 
@@ -396,7 +398,9 @@ Layout.childContextTypes = {
   scrollToContextualization: _propTypes.default.func,
   asideVisible: _propTypes.default.bool,
   toggleAsideVisible: _propTypes.default.func,
-  preprocessedData: _propTypes.default.object
+  preprocessedData: _propTypes.default.object,
+  citationStyle: _propTypes.default.string,
+  citationLocale: _propTypes.default.string
 };
 
 var _default = inBrowser && sizeMe ? sizeMe({

@@ -469,6 +469,9 @@ a:active{
 .csl-entry {
     // word-break: break-all;
 }
+cite{
+  font-style: inherit;
+}
 
 /* nav toggle */
 .deucalion-layout .nav-header .nav-toggle {
@@ -514,10 +517,6 @@ even when notes are in the end*/
 {
   margin-bottom: var(--gutter-medium);
   line-height: 1.4;
-}
-
-.rendered-content .unstyled:not(:first-of-type){
-  text-indent : 2em;
 }
 
 .has-view-class-sections .main-column .rendered-content .unstyled:first-of-type::first-letter{
@@ -664,8 +663,12 @@ h1{
 
 .block-contextualization-container.embed{
   min-height: 50vh;
-  max-height: 80vh;
   position: absolute;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .block-contextualization-container.embed .fullscreen > div{
@@ -686,6 +689,35 @@ h1{
 .block-contextualization-container.embed .fullscreen .fullscreen-btn{
   right: 1rem;
   botttom: 1rem;
+}
+.peritext-contextualization.block.embed .cover{
+  position: relative;
+}
+
+.peritext-contextualization.block.embed .cover img{
+  max-width: 100%;
+  max-height: 100%;
+  min-height: unset;
+}
+
+
+.block-contextualization-container.embed .cover h3{
+      background: rgba(0,0,0,0.8);
+      color: white;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: .5s ease;
+      padding: 0;
+      margin: 0;
+}
+.block-contextualization-container.embed .cover h3&:hover{
+  background: rgba(0,0,0,0.5);
 }
 
 .block-contextualization-container.table{
@@ -802,7 +834,6 @@ h1{
 .nav .location-title{
   cursor: pointer;
   padding-left: var(--gutter-medium);
-  text-transform: capitalize;
 }
 .nav-content-container ul{
   margin: 0;
