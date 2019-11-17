@@ -11,7 +11,7 @@ var _reactCiteproc = require("react-citeproc");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const makeAssetTitle = (resource, production, edition, citationItems) => {
+const makeAssetTitle = (resource, production, edition, citationItems = {}) => {
   const type = resource.metadata.type;
 
   switch (type) {

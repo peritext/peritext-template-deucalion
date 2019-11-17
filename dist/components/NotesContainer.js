@@ -9,6 +9,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _debounce = _interopRequireDefault(require("lodash/debounce"));
+
 var _NoteItem = _interopRequireDefault(require("./NoteItem"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29,8 +31,10 @@ function getOffset(el) {
   let _y = 0;
 
   while (el && !el.classList.contains('deucalion-layout') && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
-    _x += el.offsetLeft - el.scrollLeft;
-    _y += el.offsetTop - el.scrollTop;
+    _x += el.offsetLeft; // - el.scrollLeft;
+
+    _y += el.offsetTop; // - el.scrollTop;
+
     el = el.offsetParent;
   }
 
@@ -52,12 +56,23 @@ class NotesContainer extends _react.Component {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "componentDidUpdate", prevProps => {
-      if (this.props.notesPosition === 'sidenotes' && (this.props.notesPosition !== prevProps.notesPosition || this.props.notes !== prevProps.notes)) {
-        setTimeout(() => {
-          this.updatePositions();
-        });
+    _defineProperty(this, "componentDidUpdate", (prevProps, prevState) => {
+      if (prevState.witnessTop !== this.state.witnessTop && this.props.notesPosition === 'sidenotes') {
+        setTimeout(() => this.updatePositions(), 500);
       }
+      /*
+       * if ( this.props.notesPosition === 'sidenotes' &&
+       *   (
+       *     ( this.props.notesPosition !== prevProps.notesPosition ) ||
+       *     ( this.props.notes !== prevProps.notes )
+       *   )
+       * ) {
+       *   setTimeout( () => {
+       *     this.updatePositions();
+       *   } );
+       * }
+       */
+
     });
 
     _defineProperty(this, "updatePositions", () => {
@@ -65,8 +80,7 @@ class NotesContainer extends _react.Component {
       const components = this.props.notesOrder.map(noteId => {
         const note = this.props.notes[noteId];
         const usedDocument = this.context.usedDocument || document;
-        const component = usedDocument.getElementById(`note-content-pointer-${note.id}`); // const position = component.getBoundingClientRect();
-
+        const component = usedDocument.getElementById(`note-content-pointer-${note.id}`);
         const position = getOffset(component);
         return {
           order: note.finalOrder,
@@ -120,8 +134,11 @@ class NotesContainer extends _react.Component {
        * notesStyles will store a map of styles for each note
        * (keys will be notes ids, values styling objects)
        */
-      notesStyles: {}
+      notesStyles: {},
+      witnessTop: 0
     };
+    this.witness = (0, _react.createRef)(null);
+    this.updatePositions = (0, _debounce.default)(this.updatePositions, 500);
   }
   /**
    * Executes code after the component was mounted
@@ -129,15 +146,12 @@ class NotesContainer extends _react.Component {
 
 
   componentDidMount() {
-    /*
-     * if notes are displayed side by side with content
-     * we have to compute their position after contents were
-     * rendered a first time
-     */
-    if (this.props.notesPosition === 'sidenotes') {
-      setTimeout(() => {
-        this.updatePositions();
-      }, 2000);
+    if (this.witness && this.witness.current) {
+      const witnessTop = this.witness.current.offsetTop;
+      this.setState({
+        witnessTop
+      });
+      /* eslint react/no-did-mount-set-state : 0 */
     }
   }
   /**
@@ -147,16 +161,28 @@ class NotesContainer extends _react.Component {
 
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.notesPosition === 'sidenotes' && // ( this.props.notesPosition !== nextProps.notesPosition ) ||
-    this.context.dimensions.width !== nextContext.dimensions.width) {
-      // this.updatePositions();
+    const witnessTop = this.witness && this.witness.current && this.witness.current.offsetTop;
 
+    if (witnessTop !== this.state.witnessTop) {
+      this.setState({
+        witnessTop
+      });
+    }
+
+    if (nextProps.notesPosition === 'sidenotes' && (this.props.notesPosition !== nextProps.notesPosition || this.context.dimensions.width !== nextContext.dimensions.width //     // ( this.props.notes !== nextProps.notes )
+    )) {
+      // this.updatePositions();
+      setTimeout(() => this.updatePositions(), 500);
       /*
        * we launch it a second time to wait the height
        * of notes has adjusted to their new container
        * (todo: improve that)
        */
-      setTimeout(this.updatePositions); // setTimeout( this.updatePositions, 1000 );
+
+      /*
+       * setTimeout( this.updatePositions );
+       * setTimeout( this.updatePositions, 1000 );
+       */
     }
   }
 
@@ -197,7 +223,9 @@ class NotesContainer extends _react.Component {
         ref: bindRef,
         style: this.props.notesPosition === 'sidenotes' ? notesStyles[note.id] : {}
       });
-    })));
+    })), _react.default.createElement("div", {
+      ref: this.witness
+    }));
   }
 
 }
