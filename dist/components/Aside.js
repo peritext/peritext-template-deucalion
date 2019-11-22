@@ -33,7 +33,7 @@ const Aside = ({
   }, title), typeof onClose === 'function' && _react.default.createElement("button", {
     onClick: onClose,
     className: 'aside-close-btn'
-  }, "\u2716")), _react.default.createElement("div", {
+  }, "\xD7")), _react.default.createElement("div", {
     className: 'aside-body'
   }, children)));
 };

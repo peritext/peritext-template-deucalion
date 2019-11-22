@@ -23,7 +23,7 @@ var _Aside = _interopRequireDefault(require("./Aside"));
 
 var _RelatedContexts = _interopRequireDefault(require("./RelatedContexts"));
 
-var _utils = require("../utils");
+var _peritextUtils = require("peritext-utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -124,7 +124,7 @@ class Places extends _react.Component {
       const {
         mapStyle = 'toner'
       } = options;
-      const items = (0, _utils.buildGlossary)({
+      const items = (0, _peritextUtils.buildGlossary)({
         options: _objectSpread({}, options, {
           glossaryTypes: ['place']
         }),

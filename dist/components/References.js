@@ -27,10 +27,11 @@ const ReferenceCard = ({
   item,
   onOpen,
   translate,
-  showMentions
+  showMentions,
+  active
 }) => {
   return _react.default.createElement("li", {
-    className: 'big-list-item'
+    className: `big-list-item ${active ? 'active' : ''}`
   }, _react.default.createElement("div", {
     className: 'big-list-item-content'
   }, _react.default.createElement("div", {
@@ -158,6 +159,7 @@ class References extends _react.Component {
           item: item,
           onOpen: handleOpen,
           showMentions: showMentions,
+          active: openResourceId === item.resource.id,
           citationStyle: edition.data.citationStyle,
           citationLocale: edition.data.citationLocale,
           translate: translate

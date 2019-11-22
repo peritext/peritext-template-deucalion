@@ -63,9 +63,15 @@ const RelatedContexts = ({
     target: 'blank',
     rel: 'noopener',
     href: citation.URL
-  }, translate('Browse online')))), related.length ? _react.default.createElement("ul", {
+  }, translate('Browse online')))), related.length ? _react.default.createElement("div", {
     className: 'related-contexts-container'
-  }, _react.default.createElement("h3", null, translate('This item is mentionned in'), ' : '), related.filter(thatContextualization => thatContextualization.targetContents !== undefined).map(thatContextualization => _react.default.createElement("li", {
+  }, _react.default.createElement("div", {
+    className: 'mentions-title-container'
+  }, _react.default.createElement("span", {
+    className: 'mentions-title'
+  }, translate('mentions'))), _react.default.createElement("ul", {
+    className: 'related-contexts-list'
+  }, related.filter(thatContextualization => thatContextualization.targetContents !== undefined).map(thatContextualization => _react.default.createElement("li", {
     className: 'related-context',
     key: thatContextualization.id
   }, _react.default.createElement(_ContextMention.default, {
@@ -74,11 +80,11 @@ const RelatedContexts = ({
     sectionTitle: (0, _peritextUtils.getResourceTitle)(production.resources[thatContextualization.targetId]),
     targetId: thatContextualization.targetId,
     contextualizationId: thatContextualization.id
-  })))) : _react.default.createElement("div", {
+  }))))) : _react.default.createElement("div", {
     className: 'body'
   }), _react.default.createElement("div", {
     className: 'footer'
-  }, _react.default.createElement("p", null, _react.default.createElement(_LinkProvider.default, {
+  }, _react.default.createElement("div", null, _react.default.createElement(_LinkProvider.default, {
     to: {
       routeClass: 'resourceSheet',
       routeParams: {
@@ -87,7 +93,7 @@ const RelatedContexts = ({
     },
     target: 'blank',
     rel: 'noopener'
-  }, translate('Print mentions'))), (0, _peritextUtils.resourceHasContents)(resource) && _react.default.createElement("p", null, _react.default.createElement(_LinkProvider.default, {
+  }, translate('print mentions'))), (0, _peritextUtils.resourceHasContents)(resource) && _react.default.createElement("div", null, _react.default.createElement(_LinkProvider.default, {
     to: {
       routeClass: 'resourcePage',
       routeParams: {
@@ -96,7 +102,7 @@ const RelatedContexts = ({
     },
     target: 'blank',
     rel: 'noopener'
-  }, translate('Expand contents')))), _react.default.createElement(_reactTooltip.default, {
+  }, translate('expand contents')))), _react.default.createElement(_reactTooltip.default, {
     id: 'tooltip'
   }));
 };

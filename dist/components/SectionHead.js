@@ -33,7 +33,7 @@ const SectionHead = ({
   const authorsStr = authors.map(a => `${a.given} ${a.family}`).join(', ');
   const Container = withHelmet ? _reactHelmet.default : PlainHead;
   return _react.default.createElement(Container, null, _react.default.createElement("meta", {
-    charset: 'UTF-8'
+    charSet: 'UTF-8'
   }), _react.default.createElement("title", null, title), _react.default.createElement("meta", {
     name: 'generator',
     content: 'peritext'

@@ -15,7 +15,7 @@ var _RelatedContexts = _interopRequireDefault(require("./RelatedContexts"));
 
 var _Aside = _interopRequireDefault(require("./Aside"));
 
-var _utils = require("../utils");
+var _peritextUtils = require("peritext-utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63,7 +63,7 @@ class Events extends _react.Component {
         toggleOpenedEvent,
         openEvent
       } = this;
-      const items = (0, _utils.buildGlossary)({
+      const items = (0, _peritextUtils.buildGlossary)({
         options: _objectSpread({}, options, {
           glossaryTypes: ['event']
         }),

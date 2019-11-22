@@ -19,6 +19,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+const isBrowser = new Function('try {return this===window;}catch(e){ return false;}');
+const inBrowser = isBrowser();
+/* eslint no-new-func : 0 */
+
 /**
  * Retrieves the absolute offset of an element
  * (this avoids to use an additionnal lib such as jquery to handle the operation)
@@ -26,6 +30,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @param {DOMElement} el - the element to inspect
  * @return {object} offset - the absolute offset of the element
  */
+
 function getOffset(el) {
   let _x = 0;
   let _y = 0;
@@ -120,7 +125,8 @@ class NotesContainer extends _react.Component {
       }
 
       this.setState({
-        notesStyles
+        notesStyles,
+        notesVisible: true
       });
     });
 
@@ -135,7 +141,8 @@ class NotesContainer extends _react.Component {
        * (keys will be notes ids, values styling objects)
        */
       notesStyles: {},
-      witnessTop: 0
+      witnessTop: 0,
+      notesVisible: !(props.notesPosition === 'sidenotes' && inBrowser)
     };
     this.witness = (0, _react.createRef)(null);
     this.updatePositions = (0, _debounce.default)(this.updatePositions, 500);
@@ -146,13 +153,19 @@ class NotesContainer extends _react.Component {
 
 
   componentDidMount() {
+    const stateChanges = {};
+
     if (this.witness && this.witness.current) {
       const witnessTop = this.witness.current.offsetTop;
-      this.setState({
-        witnessTop
-      });
-      /* eslint react/no-did-mount-set-state : 0 */
+      stateChanges.witnessTop = witnessTop;
     }
+
+    if (this.props.notesPosition === 'sidenotes') {
+      setTimeout(() => this.updatePositions());
+    }
+
+    this.setState(stateChanges);
+    /* eslint react/no-did-mount-set-state : 0 */
   }
   /**
    * Executes code when component receives new properties
@@ -169,20 +182,15 @@ class NotesContainer extends _react.Component {
       });
     }
 
+    if (nextProps.notesPosition === 'sidenotes' && this.props.notesOrder !== nextProps.notesOrder) {
+      this.setState({
+        notesVisible: false
+      });
+    }
+
     if (nextProps.notesPosition === 'sidenotes' && (this.props.notesPosition !== nextProps.notesPosition || this.context.dimensions.width !== nextContext.dimensions.width //     // ( this.props.notes !== nextProps.notes )
     )) {
-      // this.updatePositions();
       setTimeout(() => this.updatePositions(), 500);
-      /*
-       * we launch it a second time to wait the height
-       * of notes has adjusted to their new container
-       * (todo: improve that)
-       */
-
-      /*
-       * setTimeout( this.updatePositions );
-       * setTimeout( this.updatePositions, 1000 );
-       */
     }
   }
 
@@ -200,9 +208,13 @@ class NotesContainer extends _react.Component {
       title
     } = this.props;
     const {
-      notesStyles
+      notesStyles,
+      notesVisible
     } = this.state;
     return _react.default.createElement("div", {
+      style: {
+        display: notesVisible ? 'block' : 'none'
+      },
       className: `notes-container is-position-${notesPosition}`
     }, _react.default.createElement("h2", {
       className: 'notes-title',

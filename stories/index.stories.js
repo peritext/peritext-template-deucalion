@@ -3,6 +3,8 @@ import { storiesOf } from '@storybook/react';
 
 import ContextProvider from './ContextProvider';
 
+import { preprocessEditionData } from 'peritext-utils';
+
 import template from '../src';
 import production from './assets/production.json';
 import { webEdition, editionTypes } from './assets/mocks';
@@ -25,8 +27,13 @@ const contextualizers = {
   table: require( 'peritext-contextualizer-table' ),
 };
 
+const preprocessedData = preprocessEditionData( {
+  production,
+  edition: webEdition
+} );
+
 const extractSpecificView = ( ...viewTypes ) => {
-  return {
+  const newEdition = {
     ...webEdition,
     data: {
       ...webEdition.data,
@@ -36,9 +43,17 @@ const extractSpecificView = ( ...viewTypes ) => {
       }
     }
   };
+  const thatPrepro = preprocessEditionData( {
+    production,
+    edition: newEdition
+  } );
+  return {
+    edition: newEdition,
+    preprocessedData: thatPrepro
+  };
 };
 
-const renderWithEdition = ( thatEdition ) => (
+const renderWithEdition = ( { edition: thatEdition, preprocessedData: thatPrepro } ) => (
   <ContextProvider
     renderingMode={ 'screened' }
   >
@@ -49,6 +64,7 @@ const renderWithEdition = ( thatEdition ) => (
                 edition: thatEdition,
                 lang: 'fr',
                 contextualizers,
+                preprocessedData: thatPrepro,
                 previewMode: true,
                 locale: {},
               }
@@ -58,7 +74,7 @@ const renderWithEdition = ( thatEdition ) => (
 );
 
 storiesOf( 'Template', module )
-  .add( 'complete edition', () => renderWithEdition( webEdition ) )
+  .add( 'complete edition', () => renderWithEdition( webEdition, preprocessedData ) )
   .add( 'sections', () => renderWithEdition( extractSpecificView( 'sections' ) ) )
   .add( 'landing', () => renderWithEdition( extractSpecificView( 'landing' ) ) )
   .add( 'resources map', () => renderWithEdition( extractSpecificView( 'resourcesMap', 'sections' ) ) )

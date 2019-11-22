@@ -29,7 +29,8 @@ const BlockAssetWrapper = ({
   contextualizers,
   containerId,
   bindContextualizationElement,
-  renderingMode = 'screened'
+  renderingMode = 'screened',
+  openedContextualizationId
 }) => {
   const assetId = data.asset.id;
   const contextualization = production && production.contextualizations && production.contextualizations[assetId];
@@ -61,10 +62,12 @@ const BlockAssetWrapper = ({
     }
   };
 
+  const active = assetId === openedContextualizationId;
+
   if (contextualization && Component) {
     const isHidden = !visibility[renderingMode];
     return isHidden ? null : _react.default.createElement("figure", {
-      className: `block-contextualization-container ${contextualizer.type}`,
+      className: `block-contextualization-container ${contextualizer.type} ${active ? 'active' : ''}`,
       style: {
         position: 'relative'
       },
@@ -83,7 +86,7 @@ const BlockAssetWrapper = ({
     }, renderingMode === 'screened' ? _react.default.createElement("div", null, _react.default.createElement("button", {
       className: 'link mention-context-pointer',
       onClick: handleMoreInformation
-    }, _react.default.createElement("span", null, contextualization.title || resource.metadata.title), _react.default.createElement("sup", null, "\u25C8"))) : _react.default.createElement("span", null, contextualization.title || resource.metadata.title)), contextualization.legend && _react.default.createElement("div", {
+    }, _react.default.createElement("span", null, contextualization.title || resource.metadata.title))) : _react.default.createElement("span", null, contextualization.title || resource.metadata.title)), contextualization.legend && _react.default.createElement("div", {
       className: 'figure-legend'
     }, _react.default.createElement(_MarkdownPlayer.default, {
       src: contextualization.legend
@@ -133,7 +136,8 @@ BlockAssetWrapper.contextTypes = {
   containerId: _propTypes.default.string,
   openAsideContextualization: _propTypes.default.func,
   bindContextualizationElement: _propTypes.default.func,
-  renderingMode: _propTypes.default.string
+  renderingMode: _propTypes.default.string,
+  openedContextualizationId: _propTypes.default.string
 };
 var _default = BlockAssetWrapper;
 exports.default = _default;

@@ -46,7 +46,7 @@ const ResourceIdentityCard = ({
     src: description
   })), resource.metadata.source && resource.metadata.source.trim().length && _react.default.createElement("div", {
     className: 'source'
-  }, _react.default.createElement("span", null, translate('source')), ": ", _react.default.createElement("span", null, resource.metadata.source))));
+  }, _react.default.createElement("span", null, translate('source'), ": "), _react.default.createElement("span", null, resource.metadata.source))));
 };
 
 ResourceIdentityCard.contextTypes = {

@@ -104,8 +104,9 @@ class Glossary extends _react.Component {
           openResource(item.resource.id);
         };
 
+        const active = openResourceId === item.resource.id;
         return _react.default.createElement("li", {
-          className: 'big-list-item',
+          className: `big-list-item ${active ? 'active' : ''}`,
           key: index
         }, _react.default.createElement("div", {
           className: 'big-list-item-content'

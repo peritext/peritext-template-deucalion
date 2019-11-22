@@ -55,7 +55,7 @@ class Section extends _react.Component {
       } = this.props;
       return {
         openAsideContextualization: this.openAsideContextualization,
-        openedContextualizationId: this.state.openedContextualizationId,
+        openedContextualizationId: this.state.gui.openedContextualizationId,
         notes: production.resources[activeViewParams.resourceId] && production.resources[activeViewParams.resourceId].data.contents.notes,
         onNoteContentPointerClick: this.onNoteContentPointerClick
       };
@@ -96,6 +96,11 @@ class Section extends _react.Component {
       setTimeout(() => {
         if (props.activeViewParams.contextualizationId) {
           this.context.scrollToContextualization(props.activeViewParams.contextualizationId);
+          this.setState({
+            gui: {
+              openedContextualizationId: props.activeViewParams.contextualizationId
+            }
+          });
         } else {
           this.context.scrollToTop(0, false, false);
         }
@@ -166,11 +171,33 @@ class Section extends _react.Component {
         this.context.toggleAsideVisible();
       }
 
-      this.setState({
-        gui: _objectSpread({}, this.state.gui, {
-          openedContextualizationId: assetId
-        })
-      });
+      if (this.state.gui.openedContextualizationId !== assetId) {
+        this.setState({
+          gui: _objectSpread({}, this.state.gui, {
+            isLoadingAside: true
+          })
+        }, () => {
+          setTimeout(() => {
+            this.setState({
+              gui: _objectSpread({}, this.state.gui, {
+                openedContextualizationId: assetId
+              })
+            }, () => {
+              this.setState({
+                gui: _objectSpread({}, this.state.gui, {
+                  isLoadingAside: false
+                })
+              });
+            });
+          });
+        });
+      } else {
+        this.setState({
+          gui: _objectSpread({}, this.state.gui, {
+            openedContextualizationId: undefined
+          })
+        });
+      }
     });
 
     _defineProperty(this, "render", () => {
@@ -178,7 +205,8 @@ class Section extends _react.Component {
         closeAsideContextualization,
         state: {
           gui: {
-            openedContextualizationId
+            openedContextualizationId,
+            isLoadingAside
           },
           shadows
         },
@@ -307,7 +335,9 @@ class Section extends _react.Component {
         scrollTopRatio: scrollTopRatio,
         scrollToElement: scrollToElement,
         shadows: shadows
-      }));
+      }), _react.default.createElement("div", {
+        className: `loader ${isLoadingAside ? 'active' : ''}`
+      }, _react.default.createElement("span", null, translate('Loading'))));
     });
 
     this.state = {

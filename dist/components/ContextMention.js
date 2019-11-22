@@ -44,7 +44,9 @@ const ContextMention = ({
     }
   }, _react.default.createElement(_Renderer.default, {
     raw: contents
-  }), _react.default.createElement("h3", null, sectionTitle)))) : _react.default.createElement("div", null, _react.default.createElement("h3", null, sectionTitle), _react.default.createElement("div", {
+  }), _react.default.createElement("h3", {
+    className: 'mention-section-name'
+  }, sectionTitle)))) : _react.default.createElement("div", null, _react.default.createElement("h3", null, sectionTitle), _react.default.createElement("div", {
     className: 'excerpt'
   }, _react.default.createElement(_Renderer.default, {
     raw: contents
