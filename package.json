@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/peritext/peritext-template-deucalion#readme",
   "peerDependencies": {
-    "react": "^16.7.0-alpha",
-    "react-dom": "^16.7.0-alpha",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "lodash": "^4.17",
     "peritext-utils": "^0.2.6"
   },
@@ -39,7 +39,6 @@
     "d3-zoom": "^1.7.3",
     "object-path": "^0.11.4",
     "peritext-schemas": "^0.2.1",
-    "peritext-utils": "^0.2.1",
     "pigeon-maps": "^0.12.1",
     "pigeon-overlay": "^0.2.3",
     "react-citeproc": "^0.1.10",
@@ -72,18 +71,19 @@
     "eslint": "^4.19.1",
     "eslint-plugin-mocha": "^6.1.0",
     "eslint-plugin-react": "^7.5.1",
-    "peritext-contextualizer-bib": "^0.1.0",
-    "peritext-contextualizer-embed": "^0.1.1",
+    "peritext-contextualizer-bib": "^0.2.3",
+    "peritext-contextualizer-embed": "^0.1.2",
     "peritext-contextualizer-glossary": "^0.1.0",
-    "peritext-contextualizer-image": "^0.1.0",
+    "peritext-contextualizer-image": "^0.2.1",
     "peritext-contextualizer-source-code": "^0.1.0",
     "peritext-contextualizer-table": "^0.1.2",
     "peritext-contextualizer-vegalite": "^0.1.0",
-    "peritext-contextualizer-video": "^0.1.0",
+    "peritext-contextualizer-video": "^0.2.1",
     "peritext-contextualizer-webpage": "^0.1.0",
+    "peritext-utils": "^0.2.7",
     "pre-commit": "^1.2.2",
-    "react": "^16.7.0-alpha",
-    "react-dom": "^16.7.0-alpha"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "babel": {
     "plugins": [
