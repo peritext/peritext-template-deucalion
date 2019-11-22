@@ -46,7 +46,7 @@ const ResourceIdentityCard = ( {
         {
         resource.metadata.source && resource.metadata.source.trim().length &&
         <div className={ 'source' }>
-          <span>{translate( 'source' )}</span>: <span>{ resource.metadata.source }</span>
+          <span>{translate( 'source' )}: </span><span>{ resource.metadata.source }</span>
         </div>
       }
       </div>

@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 import RelatedContexts from './RelatedContexts';
 import Aside from './Aside';
 
-import { buildGlossary } from '../utils';
+import { buildGlossary } from 'peritext-utils';
 
 export default class Events extends Component {
 

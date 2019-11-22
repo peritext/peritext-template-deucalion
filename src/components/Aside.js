@@ -29,7 +29,7 @@ const Aside = ( {
               onClick={ onClose }
               className={ 'aside-close-btn' }
             >
-              ✖
+              ×
             </button>
           }
         </div>

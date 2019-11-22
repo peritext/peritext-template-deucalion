@@ -36,7 +36,7 @@ const ContextMention = ( {
               } }
               >
                 <Renderer raw={ contents } />
-                <h3>{sectionTitle}</h3>
+                <h3 className={ 'mention-section-name' }>{sectionTitle}</h3>
               </Link>
             </div>
           </div>

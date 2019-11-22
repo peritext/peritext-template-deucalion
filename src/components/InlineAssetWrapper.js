@@ -12,7 +12,7 @@ const InlineAssetWrapper = ( {
   openedContextualizationId,
   openAsideContextualization,
   bindContextualizationElement,
-  renderingMode = 'screened',
+  // renderingMode = 'screened',
   productionAssets: assets = {},
 } ) => {
   const assetId = data.asset && data.asset.id;
@@ -52,7 +52,7 @@ const InlineAssetWrapper = ( {
   if ( contextualizer && Component ) {
     return (
       <span
-        className={ `${'InlineAssetWrapper ' + 'inline-'}${ contextualizer.type }${active ? ' active' : ''} inline-contextualization-container ${ contextualizer.type}` }
+        className={ `${'inline-'}${ contextualizer.type } ${active ? 'active' : ''} inline-contextualization-container ${ contextualizer.type}` }
         id={ assetId }
         ref={ bindRef }
         onClick={ handleMainClick }
@@ -71,14 +71,6 @@ const InlineAssetWrapper = ( {
         >
           {children}
         </Component>
-        {renderingMode === 'screened' &&
-          <sup
-            className={ 'link mention-context-pointer' }
-            onClick={ onClick }
-          >
-            ◈
-          </sup>
-        }
       </span>
     );
   }
@@ -111,7 +103,7 @@ InlineAssetWrapper.contextTypes = {
   openAsideContextualization: PropTypes.func,
   bindContextualizationElement: PropTypes.func,
   productionAssets: PropTypes.object,
-  renderingMode: PropTypes.string,
+  // renderingMode: PropTypes.string,
 };
 
 export default InlineAssetWrapper;

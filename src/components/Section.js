@@ -44,7 +44,7 @@ class Section extends Component {
     return {
 
       openAsideContextualization: this.openAsideContextualization,
-      openedContextualizationId: this.state.openedContextualizationId,
+      openedContextualizationId: this.state.gui.openedContextualizationId,
       notes: production.resources[activeViewParams.resourceId] && production.resources[activeViewParams.resourceId].data.contents.notes,
       onNoteContentPointerClick: this.onNoteContentPointerClick,
     };
@@ -102,6 +102,11 @@ class Section extends Component {
     setTimeout( () => {
       if ( props.activeViewParams.contextualizationId ) {
           this.context.scrollToContextualization( props.activeViewParams.contextualizationId );
+          this.setState( {
+            gui: {
+              openedContextualizationId: props.activeViewParams.contextualizationId
+            }
+          } );
       }
       else {
         this.context.scrollToTop( 0, false, false );
@@ -163,12 +168,42 @@ class Section extends Component {
     if ( !this.context.asideVisible ) {
       this.context.toggleAsideVisible();
     }
-    this.setState( {
-      gui: {
-        ...this.state.gui,
-        openedContextualizationId: assetId,
-      }
-    } );
+    if ( this.state.gui.openedContextualizationId !== assetId ) {
+      this.setState( {
+        gui: {
+          ...this.state.gui,
+          isLoadingAside: true,
+        }
+      }, () => {
+        setTimeout( () => {
+          this.setState( {
+            gui: {
+              ...this.state.gui,
+              openedContextualizationId: assetId,
+            }
+          }, () => {
+              this.setState( {
+                gui: {
+                  ...this.state.gui,
+                  isLoadingAside: false,
+                }
+              } );
+
+          } );
+        } );
+
+      } );
+
+    }
+ else {
+      this.setState( {
+        gui: {
+          ...this.state.gui,
+          openedContextualizationId: undefined,
+        }
+      } );
+    }
+
   }
 
   render = () => {
@@ -178,6 +213,7 @@ class Section extends Component {
       state: {
         gui: {
           openedContextualizationId,
+          isLoadingAside,
         },
         shadows,
       },
@@ -339,6 +375,13 @@ class Section extends Component {
               scrollToElement={ scrollToElement }
               shadows={ shadows }
             />
+        }
+        {
+          <div
+            className={ `loader ${isLoadingAside ? 'active' : ''}` }
+          >
+            <span>{translate( 'Loading' )}</span>
+          </div>
         }
       </section>
     );

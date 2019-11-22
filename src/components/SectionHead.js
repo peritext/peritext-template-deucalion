@@ -21,7 +21,7 @@ const SectionHead = ( {
   const Container = withHelmet ? Helmet : PlainHead;
   return (
     <Container>
-      <meta charset={ 'UTF-8' } />
+      <meta charSet={ 'UTF-8' } />
       <title>{title}</title>
       <meta
         name={ 'generator' }

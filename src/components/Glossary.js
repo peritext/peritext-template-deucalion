@@ -86,9 +86,10 @@ export default class Glossary extends Component {
                 const handleClick = () => {
                   openResource( item.resource.id );
                 };
+                const active = openResourceId === item.resource.id;
                 return (
                   <li
-                    className={ 'big-list-item' }
+                    className={ `big-list-item ${active ? 'active' : ''}` }
                     key={ index }
                   >
                     <div className={ 'big-list-item-content' }>

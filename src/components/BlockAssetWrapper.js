@@ -17,7 +17,8 @@ const BlockAssetWrapper = ( {
   contextualizers,
   containerId,
   bindContextualizationElement,
-  renderingMode = 'screened'
+  renderingMode = 'screened',
+  openedContextualizationId,
 } ) => {
   const assetId = data.asset.id;
   const contextualization = production && production.contextualizations && production.contextualizations[assetId];
@@ -49,12 +50,14 @@ const BlockAssetWrapper = ( {
     }
   };
 
+  const active = assetId === openedContextualizationId;
+
   if ( contextualization && Component ) {
 
     const isHidden = !visibility[renderingMode];
     return isHidden ? null : (
       <figure
-        className={ `block-contextualization-container ${ contextualizer.type}` }
+        className={ `block-contextualization-container ${ contextualizer.type} ${active ? 'active' : ''}` }
         style={ {
           position: 'relative',
         } }
@@ -80,7 +83,6 @@ const BlockAssetWrapper = ( {
                       onClick={ handleMoreInformation }
                     >
                       <span>{contextualization.title || resource.metadata.title}</span>
-                      <sup>◈</sup>
                     </button>
                   </div> :
                   <span>{contextualization.title || resource.metadata.title}</span>
@@ -92,7 +94,6 @@ const BlockAssetWrapper = ( {
               <MarkdownPlayer src={ contextualization.legend } />
             </div>
           }
-
         </figcaption>
         <StructuredCOinS resource={ resource } />
       </figure>
@@ -149,6 +150,8 @@ BlockAssetWrapper.contextTypes = {
   bindContextualizationElement: PropTypes.func,
 
   renderingMode: PropTypes.string,
+
+  openedContextualizationId: PropTypes.string,
 };
 
 export default BlockAssetWrapper;

@@ -10,11 +10,12 @@ const ReferenceCard = ( {
   item,
   onOpen,
   translate,
-  showMentions
+  showMentions,
+  active
 } ) => {
     return (
       <li
-        className={ 'big-list-item' }
+        className={ `big-list-item ${active ? 'active' : ''}` }
       >
         <div className={ 'big-list-item-content' }>
           <div
@@ -165,6 +166,7 @@ export default class References extends Component {
                     item={ item }
                     onOpen={ handleOpen }
                     showMentions={ showMentions }
+                    active={ openResourceId === item.resource.id }
                     citationStyle={ edition.data.citationStyle }
                     citationLocale={ edition.data.citationLocale }
                     translate={ translate }

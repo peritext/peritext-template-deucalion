@@ -68,12 +68,12 @@ const RelatedContexts = ( {
       </div>
 
       {related.length ?
-        <ul className={ 'related-contexts-container' }>
-          <h3>
-            {translate( 'This item is mentionned in' )}
-            {' : '}
-          </h3>
-          {
+        <div className={ 'related-contexts-container' }>
+          <div className={ 'mentions-title-container' }>
+            <span className={ 'mentions-title' }>{translate( 'mentions' )}</span>
+          </div>
+          <ul className={ 'related-contexts-list' }>
+            {
             related
             .filter( ( thatContextualization ) => thatContextualization.targetContents !== undefined )
             .map( ( thatContextualization ) => (
@@ -91,12 +91,13 @@ const RelatedContexts = ( {
               </li>
             ) )
           }
-        </ul>
+          </ul>
+        </div>
       :
         <div className={ 'body' } />
     }
       <div className={ 'footer' }>
-        <p>
+        <div>
           <Link
             to={ {
               routeClass: 'resourceSheet',
@@ -107,12 +108,12 @@ const RelatedContexts = ( {
             target={ 'blank' }
             rel={ 'noopener' }
           >
-            {translate( 'Print mentions' )}
+            {translate( 'print mentions' )}
           </Link>
-        </p>
+        </div>
         {
           resourceHasContents( resource ) &&
-          <p>
+          <div>
             <Link
               to={ {
                 routeClass: 'resourcePage',
@@ -123,9 +124,9 @@ const RelatedContexts = ( {
               target={ 'blank' }
               rel={ 'noopener' }
             >
-              {translate( 'Expand contents' )}
+              {translate( 'expand contents' )}
             </Link>
-          </p>
+          </div>
 
         }
       </div>

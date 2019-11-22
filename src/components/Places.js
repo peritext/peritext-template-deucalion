@@ -14,7 +14,7 @@ import { scaleLinear } from 'd3-scale';
 import Aside from './Aside';
 import RelatedContexts from './RelatedContexts';
 
-import { buildGlossary } from '../utils';
+import { buildGlossary } from 'peritext-utils';
 
 // const MIN_LATITUDE =  -90;
 const MAX_LATITUDE = 90;

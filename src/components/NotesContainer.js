@@ -13,6 +13,9 @@ import debounce from 'lodash/debounce';
 
 import NoteItem from './NoteItem';
 
+const isBrowser = new Function( 'try {return this===window;}catch(e){ return false;}' );
+const inBrowser = isBrowser();/* eslint no-new-func : 0 */
+
 /**
  * Retrieves the absolute offset of an element
  * (this avoids to use an additionnal lib such as jquery to handle the operation)
@@ -55,6 +58,7 @@ class NotesContainer extends Component {
        */
       notesStyles: {},
       witnessTop: 0,
+      notesVisible: !( props.notesPosition === 'sidenotes' && inBrowser )
     };
     this.witness = createRef( null );
     this.updatePositions = debounce( this.updatePositions, 500 );
@@ -64,11 +68,15 @@ class NotesContainer extends Component {
    * Executes code after the component was mounted
    */
   componentDidMount() {
-
+    const stateChanges = {};
     if ( this.witness && this.witness.current ) {
       const witnessTop = this.witness.current.offsetTop;
-      this.setState( { witnessTop } );/* eslint react/no-did-mount-set-state : 0 */
+      stateChanges.witnessTop = witnessTop;
     }
+    if ( this.props.notesPosition === 'sidenotes' ) {
+      setTimeout( () => this.updatePositions() );
+    }
+    this.setState( stateChanges );/* eslint react/no-did-mount-set-state : 0 */
   }
 
   /**
@@ -84,6 +92,12 @@ class NotesContainer extends Component {
       } );
     }
 
+    if ( nextProps.notesPosition === 'sidenotes' && this.props.notesOrder !== nextProps.notesOrder ) {
+      this.setState( {
+        notesVisible: false
+      } );
+    }
+
     if ( nextProps.notesPosition === 'sidenotes' &&
     (
      ( this.props.notesPosition !== nextProps.notesPosition ) ||
@@ -91,18 +105,8 @@ class NotesContainer extends Component {
     //     // ( this.props.notes !== nextProps.notes )
       )
      ) {
-      // this.updatePositions();
-      setTimeout( () => this.updatePositions(), 500 );
 
-      /*
-       * we launch it a second time to wait the height
-       * of notes has adjusted to their new container
-       * (todo: improve that)
-       */
-      /*
-       * setTimeout( this.updatePositions );
-       * setTimeout( this.updatePositions, 1000 );
-       */
+      setTimeout( () => this.updatePositions(), 500 );
     }
   }
 
@@ -173,7 +177,10 @@ class NotesContainer extends Component {
         left: 0
       };
     }
-    this.setState( { notesStyles } );
+    this.setState( {
+      notesStyles,
+      notesVisible: true
+     } );
   }
 
   /**
@@ -192,10 +199,14 @@ class NotesContainer extends Component {
 
     const {
       notesStyles,
+      notesVisible,
     } = this.state;
 
     return (
-      <div className={ `notes-container is-position-${ notesPosition}` }>
+      <div
+        style={ { display: notesVisible ? 'block' : 'none' } }
+        className={ `notes-container is-position-${ notesPosition}` }
+      >
         <h2
           className={ 'notes-title' }
           id={ id }
