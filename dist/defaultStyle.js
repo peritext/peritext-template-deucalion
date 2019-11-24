@@ -755,12 +755,12 @@ h1{
   width: 100%;
   position: relative;
   overflow: auto;
-  height: 70vh;
+  // height: 70vh;
 }
 .block-contextualization-container.table .static-table-container table{
-  position: absolute;
-  left: 0;
-  top: 0;
+  // position: absolute;
+  // left: 0;
+  // top: 0;
 }
 .block-contextualization-container.table .ReactTable .rt-tbody{
   max-height: 70vh;
@@ -942,17 +942,20 @@ h1{
   width: unset;
   max-width: 100%;
 }
-@media screen and (min-width: 1224px) {
-  .aside .aside-content .aside-header{
-    min-height: 2.5rem;
-    align-items: flex-end;
-  }
-}
+
 .aside .aside-header{
   display: flex;
   flex-flow: row nowrap;
   justify-content: stretch;
   align-items: flex-start;
+  padding-top: var(--gutter-medium);
+}
+
+@media screen and (min-width: 1224px) {
+  .aside .aside-content .aside-header{
+    min-height: 2.5rem;
+    align-items: flex-start;
+  }
 }
 
 .aside .aside-header .aside-title{
@@ -1371,6 +1374,10 @@ h1{
 }
 .note-block-pointer::after{
   content: '.';
+}
+
+.note-content-pointer{
+  cursor: pointer;
 }
 
 /* resource identity card */

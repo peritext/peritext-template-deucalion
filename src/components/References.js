@@ -16,6 +16,7 @@ const ReferenceCard = ( {
     return (
       <li
         className={ `big-list-item ${active ? 'active' : ''}` }
+        onClick={ onOpen }
       >
         <div className={ 'big-list-item-content' }>
           <div

@@ -7,11 +7,13 @@ exports.convertEditionToCslRecord = exports.convertSectionToCslRecord = exports.
 
 var _react = _interopRequireDefault(require("react"));
 
+var _peritextUtils = require("peritext-utils");
+
 var _reactCiteproc = require("react-citeproc");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const makeAssetTitle = (resource, production, edition, citationItems = {}) => {
+const makeAssetTitle = (resource, production, edition) => {
   const type = resource.metadata.type;
 
   switch (type) {
@@ -19,7 +21,10 @@ const makeAssetTitle = (resource, production, edition, citationItems = {}) => {
       return resource.data.name ? resource.data.name : `${resource.data.firstName} ${resource.data.lastName}`;
 
     case 'bib':
-      const citation = (0, _reactCiteproc.makeBibliography)(citationItems, edition.data.citationStyle.data, edition.data.citationLocale.data, {
+      const item = (0, _peritextUtils.resourceToCslJSON)(resource)[0];
+      const citation = (0, _reactCiteproc.makeBibliography)({
+        [item.id]: item
+      }, edition.data.citationStyle.data, edition.data.citationLocale.data, {
         select: [{
           field: 'id',
           value: resource.data.citations[0].id

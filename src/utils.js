@@ -1,15 +1,19 @@
 import React from 'react';
+import { resourceToCslJSON } from 'peritext-utils';
 
 import { makeBibliography } from 'react-citeproc';
 
-export const makeAssetTitle = ( resource, production, edition, citationItems = {} ) => {
+export const makeAssetTitle = ( resource, production, edition ) => {
   const type = resource.metadata.type;
   switch ( type ) {
     case 'glossary':
       return resource.data.name ? resource.data.name : `${resource.data.firstName } ${ resource.data.lastName}`;
     case 'bib':
+      const item = resourceToCslJSON( resource )[0];
       const citation = makeBibliography(
-        citationItems,
+        {
+          [item.id]: item
+        },
         edition.data.citationStyle.data,
         edition.data.citationLocale.data,
         {

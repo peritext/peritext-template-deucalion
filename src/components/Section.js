@@ -195,7 +195,7 @@ class Section extends Component {
       } );
 
     }
- else {
+    else {
       this.setState( {
         gui: {
           ...this.state.gui,

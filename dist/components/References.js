@@ -31,7 +31,8 @@ const ReferenceCard = ({
   active
 }) => {
   return _react.default.createElement("li", {
-    className: `big-list-item ${active ? 'active' : ''}`
+    className: `big-list-item ${active ? 'active' : ''}`,
+    onClick: onOpen
   }, _react.default.createElement("div", {
     className: 'big-list-item-content'
   }, _react.default.createElement("div", {
