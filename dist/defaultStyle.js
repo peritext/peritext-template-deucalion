@@ -798,6 +798,21 @@ h1{
   padding: var(--gutter-medium);
 }
 
+.block-contextualization-container.vegaLite .vega-embed details{
+  display: none;
+}
+
+.block-contextualization-container.sourceCode pre{
+  background: var(--color-background);
+  max-height: 50vh;
+  overflow-y: auto;
+  color: var(--color-text);
+}
+
+.block-contextualization-container.sourceCode:hover pre{
+  color: var(--color-text);
+}
+
 /**
  * Inline (specific)
  * */
@@ -1453,7 +1468,8 @@ h1{
   flex: 1;
   overflow: auto;
   margin: 0;
-  padding: 0;
+  padding: var(--gutter-medium);
+  padding-left: 0;
 }
 
 .related-contexts-container > h3{
