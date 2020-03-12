@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  resourceHasContents,
-  defaultSortResourceSections,
+  buildResourceSectionsSummary,
 } from 'peritext-utils';
 import { HashRouter, BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -100,36 +99,22 @@ export const buildNav = ( { production, edition = {}, locale = {} } ) => {
           }
           return [ ...result, ...sections ];
           case 'resourceSections':
-              let thatSummary;
-              if ( element.data.customSummary.active ) {
-                thatSummary = element.data.customSummary.summary;
-              }
-              else {
-                const { hideEmptyResources = false } = element.data;
-                thatSummary = Object.keys( production.resources )
-                .filter( ( resourceId ) => element.data.resourceTypes.includes( production.resources[resourceId].metadata.type ) )
-                .filter( ( resourceId ) => {
-                  if ( hideEmptyResources ) {
-                    return resourceHasContents( production.resources[resourceId] );
-                  }
-                  return true;
+              return [
+                ...result,
+                ...buildResourceSectionsSummary( { production, options: element.data } )
+                .map( ( { resourceId, level }, thatIndex ) => {
+                  return {
+                    routeClass: 'sections',
+                    level: element.data.level + level,
+                    title: getResourceTitle( production.resources[resourceId] ),
+                    options: element.data,
+                    viewId: `${element.id}-${thatIndex}`,
+                    routeParams: {
+                      resourceId,
+                    }
+                  };
                 } )
-                .map( ( resourceId ) => ( { resourceId, level: 0 } ) )
-                .sort( defaultSortResourceSections );
-              }
-              thatSummary = thatSummary.map( ( { resourceId, level }, thatIndex ) => {
-                return {
-                  routeClass: 'sections',
-                  level: element.data.level + level,
-                  title: getResourceTitle( production.resources[resourceId] ),
-                  options: element.data,
-                  viewId: `${element.id}-${thatIndex}`,
-                  routeParams: {
-                    resourceId,
-                  }
-                };
-              } );
-              return [ ...result, ...thatSummary ];
+              ];
         default:
           const { data: elementData = {} } = element;
           return [

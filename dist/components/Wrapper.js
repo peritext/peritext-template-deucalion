@@ -151,27 +151,10 @@ const buildNav = ({
         return [...result, ...sections];
 
       case 'resourceSections':
-        let thatSummary;
-
-        if (element.data.customSummary.active) {
-          thatSummary = element.data.customSummary.summary;
-        } else {
-          const {
-            hideEmptyResources = false
-          } = element.data;
-          thatSummary = Object.keys(production.resources).filter(resourceId => element.data.resourceTypes.includes(production.resources[resourceId].metadata.type)).filter(resourceId => {
-            if (hideEmptyResources) {
-              return (0, _peritextUtils.resourceHasContents)(production.resources[resourceId]);
-            }
-
-            return true;
-          }).map(resourceId => ({
-            resourceId,
-            level: 0
-          })).sort(_peritextUtils.defaultSortResourceSections);
-        }
-
-        thatSummary = thatSummary.map(({
+        return [...result, ...(0, _peritextUtils.buildResourceSectionsSummary)({
+          production,
+          options: element.data
+        }).map(({
           resourceId,
           level
         }, thatIndex) => {
@@ -185,8 +168,7 @@ const buildNav = ({
               resourceId
             }
           };
-        });
-        return [...result, ...thatSummary];
+        })];
 
       default:
         const {

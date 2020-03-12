@@ -124,6 +124,7 @@ module.exports = {
       type: 'object',
       default: {
         resourceTypes: ['glossary'],
+        tags: [],
         customSummary: {
           active: false,
           summary: []
@@ -136,6 +137,17 @@ module.exports = {
           type: 'number',
           uiType: 'select',
           enum: [0, 1, 2, 3, 4, 5, 6]
+        },
+        tags: {
+          type: 'array',
+          items: {
+            type: 'string'
+          },
+          uiType: 'select',
+          description: 'which tags to include for displaying the contents',
+          enumTargetMap: 'tags',
+          enumId: 'id',
+          enumLabel: 'name'
         },
         resourceTypes: {
           type: 'array',

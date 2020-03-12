@@ -1,6 +1,6 @@
 {
   "name": "peritext-template-deucalion",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": " a web template designed dedicated to long reading experiences and context explorations, for the peritext ecosystem",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "lodash": "^4.17",
-    "peritext-utils": "^0.2.6"
+    "peritext-utils": "^0.2.13"
   },
   "dependencies": {
     "d3-array": "^2.0.3",
@@ -38,7 +38,7 @@
     "d3-shape": "^1.3.5",
     "d3-zoom": "^1.7.3",
     "object-path": "^0.11.4",
-    "peritext-schemas": "^0.2.1",
+    "peritext-schemas": "^0.2.4",
     "pigeon-maps": "^0.12.1",
     "pigeon-overlay": "^0.2.3",
     "react-citeproc": "^0.1.10",
