@@ -265,9 +265,7 @@ class Section extends _react.Component {
         cslRecord: sectionAsCSLRecord
       }), _react.default.createElement("div", {
         className: 'main-column'
-      }, displayHeader && _react.default.createElement(_ResourcePreview.default, {
-        resource: section
-      }), _react.default.createElement("h1", {
+      }, _react.default.createElement("h1", {
         className: 'view-title section-title'
       }, (0, _peritextUtils.getResourceTitle)(section) || translate('untitled section') || 'Section sans titre'), section.metadata.subtitle && _react.default.createElement("h2", {
         className: 'subtitle'
@@ -275,7 +273,11 @@ class Section extends _react.Component {
         className: 'authors'
       }, sectionAuthors && sectionAuthors.length > 0 && sectionAuthors.map((author, index) => _react.default.createElement("span", {
         key: index
-      }, author.given, " ", author.family)).reduce((prev, curr) => [prev, ', ', curr])), _react.default.createElement("div", {
+      }, author.given, " ", author.family)).reduce((prev, curr) => [prev, ', ', curr])), displayHeader && _react.default.createElement("div", {
+        className: 'resource-header-container'
+      }, _react.default.createElement(_ResourcePreview.default, {
+        resource: section
+      })), _react.default.createElement("div", {
         className: 'main-contents-wrapper'
       }, _react.default.createElement(_Renderer.default, {
         raw: contents

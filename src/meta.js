@@ -300,7 +300,8 @@ module.exports = {
         showDescription: true,
         showMentions: true,
         showUncited: false,
-        glossaryTypes: [ 'person', 'place', 'event', 'notion', 'other' ]
+        glossaryTypes: [ 'person', 'place', 'event', 'notion', 'other' ],
+        tags: {}
       },
       properties: {
         customTitle: {
@@ -322,6 +323,17 @@ module.exports = {
           },
           uiType: 'select',
           description: 'which types of glossary items to show'
+        },
+        tags: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+          uiType: 'select',
+          description: 'which tags to include for displaying the contents',
+          enumTargetMap: 'tags',
+          enumId: 'id',
+          enumLabel: 'name'
         },
         showUncited: {
           type: 'boolean',

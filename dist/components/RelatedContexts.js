@@ -63,7 +63,7 @@ const RelatedContexts = ({
     target: 'blank',
     rel: 'noopener',
     href: citation.URL
-  }, translate('Browse online')))), related.length ? _react.default.createElement("div", {
+  }, translate('Browse online')))), related.length > 0 ? _react.default.createElement("div", {
     className: 'related-contexts-container'
   }, _react.default.createElement("div", {
     className: 'mentions-title-container'
@@ -93,7 +93,7 @@ const RelatedContexts = ({
     },
     target: 'blank',
     rel: 'noopener'
-  }, translate('print mentions'))), (0, _peritextUtils.resourceHasContents)(resource) && _react.default.createElement("div", null, _react.default.createElement(_LinkProvider.default, {
+  }, translate('print mentions'))), (0, _peritextUtils.resourceHasContents)(resource) ? _react.default.createElement("div", null, _react.default.createElement(_LinkProvider.default, {
     to: {
       routeClass: 'resourcePage',
       routeParams: {
@@ -102,7 +102,7 @@ const RelatedContexts = ({
     },
     target: 'blank',
     rel: 'noopener'
-  }, translate('expand contents')))), _react.default.createElement(_reactTooltip.default, {
+  }, translate('expand contents'))) : null), _react.default.createElement(_reactTooltip.default, {
     id: 'tooltip'
   }));
 };

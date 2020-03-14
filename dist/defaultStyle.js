@@ -572,6 +572,9 @@ h1{
     content: open-quote;
 }
 
+.resource-header-container{
+  margin-bottom: 1rem;
+}
 
 /**
  * Figures (general)
@@ -813,6 +816,26 @@ h1{
   color: var(--color-text);
 }
 
+.block-contextualization-container.video
+{
+  position: relative;
+  overflow: hidden;
+  max)height: 15rem;
+}
+.peritext-contextualization.block.video,
+.block-contextualization-container.video .peritext-contextualization .media > div > div{
+  position: relative;
+  height: 15rem;
+  max-height: 15rem;
+  overflow: hidden;
+}
+.block-contextualization-container.video .peritext-contextualization .media > div,
+.block-contextualization-container.video .peritext-contextualization .media iframe{
+  max-width: 100%;
+  max-height: 100%;
+  min-height: unset;
+}
+
 /**
  * Inline (specific)
  * */
@@ -976,8 +999,14 @@ h1{
 .aside .aside-header .aside-title{
   flex: 1;
   margin: 0;
-  max-width: calc(100% - 1rem);
   overflow: hidden;
+  max-width: calc(100% - 5rem);
+}
+
+@media screen and (min-width: 768px) {
+  .aside .aside-header .aside-title{
+    max-width: calc(100% - 1rem);
+  }
 }
 
 .aside .aside-header .aside-title .csl-entry{
