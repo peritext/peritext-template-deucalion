@@ -67,7 +67,7 @@ const RelatedContexts = ( {
         </div>
       </div>
 
-      {related.length ?
+      {related.length > 0 ?
         <div className={ 'related-contexts-container' }>
           <div className={ 'mentions-title-container' }>
             <span className={ 'mentions-title' }>{translate( 'mentions' )}</span>
@@ -112,22 +112,22 @@ const RelatedContexts = ( {
           </Link>
         </div>
         {
-          resourceHasContents( resource ) &&
-          <div>
-            <Link
-              to={ {
+          resourceHasContents( resource ) ?
+            <div>
+              <Link
+                to={ {
                 routeClass: 'resourcePage',
                 routeParams: {
                   resourceId: resource.id
                 }
               } }
-              target={ 'blank' }
-              rel={ 'noopener' }
-            >
-              {translate( 'expand contents' )}
-            </Link>
-          </div>
-
+                target={ 'blank' }
+                rel={ 'noopener' }
+              >
+                {translate( 'expand contents' )}
+              </Link>
+            </div>
+          : null
         }
       </div>
       <Tooltip id={ 'tooltip' } />

@@ -281,10 +281,7 @@ class Section extends Component {
 
         <StructuredCOinS cslRecord={ sectionAsCSLRecord } />
         <div className={ 'main-column' }>
-          {
-            displayHeader &&
-            <ResourcePreview resource={ section } />
-          }
+
           <h1 className={ 'view-title section-title' }>
             {getResourceTitle( section ) || ( translate( 'untitled section' ) || 'Section sans titre' )}
           </h1>
@@ -301,6 +298,12 @@ class Section extends Component {
                 }
           </h2>
             }
+          {
+            displayHeader &&
+            <div className={ 'resource-header-container' }>
+              <ResourcePreview resource={ section } />
+            </div>
+          }
           <div className={ 'main-contents-wrapper' }>
             <Renderer raw={ contents } />
           </div>
