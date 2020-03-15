@@ -126,7 +126,7 @@ class Layout extends _react.Component {
 
     _defineProperty(this, "updateConstants", props => {
       this.setState({
-        finalCss: this.updateStyles(props, this.context)
+        finalCss: !props.excludeCss && this.updateStyles(props, this.context)
       });
     });
 
@@ -280,7 +280,8 @@ class Layout extends _react.Component {
           edition = {},
           summary = [],
           viewId,
-          viewClass
+          viewClass,
+          excludeCss
         },
         context: {},
         state: {
@@ -347,7 +348,7 @@ class Layout extends _react.Component {
         edition: edition,
         summary: summary,
         title: globalTitle
-      })), _react.default.createElement("style", {
+      })), !excludeCss && _react.default.createElement("style", {
         type: 'text/css',
         dangerouslySetInnerHTML: {
           /* eslint react/no-danger: 0 */
@@ -369,7 +370,7 @@ class Layout extends _react.Component {
         production: _props.production,
         edition: _props.edition
       }, true),
-      finalCss: this.updateStyles(_props, _context)
+      finalCss: !_props.excludeCss && this.updateStyles(_props, _context)
     };
     this.contextualizationElements = {};
     this.onScrollUpdate = (0, _lodash.debounce)(this.onScrollUpdate, 1000);
