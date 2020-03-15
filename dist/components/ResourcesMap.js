@@ -31,6 +31,7 @@ let SigmaLib;
 let Sigma;
 let RandomizeNodePositions;
 let ForceAtlas2;
+let SigmaEnableWebGL;
 const isBrowser = new Function('try {return this===window;}catch(e){ return false;}');
 const inBrowser = isBrowser();
 /* eslint no-new-func : 0 */
@@ -40,6 +41,7 @@ if (inBrowser) {
   Sigma = SigmaLib.Sigma;
   RandomizeNodePositions = SigmaLib.RandomizeNodePositions;
   ForceAtlas2 = SigmaLib.ForceAtlas2;
+  SigmaEnableWebGL = SigmaLib.SigmaEnableWebGL;
 }
 
 const getResourceColor = type => {
@@ -137,6 +139,15 @@ class ResourcesMap extends _react.Component {
   constructor(props) {
     super(props);
 
+    _defineProperty(this, "componentDidCatch", e => {
+      console.error(e);
+      /* eslint no-console : 0 */
+
+      this.setState({
+        error: e
+      });
+    });
+
     _defineProperty(this, "openResource", id => {
       if (!this.context.asideVisible) {
         this.context.toggleAsideVisible();
@@ -163,7 +174,8 @@ class ResourcesMap extends _react.Component {
           title
         },
         state: {
-          openResourceId
+          openResourceId,
+          error
         },
         context: {
           translate,
@@ -206,6 +218,10 @@ class ResourcesMap extends _react.Component {
         openResource(id);
       };
 
+      if (error) {
+        return _react.default.createElement("div", null, "This view could not be rendered in this environment");
+      }
+
       return _react.default.createElement("div", null, _react.default.createElement("h1", null, title), SigmaLib && nodes.length ? _react.default.createElement("div", {
         className: 'graph-container'
       }, _react.default.createElement(Sigma, {
@@ -222,7 +238,7 @@ class ResourcesMap extends _react.Component {
           drawEdges: true
         },
         renderer: 'webgl'
-      }, _react.default.createElement(RandomizeNodePositions, null), _react.default.createElement(ForceAtlas2, {
+      }, _react.default.createElement(SigmaEnableWebGL, null), _react.default.createElement(RandomizeNodePositions, null), _react.default.createElement(ForceAtlas2, {
         worker: true,
         barnesHutOptimize: true,
         barnesHutTheta: 0.6,
@@ -243,7 +259,8 @@ class ResourcesMap extends _react.Component {
     });
 
     this.state = {
-      openResourceId: undefined
+      openResourceId: undefined,
+      error: false
     };
   }
 

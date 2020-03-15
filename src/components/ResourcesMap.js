@@ -16,6 +16,7 @@ let SigmaLib;
 let Sigma;
 let RandomizeNodePositions;
 let ForceAtlas2;
+let SigmaEnableWebGL;
 const isBrowser = new Function( 'try {return this===window;}catch(e){ return false;}' );
 const inBrowser = isBrowser();/* eslint no-new-func : 0 */
 if ( inBrowser ) {
@@ -23,6 +24,7 @@ if ( inBrowser ) {
   Sigma = SigmaLib.Sigma;
   RandomizeNodePositions = SigmaLib.RandomizeNodePositions;
   ForceAtlas2 = SigmaLib.ForceAtlas2;
+  SigmaEnableWebGL = SigmaLib.SigmaEnableWebGL;
 }
 
 const getResourceColor = ( type ) => {
@@ -143,9 +145,18 @@ export default class ResourcesMap extends Component {
   constructor( props ) {
     super( props );
     this.state = {
-      openResourceId: undefined
+      openResourceId: undefined,
+      error: false
     };
   }
+
+  componentDidCatch = ( e ) => {
+    console.error( e );/* eslint no-console : 0 */
+    this.setState( {
+      error: e
+    } );
+  }
+
   openResource = ( id ) => {
     if ( !this.context.asideVisible ) {
       this.context.toggleAsideVisible();
@@ -171,7 +182,8 @@ export default class ResourcesMap extends Component {
         title,
       },
       state: {
-        openResourceId
+        openResourceId,
+        error,
       },
 
        context: {
@@ -208,6 +220,13 @@ export default class ResourcesMap extends Component {
       const { node: { id } } = data;
       openResource( id );
     };
+    if ( error ) {
+      return (
+        <div>
+          This view could not be rendered in this environment
+        </div>
+      );
+    }
     return (
       <div>
         <h1>{title}</h1>
@@ -221,6 +240,7 @@ export default class ResourcesMap extends Component {
                 settings={ { drawEdges: true } }
                 renderer={ 'webgl' }
               >
+                <SigmaEnableWebGL />
                 <RandomizeNodePositions />
                 <ForceAtlas2
                   worker

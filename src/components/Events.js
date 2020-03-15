@@ -7,6 +7,21 @@ import Aside from './Aside';
 
 import { buildGlossary } from 'peritext-utils';
 
+const buildDateLabel = ( {
+  year,
+  month,
+  day,
+} ) => {
+  let output = year;
+  if ( day ) {
+    output = `${day}/${month}/${year}`;
+  }
+  else if ( month ) {
+    output = `${month}/${year}`;
+  }
+  return output;
+};
+
 export default class Events extends Component {
 
   static contextTypes = {
@@ -79,8 +94,8 @@ export default class Events extends Component {
             <ul className={ 'big-list-items-container' }>
               {
                 events.map( ( event, eventIndex ) => {
-                  const displayStart = new Date( event.dates.start ).toLocaleDateString();
-                  const displayEnd = event.dates.end && new Date( event.dates.end ).toLocaleDateString();
+                  const displayStart = event.dates.startDateParts ? buildDateLabel( event.dates.startDateParts ) : new Date( event.dates.start ).toLocaleDateString();
+                  const displayEnd = event.dates.end && ( event.dates.endDateParts ? buildDateLabel( event.dates.endDateParts ) : new Date( event.dates.end ).toLocaleDateString() );
                   const eventTitle = displayEnd ? `${displayStart} - ${displayEnd}` : displayStart;
                   const handleClick = () => {
                     openEvent( event.id );
@@ -118,10 +133,10 @@ export default class Events extends Component {
                 <h5 className={ 'event-details' }>
                   <span>◈</span>
                   <em>
-                    {new Date( openedEvent.dates.start ).toLocaleDateString()}
+                    {openedEvent.dates.startDateParts ? buildDateLabel( openedEvent.dates.startDateParts ) : new Date( openedEvent.dates.start ).toLocaleDateString()}
                     {
                       openedEvent.dates.end &&
-                      ` - ${ new Date( openedEvent.dates.end ).toLocaleDateString()}`
+                      ` - ${ openedEvent.dates.endDateParts ? buildDateLabel( openedEvent.dates.endDateParts ) : new Date( openedEvent.dates.end ).toLocaleDateString() }`
                     }
                   </em>
                 </h5>

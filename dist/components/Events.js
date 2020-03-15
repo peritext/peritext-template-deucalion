@@ -25,6 +25,22 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+const buildDateLabel = ({
+  year,
+  month,
+  day
+}) => {
+  let output = year;
+
+  if (day) {
+    output = `${day}/${month}/${year}`;
+  } else if (month) {
+    output = `${month}/${year}`;
+  }
+
+  return output;
+};
+
 class Events extends _react.Component {
   constructor(props) {
     super(props);
@@ -92,8 +108,8 @@ class Events extends _react.Component {
       }, title), _react.default.createElement("ul", {
         className: 'big-list-items-container'
       }, events.map((event, eventIndex) => {
-        const displayStart = new Date(event.dates.start).toLocaleDateString();
-        const displayEnd = event.dates.end && new Date(event.dates.end).toLocaleDateString();
+        const displayStart = event.dates.startDateParts ? buildDateLabel(event.dates.startDateParts) : new Date(event.dates.start).toLocaleDateString();
+        const displayEnd = event.dates.end && (event.dates.endDateParts ? buildDateLabel(event.dates.endDateParts) : new Date(event.dates.end).toLocaleDateString());
         const eventTitle = displayEnd ? `${displayStart} - ${displayEnd}` : displayStart;
 
         const handleClick = () => {
@@ -116,7 +132,7 @@ class Events extends _react.Component {
         onClose: toggleOpenedEvent
       }, openEventId && _react.default.createElement("div", null, openedEvent && _react.default.createElement("h5", {
         className: 'event-details'
-      }, _react.default.createElement("span", null, "\u25C8"), _react.default.createElement("em", null, new Date(openedEvent.dates.start).toLocaleDateString(), openedEvent.dates.end && ` - ${new Date(openedEvent.dates.end).toLocaleDateString()}`)), _react.default.createElement("div", {
+      }, _react.default.createElement("span", null, "\u25C8"), _react.default.createElement("em", null, openedEvent.dates.startDateParts ? buildDateLabel(openedEvent.dates.startDateParts) : new Date(openedEvent.dates.start).toLocaleDateString(), openedEvent.dates.end && ` - ${openedEvent.dates.endDateParts ? buildDateLabel(openedEvent.dates.endDateParts) : new Date(openedEvent.dates.end).toLocaleDateString()}`)), _react.default.createElement("div", {
         className: 'glossaries-related-to-event-list'
       }, eventsMap[openEventId].map((item, itemIndex) => {
         return _react.default.createElement(_RelatedContexts.default, {
