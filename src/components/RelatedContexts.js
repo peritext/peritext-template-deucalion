@@ -29,7 +29,7 @@ const RelatedContexts = ( {
   const related = usedContextualizations
     .filter( ( { contextualization: { id: contextualizationId } } ) => {
       return assetId ?
-        contextualizationId !== assetId &&
+        // contextualizationId !== assetId &&
         production.contextualizations[contextualizationId] &&
         production.contextualizations[contextualizationId].sourceId === resourceId
       : production.contextualizations[contextualizationId] && production.contextualizations[contextualizationId].sourceId === resourceId;
@@ -87,6 +87,8 @@ const RelatedContexts = ( {
                   sectionTitle={ getResourceTitle( production.resources[thatContextualization.targetId] ) }
                   targetId={ thatContextualization.targetId }
                   contextualizationId={ thatContextualization.id }
+                  isActive={ assetId !== thatContextualization.id }
+
                 />
               </li>
             ) )

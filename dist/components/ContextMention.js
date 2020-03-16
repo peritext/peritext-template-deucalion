@@ -20,14 +20,15 @@ const ContextMention = ({
   sectionTitle,
   targetId,
   contextualizationId,
-  displayLinks = true
+  displayLinks = true,
+  isActive
 }, {
   // translate,
   getViewIdForSectionId
 }) => {
   const viewId = getViewIdForSectionId(targetId);
   return _react.default.createElement("div", {
-    className: 'context-mention',
+    className: `context-mention ${isActive ? 'is-active' : ''}`,
     "data-tip": sectionTitle,
     "data-for": 'tooltip',
     "data-place": 'left'

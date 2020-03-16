@@ -41,7 +41,8 @@ const RelatedContexts = ({
       id: contextualizationId
     }
   }) => {
-    return assetId ? contextualizationId !== assetId && production.contextualizations[contextualizationId] && production.contextualizations[contextualizationId].sourceId === resourceId : production.contextualizations[contextualizationId] && production.contextualizations[contextualizationId].sourceId === resourceId;
+    return assetId ? // contextualizationId !== assetId &&
+    production.contextualizations[contextualizationId] && production.contextualizations[contextualizationId].sourceId === resourceId : production.contextualizations[contextualizationId] && production.contextualizations[contextualizationId].sourceId === resourceId;
   }).filter(c => c).map(({
     contextualization: theContextualization
   }) => _objectSpread({}, theContextualization, (0, _peritextUtils.buildContextContent)(production, theContextualization.id)));
@@ -79,7 +80,8 @@ const RelatedContexts = ({
     contents: thatContextualization.contents,
     sectionTitle: (0, _peritextUtils.getResourceTitle)(production.resources[thatContextualization.targetId]),
     targetId: thatContextualization.targetId,
-    contextualizationId: thatContextualization.id
+    contextualizationId: thatContextualization.id,
+    isActive: assetId !== thatContextualization.id
   }))))) : _react.default.createElement("div", {
     className: 'body'
   }), _react.default.createElement("div", {

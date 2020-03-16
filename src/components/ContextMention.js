@@ -9,6 +9,7 @@ const ContextMention = ( {
   targetId,
   contextualizationId,
   displayLinks = true,
+  isActive
 }, {
   // translate,
   getViewIdForSectionId,
@@ -16,7 +17,7 @@ const ContextMention = ( {
   const viewId = getViewIdForSectionId( targetId );
   return (
     <div
-      className={ 'context-mention' }
+      className={ `context-mention ${isActive ? 'is-active' : ''}` }
       data-tip={ sectionTitle }
       data-for={ 'tooltip' }
       data-place={ 'left' }

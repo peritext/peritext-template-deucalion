@@ -1563,6 +1563,15 @@ h1{
 }
 .context-mention{
 }
+.context-mention.is-active{
+  background: var(--color-link-default);
+}
+.context-mention.is-active .excerpt a,
+.context-mention.is-active .excerpt a .link,
+.context-mention.is-active .excerpt a .inline-glossary
+{
+  color: white;
+}
 .context-mention .mention-context-pointer{
   display: none;
 }
