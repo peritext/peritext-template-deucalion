@@ -16,9 +16,10 @@ import CitationsProvider from './CitationsProvider';
 const isBrowser = new Function( 'try {return this===window;}catch(e){ return false;}' );
 const inBrowser = isBrowser();/* eslint no-new-func : 0 */
 let sizeMe;
-
+let SizeMe;
 if ( inBrowser ) {
   sizeMe = require( 'react-sizeme' );
+  SizeMe = require( 'react-sizeme' ).SizeMe;
 }
 
 const RESPONSIVE_BREAK_POINTS = {
@@ -422,8 +423,23 @@ Layout.childContextTypes = {
   citationLocale: PropTypes.string,
 };
 
-export default inBrowser && sizeMe ? sizeMe( {
-  monitorHeight: true,
-  monitorWidth: true,
-  monitorPosition: true,
-} )( Layout ) : Layout;
+export default ( props ) => {
+  if ( !props.staticRender && inBrowser && sizeMe ) {
+    return (
+      <SizeMe
+        monitorHeight
+        monitorWidth
+        monitorPosition
+      >
+
+        {
+          ( { size } ) => ( <Layout
+            { ...props }
+            size={ size }
+                            /> )
+        }
+      </SizeMe>
+    );
+  }
+  return <Layout { ...props } />;
+};
