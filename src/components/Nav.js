@@ -27,7 +27,7 @@ const Nav = ( {
             firstLink ?
               <LinkComponent to={ firstLink }>
                 <strong className={ 'hero-title' }>
-                  {abbrevString( title )}
+                  {abbrevString( title, 40 )}
                 </strong>
               </LinkComponent>
             : title

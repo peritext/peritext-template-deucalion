@@ -529,9 +529,9 @@ even when notes are in the end*/
   line-height: 1.4;
 }
 
-.has-view-class-sections .main-column .rendered-content .unstyled:first-of-type::first-letter{
+.main-column .rendered-content .unstyled:first-of-type::first-letter{
   font-size:3.5em;
-  padding-right:0.2em;
+  padding-right:0.1em;
   padding-bottom: 0;
   float:left;
 }
@@ -1147,17 +1147,13 @@ h1{
 }
 
 @media screen and (min-width: 1224px){
-  .deucalion-layout.has-view-class-landing .nav-content-container{
-    margin-top: calc(2 * var(--gutter-medium));
-    padding: var(--gutter-medium);
-  }
   .deucalion-layout.has-view-class-landing .nav-header{
     display: none;
   }
-  .deucalion-layout.has-view-class-landing .main-container{
-    left: 0;
-    width: 100%;
+  .deucalion-layout.has-view-class-landing .nav-header .title{
+    display: block;
   }
+  
   .deucalion-layout.has-view-class-landing .main-contents-container.with-animated-background{
     left: 0;
     padding-left: var(--desktop-nav-width);
