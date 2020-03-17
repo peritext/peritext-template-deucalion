@@ -1573,7 +1573,8 @@ h1{
 }
 .context-mention.is-active .excerpt a,
 .context-mention.is-active .excerpt a .link,
-.context-mention.is-active .excerpt a .inline-glossary
+.context-mention.is-active .excerpt .inline.glossary,
+.context-mention.is-active .excerpt .mention-section-name
 {
   color: white;
 }

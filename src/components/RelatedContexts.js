@@ -87,7 +87,7 @@ const RelatedContexts = ( {
                   sectionTitle={ getResourceTitle( production.resources[thatContextualization.targetId] ) }
                   targetId={ thatContextualization.targetId }
                   contextualizationId={ thatContextualization.id }
-                  isActive={ assetId !== thatContextualization.id }
+                  isActive={ assetId === thatContextualization.id }
 
                 />
               </li>

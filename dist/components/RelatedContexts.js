@@ -81,7 +81,7 @@ const RelatedContexts = ({
     sectionTitle: (0, _peritextUtils.getResourceTitle)(production.resources[thatContextualization.targetId]),
     targetId: thatContextualization.targetId,
     contextualizationId: thatContextualization.id,
-    isActive: assetId !== thatContextualization.id
+    isActive: assetId === thatContextualization.id
   }))))) : _react.default.createElement("div", {
     className: 'body'
   }), _react.default.createElement("div", {
