@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { abbrevString } from 'peritext-utils';
+
 const Nav = ( {
   summary = [],
   toggleIndex,
@@ -27,7 +28,7 @@ const Nav = ( {
             firstLink ?
               <LinkComponent to={ firstLink }>
                 <strong className={ 'hero-title' }>
-                  {abbrevString( title, 40 )}
+                  {abbrevString( title, 80 )}
                 </strong>
               </LinkComponent>
             : title
@@ -37,7 +38,7 @@ const Nav = ( {
               onClick={ toggleIndex }
               className={ 'location-title' }
             >
-              {abbrevString( locationTitle, 60 )}
+              {abbrevString( locationTitle, 80 )}
             </em>
           }
         </h1>

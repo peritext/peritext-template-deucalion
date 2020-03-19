@@ -44,10 +44,10 @@ const Nav = ({
     to: firstLink
   }, _react.default.createElement("strong", {
     className: 'hero-title'
-  }, (0, _peritextUtils.abbrevString)(title, 40))) : title, " ", locationTitle && _react.default.createElement("em", {
+  }, (0, _peritextUtils.abbrevString)(title, 80))) : title, " ", locationTitle && _react.default.createElement("em", {
     onClick: toggleIndex,
     className: 'location-title'
-  }, (0, _peritextUtils.abbrevString)(locationTitle, 60)))), _react.default.createElement("div", {
+  }, (0, _peritextUtils.abbrevString)(locationTitle, 80)))), _react.default.createElement("div", {
     className: 'nav-content-container'
   }, _react.default.createElement("ul", null, realSummary.map((item, index) => {
     return _react.default.createElement("li", {

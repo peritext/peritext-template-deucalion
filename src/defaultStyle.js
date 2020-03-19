@@ -524,12 +524,14 @@ even when notes are in the end*/
   line-height: 1.4;
 }
 
+/*
 .main-column .rendered-content .unstyled:first-of-type::first-letter{
   font-size:3.5em;
   padding-right:0.1em;
   padding-bottom: 0;
   float:left;
 }
+*/
 h1{
     font-size: 1.5em;
     margin-bottom: .5em;
@@ -830,6 +832,9 @@ h1{
   max-height: 100%;
   min-height: unset;
 }
+.block-contextualization-container.video .media{
+  height: 100%;
+}
 
 /**
  * Inline (specific)
@@ -954,7 +959,7 @@ h1{
 
 @media screen and (min-width: 1224px){
   .nav-content-container .nav-item{
-    font-size: .7rem;
+    font-size: 1rem;
   }
 }
 
