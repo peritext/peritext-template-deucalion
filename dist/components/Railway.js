@@ -38,7 +38,7 @@ const Railway = ({
         top: `${shadow.y * 100}%`,
         height: `${shadow.h * 100}%`
       }
-    }, shadow.tagName.indexOf('H1') === 0 && _react.default.createElement("span", {
+    }, shadow.tagName.indexOf('H') === 0 && _react.default.createElement("span", {
       className: 'railway-title'
     }, shadow.text));
   }), scrollRatio !== undefined && scrollTopRatio !== undefined ? _react.default.createElement("div", {

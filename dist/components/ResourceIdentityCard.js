@@ -25,6 +25,7 @@ const ResourceIdentityCard = ({
   const assetTitle = (0, _peritextUtils.getResourceTitle)(resource);
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
   const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
+  const authors = resource.metadata.authors;
   return _react.default.createElement("div", {
     className: 'resource-identity-card'
   }, _react.default.createElement("div", {
@@ -40,7 +41,12 @@ const ResourceIdentityCard = ({
     className: 'additional-info'
   }, _react.default.createElement("div", {
     className: 'type'
-  }, translate(resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type)), description && description.trim().length && _react.default.createElement("div", {
+  }, translate(resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type)), authors && authors.length && _react.default.createElement("div", {
+    className: 'authors'
+  }, authors.map(({
+    given,
+    family
+  }) => `${given} ${family}`).join(', ')), description && description.trim().length && _react.default.createElement("div", {
     className: 'description'
   }, _react.default.createElement(_MarkdownPlayer.default, {
     src: description

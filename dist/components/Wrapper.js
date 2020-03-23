@@ -270,7 +270,7 @@ class Wrapper extends _react.Component {
       production: this.props.production,
       productionAssets: this.props.production.assets,
       usedDocument: this.props.usedDocument,
-      getViewIdForSectionId: this.getViewIdForSectionId
+      getViewIdForResourceId: this.getViewIdForResourceId
     }));
 
     _defineProperty(this, "translate", key => {
@@ -368,7 +368,7 @@ class Wrapper extends _react.Component {
       }
     });
 
-    _defineProperty(this, "getViewIdForSectionId", sectionId => {
+    _defineProperty(this, "getViewIdForResourceId", resourceId => {
       /*
        * gets the first section nav item that matches a specific section
        * (explanations: there can be several times the same section)
@@ -376,7 +376,7 @@ class Wrapper extends _react.Component {
       const {
         navSummary
       } = this.state;
-      const firstMatch = navSummary.find(item => item.routeClass === 'sections' && item.routeParams.resourceId === sectionId);
+      const firstMatch = navSummary.find(item => item.routeClass === 'sections' && item.routeParams.resourceId === resourceId);
 
       if (firstMatch) {
         return firstMatch.viewId;
@@ -697,7 +697,7 @@ _defineProperty(Wrapper, "childContextTypes", {
   routeItemToUrl: _propTypes.default.func,
   usedDocument: _propTypes.default.object,
   translate: _propTypes.default.func,
-  getViewIdForSectionId: _propTypes.default.func
+  getViewIdForResourceId: _propTypes.default.func
 });
 
 _defineProperty(Wrapper, "propTypes", {

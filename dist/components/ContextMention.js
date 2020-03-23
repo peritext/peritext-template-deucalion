@@ -24,9 +24,9 @@ const ContextMention = ({
   isActive
 }, {
   // translate,
-  getViewIdForSectionId
+  getViewIdForResourceId
 }) => {
-  const viewId = getViewIdForSectionId(targetId);
+  const viewId = getViewIdForResourceId(targetId);
   return _react.default.createElement("div", {
     className: `context-mention ${isActive ? 'is-active' : ''}`,
     "data-tip": sectionTitle,
@@ -56,7 +56,7 @@ const ContextMention = ({
 
 ContextMention.contextTypes = {
   translate: _propTypes.default.func,
-  getViewIdForSectionId: _propTypes.default.func
+  getViewIdForResourceId: _propTypes.default.func
 };
 var _default = ContextMention;
 exports.default = _default;

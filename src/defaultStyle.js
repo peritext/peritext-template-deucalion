@@ -448,6 +448,13 @@ a:visited,
   cursor: pointer;
   text-decoration: none;
 }
+.rendered-content .link:not(sup):hover,
+.rendered-content a:hover,
+.rendered-content .inline-glossary:hover
+{
+  color: var(--color-background);
+  background: var(--color-link-default);
+}
 .link.active,
 .inline-glossary.active,
 a:active{
@@ -1427,11 +1434,14 @@ h1{
   margin-bottom: var(--gutter-medium);
 }
 .resource-identity-card .type,
-.resource-identity-card .source
+.resource-identity-card .source,
+.resource-identity-card .authors
 {
   font-size: .8em;
 }
-.resource-identity-card .source{
+.resource-identity-card .source,
+.resource-identity-card .authors
+{
   display: flex;
   flex-flow: row wrap;
 }
@@ -1447,6 +1457,11 @@ h1{
 }
 .resource-identity-card .source::before{
   content: "△";
+  font-style: normal;
+  padding-right: var(--gutter-medium);
+}
+.resource-identity-card .authors::before{
+  content: "ጰ";
   font-style: normal;
   padding-right: var(--gutter-medium);
 }
@@ -1557,6 +1572,7 @@ h1{
 /* context-mention */
 
 .related-contexts .mentions-title-container{
+  padding-top: 1rem;
   font-size: .8em;
 }
 

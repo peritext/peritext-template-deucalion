@@ -200,7 +200,7 @@ const renderers = {
     }) => {
       return _react.default.createElement(_SectionLink.default, {
         key: key,
-        sectionId: data.sectionId
+        resourceId: data.sectionId
       }, children);
     }
   }
