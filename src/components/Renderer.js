@@ -187,7 +187,7 @@ const renderers = {
       return (
         <SectionLink
           key={ key }
-          sectionId={ data.sectionId }
+          resourceId={ data.sectionId }
         >
           {children}
         </SectionLink>

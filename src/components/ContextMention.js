@@ -12,9 +12,9 @@ const ContextMention = ( {
   isActive
 }, {
   // translate,
-  getViewIdForSectionId,
+  getViewIdForResourceId,
 } ) => {
-  const viewId = getViewIdForSectionId( targetId );
+  const viewId = getViewIdForResourceId( targetId );
   return (
     <div
       className={ `context-mention ${isActive ? 'is-active' : ''}` }
@@ -56,6 +56,6 @@ const ContextMention = ( {
 
 ContextMention.contextTypes = {
   translate: PropTypes.func,
-  getViewIdForSectionId: PropTypes.func,
+  getViewIdForResourceId: PropTypes.func,
 };
 export default ContextMention;
