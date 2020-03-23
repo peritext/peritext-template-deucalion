@@ -13,6 +13,7 @@ const ResourceIdentityCard = ( {
   const assetTitle = getResourceTitle( resource );
   const Citation = resource.metadata.type !== 'glossary' && contextualizers.bib && contextualizers.bib.Block;
   const description = resource.metadata.type === 'glossary' ? resource.data.description : resource.metadata.description;
+  const authors = resource.metadata.authors;
   return (
     <div className={ 'resource-identity-card' }>
 
@@ -38,11 +39,20 @@ const ResourceIdentityCard = ( {
           {translate( resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type )}
         </div>
         {
+
+          authors && authors.length &&
+          <div className={ 'authors' }>
+            {
+              authors.map( ( { given, family } ) => `${given} ${family}` ).join( ', ' )
+            }
+          </div>
+        }
+        {
         description && description.trim().length &&
         <div className={ 'description' }>
           <MarkdownPlayer src={ description } />
         </div>
-      }
+        }
         {
         resource.metadata.source && resource.metadata.source.trim().length &&
         <div className={ 'source' }>
