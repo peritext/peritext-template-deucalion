@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 import RelatedContexts from './RelatedContexts';
 import Aside from './Aside';
 
-import { buildGlossary } from 'peritext-utils';
+import { buildGlossary, getResourceTitle } from 'peritext-utils';
 
 const buildDateLabel = ( {
   year,
@@ -14,7 +14,7 @@ const buildDateLabel = ( {
 } ) => {
   let output = year;
   if ( day ) {
-    output = `${day}/${month}/${year}`;
+    output = new Date( +year, +month, +day ).toLocaleDateString( undefined, { year: 'numeric', month: 'long', day: 'numeric' } );
   }
   else if ( month ) {
     output = `${month}/${year}`;
@@ -100,6 +100,8 @@ export default class Events extends Component {
                   const handleClick = () => {
                     openEvent( event.id );
                   };
+                  const relatedTitles = event.items.map( ( item ) => getResourceTitle( item.resource ) )
+                  .filter( ( thatTitle ) => thatTitle.toLowerCase() !== eventTitle.toLowerCase() );
                   return (
                     <li
                       className={ 'big-list-item' }
@@ -107,6 +109,9 @@ export default class Events extends Component {
                     >
                       <div className={ 'big-list-item-content' }>
                         <h3>{eventTitle}</h3>
+                        {
+                          relatedTitles.map( ( item, index ) => ( <h4 key={ index }>{ item }</h4> ) )
+                        }
                       </div>
                       <div className={ 'big-list-item-actions' }>
                         <button onClick={ handleClick }>
