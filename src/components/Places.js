@@ -7,6 +7,7 @@ import Overlay from 'pigeon-overlay';
 
 import {
   extent,
+  max,
   mean,
 } from 'd3-array';
 import { scaleLinear } from 'd3-scale';
@@ -140,7 +141,7 @@ export default class Places extends Component {
     } = options;
 
     const items = buildGlossary( { options: { ...options, glossaryTypes: [ 'place' ] }, production, edition } )
-    .filter( ( item ) => item.resource.data.location && item.resource.data.location.latitude );
+    .filter( ( item ) => item.resource.data.location && item.resource.data.location.latitude && item.resource.data.location.longitude );
     const placesMap = groupBy( items, ( item ) => `${item.resource.data.location.latitude}-${item.resource.data.location.longitude}` );
     const places = Object.keys( placesMap ).map( ( loc ) => ( {
       location: placesMap[loc][0].resource.data.location,
@@ -149,16 +150,20 @@ export default class Places extends Component {
       id: loc
     } ) );
     const mentionsExtent = extent( places, ( d ) => d.nbMentions );
-    const latitudeExtent = extent( places, ( d ) => d.location.latitude );
-    const longitudeExtent = extent( places, ( d ) => d.location.longitude );
-    const latMean = mean( places, ( d ) => d.location.latitude );
-    const lngMean = mean( places, ( d ) => d.location.longitude );
-    const area = ( latitudeExtent[1] - latitudeExtent[0] ) * ( longitudeExtent[1] - longitudeExtent[0] );
 
-    const zoomScale = scaleLinear().domain( [ 0, ( MAX_LATITUDE * 2 ) * ( MAX_LONGITUDE * 2 ) ] )
-    .range( [ 1, 12 ] );
+    const latitudeExtent = extent( places, ( d ) => d.location.latitude );
+    const latitudeDiff = latitudeExtent[1] - latitudeExtent[0];
+    const longitudeExtent = extent( places, ( d ) => d.location.longitude );
+    const longitudeDiff = longitudeExtent[1] - longitudeExtent[0];
+
+    const latMean = mean( latitudeExtent );
+    const lngMean = mean( longitudeExtent );
+
+    const maxCoord = longitudeDiff > latitudeDiff ? MAX_LONGITUDE : MAX_LATITUDE;
+    const zoomScale = scaleLinear().domain( [ 0, maxCoord * 2 ] ).range( [ 12, 1 ] );
     const markerScale = scaleLinear().domain( mentionsExtent ).range( [ 1, 5 ] );
-    const zoom = area > 0 ? zoomScale( area ) : 6;
+    const maxVal = max( [ latitudeDiff, longitudeDiff ] );
+    const zoom = Math.floor( zoomScale( maxVal ) ) - 1;
 
     let tileProvider;
     switch ( mapStyle ) {
