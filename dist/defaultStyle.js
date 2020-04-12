@@ -1522,7 +1522,7 @@ h1{
 }
 
 .related-contexts .header {
-  padding-top: var(--gutter-medium);
+  /*padding-top: var(--gutter-medium);*/
 }
 
 .related-contexts .header .related-contexts-actions{
@@ -1668,6 +1668,10 @@ h1{
   content: "◉";
   position: relative;
   left: calc(var(--gutter-medium) * -1.6);
+}
+.events-player .main-column .big-list-item-content h4{
+  position: relative;
+  left: var(--gutter-medium);
 }
 .events-player .main-column .big-list-item-actions{
   padding-left: var(--gutter-medium);

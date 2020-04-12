@@ -40,24 +40,30 @@ const ResourceIdentityCard = ( {
         </div>
         {
 
-          authors && authors.length &&
-          <div className={ 'authors' }>
-            {
+          authors && authors.length ?
+            <div className={ 'authors' }>
+              {
               authors.map( ( { given, family } ) => `${given} ${family}` ).join( ', ' )
             }
+            </div>
+          :
+          null
+        }
+        {
+        description && description.trim().length ?
+          <div className={ 'description' }>
+            <MarkdownPlayer src={ description } />
           </div>
+        :
+        null
         }
         {
-        description && description.trim().length &&
-        <div className={ 'description' }>
-          <MarkdownPlayer src={ description } />
-        </div>
-        }
-        {
-        resource.metadata.source && resource.metadata.source.trim().length &&
-        <div className={ 'source' }>
-          <span>{translate( 'source' )}: </span><span>{ resource.metadata.source }</span>
-        </div>
+        resource.metadata.source && resource.metadata.source.trim().length ?
+          <div className={ 'source' }>
+            <span>{translate( 'source' )}: </span><span>{ resource.metadata.source }</span>
+          </div>
+        :
+        null
       }
       </div>
     </div>

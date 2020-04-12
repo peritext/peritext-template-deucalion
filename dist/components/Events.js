@@ -33,7 +33,11 @@ const buildDateLabel = ({
   let output = year;
 
   if (day) {
-    output = `${day}/${month}/${year}`;
+    output = new Date(+year, +month, +day).toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   } else if (month) {
     output = `${month}/${year}`;
   }
@@ -116,12 +120,15 @@ class Events extends _react.Component {
           openEvent(event.id);
         };
 
+        const relatedTitles = event.items.map(item => (0, _peritextUtils.getResourceTitle)(item.resource)).filter(thatTitle => thatTitle.toLowerCase() !== eventTitle.toLowerCase());
         return _react.default.createElement("li", {
           className: 'big-list-item',
           key: eventIndex
         }, _react.default.createElement("div", {
           className: 'big-list-item-content'
-        }, _react.default.createElement("h3", null, eventTitle)), _react.default.createElement("div", {
+        }, _react.default.createElement("h3", null, eventTitle), relatedTitles.map((item, index) => _react.default.createElement("h4", {
+          key: index
+        }, item))), _react.default.createElement("div", {
           className: 'big-list-item-actions'
         }, _react.default.createElement("button", {
           onClick: handleClick

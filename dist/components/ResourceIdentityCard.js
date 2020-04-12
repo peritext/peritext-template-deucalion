@@ -41,18 +41,18 @@ const ResourceIdentityCard = ({
     className: 'additional-info'
   }, _react.default.createElement("div", {
     className: 'type'
-  }, translate(resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type)), authors && authors.length && _react.default.createElement("div", {
+  }, translate(resource.metadata.type === 'glossary' ? resource.data.entryType : resource.metadata.type)), authors && authors.length ? _react.default.createElement("div", {
     className: 'authors'
   }, authors.map(({
     given,
     family
-  }) => `${given} ${family}`).join(', ')), description && description.trim().length && _react.default.createElement("div", {
+  }) => `${given} ${family}`).join(', ')) : null, description && description.trim().length ? _react.default.createElement("div", {
     className: 'description'
   }, _react.default.createElement(_MarkdownPlayer.default, {
     src: description
-  })), resource.metadata.source && resource.metadata.source.trim().length && _react.default.createElement("div", {
+  })) : null, resource.metadata.source && resource.metadata.source.trim().length ? _react.default.createElement("div", {
     className: 'source'
-  }, _react.default.createElement("span", null, translate('source'), ": "), _react.default.createElement("span", null, resource.metadata.source))));
+  }, _react.default.createElement("span", null, translate('source'), ": "), _react.default.createElement("span", null, resource.metadata.source)) : null));
 };
 
 ResourceIdentityCard.contextTypes = {
