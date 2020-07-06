@@ -161,7 +161,15 @@ class ResourcesMap extends _react.Component {
     _defineProperty(this, "toggleOpenedResource", id => {
       this.context.toggleAsideVisible();
       this.setState({
-        openResourceId: this.state.openResourceId ? undefined : id
+        isLoadingAside: true
+      }, () => {
+        this.setState({
+          openResourceId: this.state.openResourceId ? undefined : id
+        }, () => {
+          this.setState({
+            isLoadingAside: false
+          });
+        });
       });
     });
 
@@ -175,6 +183,7 @@ class ResourcesMap extends _react.Component {
         },
         state: {
           openResourceId,
+          isLoadingAside,
           error
         },
         context: {
@@ -255,12 +264,15 @@ class ResourcesMap extends _react.Component {
         production: production,
         edition: edition,
         resourceId: openResourceId
-      })));
+      })), _react.default.createElement("div", {
+        className: `loader ${isLoadingAside ? 'active' : ''}`
+      }, _react.default.createElement("span", null, translate('Loading'))));
     });
 
     this.state = {
       openResourceId: undefined,
-      error: false
+      error: false,
+      isLoadingAside: false
     };
   }
 

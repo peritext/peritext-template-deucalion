@@ -9,6 +9,7 @@ import BlockAssetWrapper from './BlockAssetWrapper';
 import InlineAssetWrapper from './InlineAssetWrapper';
 import NotePointer from './NotePointer';
 import SectionLink from './SectionLink';
+import uniqBy from 'lodash/uniqBy';
 
 const {
   LINK,
@@ -20,6 +21,34 @@ const {
    * NOTE_POINTER,
    */
 } = constants.draftEntitiesNames;
+
+const desantangleContent = ( raw = {} ) => ( {
+      ...raw,
+      blocks: raw.blocks ? raw.blocks.map( ( block ) => {
+        const entityRanges = uniqBy( block.entityRanges, ( e ) => e.key )
+        .sort( ( a, b ) => {
+          if ( a.offset < b.offset ) {
+            return -1;
+          }
+          return 1;
+        } );
+
+        /*
+         * entityRanges = entityRanges
+         * .reduce((res, entity, index) => {
+         *   const next = entityRanges[index + 1];
+         *   if (next && entity.offset + entity.length > next.offset) {
+         *     entity.length = next.offset - entity.offset;
+         *   }
+         *   return [...res, entity]
+         * }, [])
+         */
+        return {
+          ...block,
+          entityRanges,
+        };
+      } ) : []
+    } );
 
 // just a helper to add a <br /> after each block
 const addBreaklines = ( children ) => children.map( ( child, index ) => [ child, <br key={ index + 1 } /> ] );
@@ -238,7 +267,7 @@ class Renderer extends Component {
     if ( !raw ) {
       return this.renderWarning();
     }
-    const rendered = redraft( raw, renderers );
+    const rendered = redraft( desantangleContent( raw ), renderers );
     // redraft can return a null if there's nothing to render
     if ( !rendered ) {
       return this.renderWarning();

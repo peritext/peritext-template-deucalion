@@ -146,7 +146,8 @@ export default class ResourcesMap extends Component {
     super( props );
     this.state = {
       openResourceId: undefined,
-      error: false
+      error: false,
+      isLoadingAside: false
     };
   }
 
@@ -169,7 +170,15 @@ export default class ResourcesMap extends Component {
 
     this.context.toggleAsideVisible();
     this.setState( {
-      openResourceId: this.state.openResourceId ? undefined : id
+        isLoadingAside: true,
+      }, () => {
+      this.setState( {
+        openResourceId: this.state.openResourceId ? undefined : id
+      }, () => {
+        this.setState( {
+          isLoadingAside: false
+        } );
+      } );
     } );
   }
 
@@ -183,6 +192,7 @@ export default class ResourcesMap extends Component {
       },
       state: {
         openResourceId,
+        isLoadingAside,
         error,
       },
 
@@ -280,6 +290,13 @@ export default class ResourcesMap extends Component {
         />
       }
         </Aside>
+        {
+          <div
+            className={ `loader ${isLoadingAside ? 'active' : ''}` }
+          >
+            <span>{translate( 'Loading' )}</span>
+          </div>
+        }
       </div>
     );
   }

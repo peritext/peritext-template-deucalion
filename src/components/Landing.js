@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from './LinkProvider';
+import MarkdownPlayer from './MarkdownPlayer';
 
 const FrontCover = ( {
   production,
@@ -62,7 +63,7 @@ const FrontCover = ( {
         {
           presentationText &&
           <div className={ 'presentation' }>
-            {presentationText}
+            <MarkdownPlayer src={ presentationText } />
           </div>
         }
         <ul className={ 'links' }>

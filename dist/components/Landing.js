@@ -9,6 +9,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _LinkProvider = _interopRequireDefault(require("./LinkProvider"));
 
+var _MarkdownPlayer = _interopRequireDefault(require("./MarkdownPlayer"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const FrontCover = ({
@@ -56,7 +58,9 @@ const FrontCover = ({
     return index === 0 ? [item] : [...cur, ', ', item];
   }, []))), presentationText && _react.default.createElement("div", {
     className: 'presentation'
-  }, presentationText), _react.default.createElement("ul", {
+  }, _react.default.createElement(_MarkdownPlayer.default, {
+    src: presentationText
+  })), _react.default.createElement("ul", {
     className: 'links'
   }, nextNavItem && _react.default.createElement("li", {
     className: 'main-link'

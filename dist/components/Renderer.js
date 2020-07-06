@@ -23,9 +23,15 @@ var _NotePointer = _interopRequireDefault(require("./NotePointer"));
 
 var _SectionLink = _interopRequireDefault(require("./SectionLink"));
 
+var _uniqBy = _interopRequireDefault(require("lodash/uniqBy"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 const {
   LINK,
@@ -36,7 +42,34 @@ const {
    * NOTE_POINTER,
    */
 
-} = _peritextSchemas.constants.draftEntitiesNames; // just a helper to add a <br /> after each block
+} = _peritextSchemas.constants.draftEntitiesNames;
+
+const desantangleContent = (raw = {}) => _objectSpread({}, raw, {
+  blocks: raw.blocks ? raw.blocks.map(block => {
+    const entityRanges = (0, _uniqBy.default)(block.entityRanges, e => e.key).sort((a, b) => {
+      if (a.offset < b.offset) {
+        return -1;
+      }
+
+      return 1;
+    });
+    /*
+     * entityRanges = entityRanges
+     * .reduce((res, entity, index) => {
+     *   const next = entityRanges[index + 1];
+     *   if (next && entity.offset + entity.length > next.offset) {
+     *     entity.length = next.offset - entity.offset;
+     *   }
+     *   return [...res, entity]
+     * }, [])
+     */
+
+    return _objectSpread({}, block, {
+      entityRanges
+    });
+  }) : []
+}); // just a helper to add a <br /> after each block
+
 
 const addBreaklines = children => children.map((child, index) => [child, _react.default.createElement("br", {
   key: index + 1
@@ -251,7 +284,7 @@ class Renderer extends _react.Component {
       return this.renderWarning();
     }
 
-    const rendered = (0, _redraft.default)(raw, renderers); // redraft can return a null if there's nothing to render
+    const rendered = (0, _redraft.default)(desantangleContent(raw), renderers); // redraft can return a null if there's nothing to render
 
     if (!rendered) {
       return this.renderWarning();

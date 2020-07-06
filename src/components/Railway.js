@@ -31,7 +31,7 @@ const Railway = ( {
                             height: `${shadow.h * 100 }%`,
                         } }
                 >
-                  {shadow.tagName.indexOf( 'H' ) === 0 &&
+                  {shadow.tagName.indexOf( 'H1' ) === 0 &&
                     <span className={ 'railway-title' }>{shadow.text}</span>
                   }
                 </div>

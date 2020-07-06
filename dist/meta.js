@@ -19,7 +19,7 @@ module.exports = {
     }
   },
   defaultBibType: 'misc',
-  defaultAdditionalHTML: '<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600,700" rel="stylesheet">',
+  defaultAdditionalHTML: '<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600,700" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">',
   defaultPlan: {
     type: 'linear',
     summary: [{
