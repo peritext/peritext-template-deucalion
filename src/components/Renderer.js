@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import redraft from 'redraft';
 import { constants } from 'peritext-schemas';
+import uniqBy from 'lodash/uniqBy';
 
 import Link from './Link';
 
@@ -9,7 +10,6 @@ import BlockAssetWrapper from './BlockAssetWrapper';
 import InlineAssetWrapper from './InlineAssetWrapper';
 import NotePointer from './NotePointer';
 import SectionLink from './SectionLink';
-import uniqBy from 'lodash/uniqBy';
 
 const {
   LINK,

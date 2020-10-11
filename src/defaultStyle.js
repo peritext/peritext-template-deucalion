@@ -1044,6 +1044,7 @@ h1{
 
 .aside .aside-header .aside-title .csl-entry{
   font-size: .8em;
+  margin-right: 2rem;
 }
 
 .aside .aside-close-btn{
@@ -1093,7 +1094,7 @@ h1{
   font-size: 0.5rem;
   right: 1.2rem;
   position: absolute;
-  top: 0;
+  top: -0.3rem;
   text-align: right;
   font-style: italic;
   width: 20vw;
@@ -1432,7 +1433,7 @@ h1{
   max-width: 100%;
 }
 .section-player.has-notes-position-sidenotes .note-item {
-  max-width: calc(var(--content-margin-width) - 1rem);
+  max-width: calc(var(--content-margin-width) - 2rem);
   overflow: hidden;
 }
 .note-item > div{
