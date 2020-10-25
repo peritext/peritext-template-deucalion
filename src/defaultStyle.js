@@ -1309,7 +1309,6 @@ h1{
     position: relative;
     top: calc(var(--gutter-medium) * -2.5);
   }
-  
 }
 @media screen and (min-width: 1224px) {
   .section-player.has-notes-position-sidenotes .notes-list{
@@ -1328,7 +1327,7 @@ h1{
     padding-right: unset;
     font-size: unset;
     opacity: unset;
-    padding-left: var(--content-margin-width);
+    padding-left: var(--gutter-medium);
   }
   .section-player.has-notes-position-sidenotes .notes-title{
     display: block
@@ -1339,7 +1338,7 @@ h1{
   .section-player.has-notes-position-sidenotes .note-item{
     position: relative!important;
     top: unset!important;
-    max-width: unset;
+    max-width: calc(100% - var(--gutter-large))!important;
   }
 }
 @media print {

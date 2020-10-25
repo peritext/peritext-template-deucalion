@@ -1049,6 +1049,7 @@ h1{
 
 .aside .aside-header .aside-title .csl-entry{
   font-size: .8em;
+  margin-right: 2rem;
 }
 
 .aside .aside-close-btn{
@@ -1098,7 +1099,7 @@ h1{
   font-size: 0.5rem;
   right: 1.2rem;
   position: absolute;
-  top: 0;
+  top: -0.3rem;
   text-align: right;
   font-style: italic;
   width: 20vw;
@@ -1313,7 +1314,6 @@ h1{
     position: relative;
     top: calc(var(--gutter-medium) * -2.5);
   }
-  
 }
 @media screen and (min-width: 1224px) {
   .section-player.has-notes-position-sidenotes .notes-list{
@@ -1332,7 +1332,7 @@ h1{
     padding-right: unset;
     font-size: unset;
     opacity: unset;
-    padding-left: var(--content-margin-width);
+    padding-left: var(--gutter-medium);
   }
   .section-player.has-notes-position-sidenotes .notes-title{
     display: block
@@ -1343,7 +1343,7 @@ h1{
   .section-player.has-notes-position-sidenotes .note-item{
     position: relative!important;
     top: unset!important;
-    max-width: unset;
+    max-width: calc(100% - var(--gutter-large))!important;
   }
 }
 @media print {
@@ -1437,7 +1437,7 @@ h1{
   max-width: 100%;
 }
 .section-player.has-notes-position-sidenotes .note-item {
-  max-width: calc(var(--content-margin-width) - 1rem);
+  max-width: calc(var(--content-margin-width) - 2rem);
   overflow: hidden;
 }
 .note-item > div{

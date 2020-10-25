@@ -13,6 +13,8 @@ var _redraft = _interopRequireDefault(require("redraft"));
 
 var _peritextSchemas = require("peritext-schemas");
 
+var _uniqBy = _interopRequireDefault(require("lodash/uniqBy"));
+
 var _Link = _interopRequireDefault(require("./Link"));
 
 var _BlockAssetWrapper = _interopRequireDefault(require("./BlockAssetWrapper"));
@@ -22,8 +24,6 @@ var _InlineAssetWrapper = _interopRequireDefault(require("./InlineAssetWrapper")
 var _NotePointer = _interopRequireDefault(require("./NotePointer"));
 
 var _SectionLink = _interopRequireDefault(require("./SectionLink"));
-
-var _uniqBy = _interopRequireDefault(require("lodash/uniqBy"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
