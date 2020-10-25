@@ -19,6 +19,8 @@ var _uniq = _interopRequireDefault(require("lodash/uniq"));
 
 var _intersection = _interopRequireDefault(require("lodash/intersection"));
 
+var _utils = require("../utils");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -191,7 +193,8 @@ class ResourcesMap extends _react.Component {
           dimensions = {
             width: 50,
             height: 50
-          }
+          },
+          rawCitations
         },
         toggleOpenedResource,
         openResource
@@ -216,15 +219,23 @@ class ResourcesMap extends _react.Component {
         minimumCooccurrenceNumber
       });
 
-      const onClickNode = function ({
+      const onClickNode = ({
         data
-      }) {
+      }) => {
         const {
           node: {
             id
           }
         } = data;
-        openResource(id);
+        this.setState({
+          isLoadingAside: true
+        });
+        setTimeout(() => {
+          openResource(id);
+          this.setState({
+            isLoadingAside: false
+          });
+        });
       };
 
       if (error) {
@@ -254,11 +265,13 @@ class ResourcesMap extends _react.Component {
         iterationsPerRender: 10,
         linLogMode: true,
         timeout: 3000
-      }))) : _react.default.createElement("div", {
+      })), _react.default.createElement("div", {
+        className: `loader ${isLoadingAside ? 'active' : ''}`
+      }, _react.default.createElement("span", null, translate('Loading')))) : _react.default.createElement("div", {
         className: 'graph-placeholder'
       }, translate('No links to display')), _react.default.createElement(_Aside.default, {
         isActive: openResourceId !== undefined,
-        title: translate('Mentions of this item'),
+        title: openResourceId && (0, _utils.makeAssetTitle)(production.resources[openResourceId], production, edition, rawCitations.citationItems),
         onClose: toggleOpenedResource
       }, openResourceId && _react.default.createElement(_RelatedContexts.default, {
         production: production,
@@ -285,5 +298,6 @@ _defineProperty(ResourcesMap, "contextTypes", {
   usedDocument: _propTypes.default.object,
   asideVisible: _propTypes.default.bool,
   toggleAsideVisible: _propTypes.default.func,
+  rawCitations: _propTypes.default.object,
   dimensions: _propTypes.default.object
 });

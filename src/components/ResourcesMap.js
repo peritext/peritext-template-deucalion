@@ -12,6 +12,8 @@ import {
 import uniq from 'lodash/uniq';
 import intersection from 'lodash/intersection';
 
+import { makeAssetTitle } from '../utils';
+
 let SigmaLib;
 let Sigma;
 let RandomizeNodePositions;
@@ -140,6 +142,7 @@ export default class ResourcesMap extends Component {
     usedDocument: PropTypes.object,
     asideVisible: PropTypes.bool,
     toggleAsideVisible: PropTypes.func,
+    rawCitations: PropTypes.object,
     dimensions: PropTypes.object,
   }
   constructor( props ) {
@@ -201,7 +204,8 @@ export default class ResourcesMap extends Component {
           dimensions = {
             width: 50,
             height: 50
-          }
+          },
+          rawCitations
        },
 
       toggleOpenedResource,
@@ -226,9 +230,14 @@ export default class ResourcesMap extends Component {
       minimumCooccurrenceNumber,
     } );
 
-    const onClickNode = function( { data } ) {
+    const onClickNode = ( { data } ) => {
       const { node: { id } } = data;
-      openResource( id );
+      this.setState( { isLoadingAside: true } );
+      setTimeout( () => {
+        openResource( id );
+        this.setState( { isLoadingAside: false } );
+      } );
+
     };
     if ( error ) {
       return (
@@ -273,22 +282,27 @@ export default class ResourcesMap extends Component {
                 width={ width }
                 height={ height }
               /> */}
+              <div
+                className={ `loader ${isLoadingAside ? 'active' : ''}` }
+              >
+                <span>{translate( 'Loading' )}</span>
+              </div>
             </div>
           : <div className={ 'graph-placeholder' }>{translate( 'No links to display' )}</div>
         }
         <Aside
           isActive={ openResourceId !== undefined }
-          title={ translate( 'Mentions of this item' ) }
+          title={ openResourceId && makeAssetTitle( production.resources[openResourceId], production, edition, rawCitations.citationItems ) }
           onClose={ toggleOpenedResource }
         >
           {
-        openResourceId &&
-        <RelatedContexts
-          production={ production }
-          edition={ edition }
-          resourceId={ openResourceId }
-        />
-      }
+          openResourceId &&
+          <RelatedContexts
+            production={ production }
+            edition={ edition }
+            resourceId={ openResourceId }
+          />
+        }
         </Aside>
         {
           <div
