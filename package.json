@@ -26,7 +26,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "lodash": "^4.17",
-    "peritext-utils": "^0.2.13"
+    "peritext-utils": "^0.2.18"
   },
   "dependencies": {
     "d3-array": "^2.0.3",
@@ -71,16 +71,16 @@
     "eslint": "^4.19.1",
     "eslint-plugin-mocha": "^6.1.0",
     "eslint-plugin-react": "^7.5.1",
-    "peritext-contextualizer-bib": "^0.2.3",
-    "peritext-contextualizer-embed": "^0.1.2",
-    "peritext-contextualizer-glossary": "^0.1.0",
-    "peritext-contextualizer-image": "^0.2.1",
+    "peritext-contextualizer-bib": "^0.2.6",
+    "peritext-contextualizer-embed": "^0.1.3",
+    "peritext-contextualizer-glossary": "^0.2.1",
+    "peritext-contextualizer-image": "^0.2.5",
     "peritext-contextualizer-source-code": "^0.1.0",
     "peritext-contextualizer-table": "^0.1.2",
-    "peritext-contextualizer-vegalite": "^0.1.0",
-    "peritext-contextualizer-video": "^0.2.1",
-    "peritext-contextualizer-webpage": "^0.1.0",
-    "peritext-utils": "^0.2.7",
+    "peritext-contextualizer-vegalite": "^0.2.4",
+    "peritext-contextualizer-video": "^0.2.4",
+    "peritext-contextualizer-webpage": "^0.1.4",
+    "peritext-utils": "^0.2.18",
     "pre-commit": "^1.2.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0"
