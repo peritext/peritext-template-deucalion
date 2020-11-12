@@ -236,7 +236,7 @@ export default class ResourcesMap extends Component {
       setTimeout( () => {
         openResource( id );
         this.setState( { isLoadingAside: false } );
-      } );
+      }, 200 );
 
     };
     if ( error ) {

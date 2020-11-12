@@ -235,7 +235,7 @@ class ResourcesMap extends _react.Component {
           this.setState({
             isLoadingAside: false
           });
-        });
+        }, 200);
       };
 
       if (error) {
