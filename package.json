@@ -1,6 +1,6 @@
 {
   "name": "peritext-template-deucalion",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "description": " a web template designed dedicated to long reading experiences and context explorations, for the peritext ecosystem",
   "main": "dist/index.js",
   "scripts": {
@@ -72,7 +72,7 @@
     "eslint-plugin-mocha": "^6.1.0",
     "eslint-plugin-react": "^7.5.1",
     "peritext-contextualizer-bib": "^0.2.6",
-    "peritext-contextualizer-embed": "^0.1.3",
+    "peritext-contextualizer-embed": "^0.1.5",
     "peritext-contextualizer-glossary": "^0.2.1",
     "peritext-contextualizer-image": "^0.2.5",
     "peritext-contextualizer-source-code": "^0.1.0",

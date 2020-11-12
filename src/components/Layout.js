@@ -433,10 +433,12 @@ export default ( props ) => {
       >
 
         {
-          ( { size } ) => ( <Layout
-            { ...props }
-            size={ size }
-                            /> )
+          ( { size } ) => (
+            <Layout
+              { ...props }
+              size={ size }
+            />
+          )
         }
       </SizeMe>
     );
