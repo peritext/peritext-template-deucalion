@@ -384,6 +384,10 @@ button{
  * =================
  */
 @media print {
+  :root {
+    font-size: 13px;
+  }
+
   .deucalion-layout .nav,
   .deucalion-layout .aside,
   .navigation-footer{
@@ -399,6 +403,7 @@ button{
     height: unset;
     position: relative;
     overflow: visible;
+    left: 0!important;
   }
   /** scroll bars */
   .deucalion-layout .main-container > div,
@@ -414,6 +419,9 @@ button{
     padding: 1cm;
   }
 
+  .annotator-frame {
+    display: none!important;
+  }
 }
 
 /**
@@ -1351,8 +1359,9 @@ h1{
     padding-right: unset;
     font-size: unset;
     opacity: unset;
-    padding-left: var(--content-margin-width);
+    padding-left: var(--gutter-large);
   }
+
   .section-player.has-notes-position-sidenotes .notes-title{
     display: block
   }
@@ -1362,6 +1371,7 @@ h1{
   .section-player.has-notes-position-sidenotes .note-item{
     position: relative!important;
     top: unset!important;
+    max-width: unset!important;
   }
 }
 
@@ -1500,6 +1510,9 @@ h1{
   margin-top: .5rem;
 }
 
+/**
+ * Specific print styles
+ */
 @media print{
   .resource-identity-card{
     padding: var(--gutter-medium);
@@ -1508,6 +1521,10 @@ h1{
 
   .block-contextualization-container.table .static-table-container{
     height: unset;
+  }
+
+  .inline-contextualization-container, .link, a {
+    color: inherit!important;
   }
 }
 
